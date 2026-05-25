@@ -163,7 +163,36 @@
 
     return data.reply;
 } 
+async function sendMessage() {
+    var input = document.getElementById('chatInput');
+    var box = document.getElementById('chatMessages');
+    if (!input || !box) return;
+    var text = input.value.trim();
+    if (!text) return;
 
+    // 1. عرض رسالة المستخدم فوراً وتفريغ الحقل
+    addMessage(box, text, 'user');
+    input.value = '';
+
+    // 2. إظهار رسالة جاري الكتابة...
+    var typing = showTyping(box);
+
+    try {
+        // 3. استدعاء السيرفر الخاص بك على ريلوي وجلب الرد
+        const aiReply = await askAI(text);
+        
+        // إزالة مؤشر الكتابة بعد الاستجابة
+        if (typing.parentNode) typing.remove();
+        
+        // 4. عرض رد البوت الحقيقي داخل الشات
+        addMessage(box, aiReply, "bot");
+
+    } catch (error) {
+        if (typing.parentNode) typing.remove();
+        addMessage(box, "عذراً، حدث خطأ في الاتصال بالخادم.", "bot");
+        console.error("Error:", error);
+    }
+}
   function initChat() {
     var form = document.getElementById('chatForm');
     var input = document.getElementById('chatInput');
