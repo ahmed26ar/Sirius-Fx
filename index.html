@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -17,13 +18,17 @@
   </div>
   <nav class="navbar" id="navbar">
     <div class="container nav-inner">
-      <a href="#home" class="logo"><span class="logo-text">Sirius <span class="accent">Fx</span></span></a>
+      <a href="#home" class="logo">
+        <img src="assets/logo.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo.svg';">
+        <span class="logo-text">Sirius <span class="accent">Fx</span></span>
+      </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home" data-i18n="nav.home">Home</a></li>
         <li><a href="#services" data-i18n="nav.services">Services</a></li>
         <li><a href="#tools" data-i18n="nav.tools">Tools</a></li>
         <li><a href="#ai" data-i18n="nav.ai">AI</a></li>
+        <li><a href="#chat" data-i18n="nav.chat">Chat</a></li>
         <li><a href="#courses" data-i18n="nav.courses">Courses</a></li>
         <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
@@ -37,12 +42,14 @@
   <section id="home" class="hero">
     <div class="hero-bg"><div class="star-field"></div><div class="hero-glow"></div></div>
     <div class="container hero-content">
+      <img src="assets/logo.png" alt="Sirius Fx" class="hero-logo" width="140" height="140" onerror="this.onerror=null;this.src='assets/logo.svg';">
       <div class="hero-badge" data-i18n="hero.badge">Badge</div>
       <h1 class="hero-title">Sirius <span class="accent">Fx</span></h1>
       <p class="hero-subtitle" data-i18n="hero.subtitle">Subtitle</p>
       <div class="hero-actions">
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="hero.cta">Join</a>
         <a href="#tools" class="btn btn-outline btn-lg" data-i18n="hero.tools">Tools</a>
+        <a href="#chat" class="btn btn-outline btn-lg" data-i18n="hero.chat">AI Chat</a>
       </div>
       <div class="hero-stats">
         <div class="stat"><span class="stat-num">500+</span><span class="stat-label" data-i18n="hero.stat1">Traders</span></div>
@@ -159,6 +166,39 @@
     </div>
   </section>
 
+  <section id="chat" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="chat.tag">AI Assistant</span>
+        <h2 class="section-title" data-i18n="chat.title">Market Chat</h2>
+        <p class="section-desc" data-i18n="chat.desc">Ask about prices, sessions, risk, and signals</p>
+      </div>
+      <div class="chat-layout">
+        <div class="chat-window">
+          <div class="chat-header">
+            <img src="assets/logo.png" alt="" width="40" height="40" class="chat-header-logo" onerror="this.src='assets/logo.svg'">
+            <div>
+              <strong data-i18n="chat.assistant">Sirius AI</strong>
+              <span data-i18n="chat.online">Online</span>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-quick-row">
+            <button type="button" class="chat-quick" data-q="سعر EUR/USD" data-i18n="chat.q1">EUR/USD</button>
+            <button type="button" class="chat-quick" data-q="إدارة المخاطر" data-i18n="chat.q2">Risk</button>
+            <button type="button" class="chat-quick" data-q="إشارات التداول" data-i18n="chat.q3">Signals</button>
+            <button type="button" class="chat-quick" data-q="أفضل جلسة تداول" data-i18n="chat.q4">Sessions</button>
+          </div>
+          <form class="chat-form" id="chatForm">
+            <input type="text" id="chatInput" autocomplete="off" data-i18n-placeholder="chat.placeholder" placeholder="">
+            <button type="submit" class="btn btn-primary" data-i18n="chat.send">Send</button>
+          </form>
+          <p class="chat-disclaimer" data-i18n="chat.disclaimer">Educational only — not financial advice</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="courses" class="section section-alt">
     <div class="container">
       <div class="section-header">
@@ -201,6 +241,8 @@
     </div>
   </section>
 
+  <button type="button" class="chat-fab" id="chatFab" aria-label="Chat">💬</button>
+
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Sirius Fx. <span data-i18n="footer.rights">All rights reserved</span></p>
@@ -212,6 +254,7 @@
   <script src="js/ticker.js"></script>
   <script src="js/trading-tools.js"></script>
   <script src="js/ai-tools.js"></script>
+  <script src="js/market-chat.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

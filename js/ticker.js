@@ -68,6 +68,12 @@ function renderTicker(rates) {
   }).join('');
 
   track.innerHTML = items + items;
+
+  window.SiriusRates = {};
+  PAIRS.forEach(function (pair) {
+    var rate = getPairRate(rates, pair);
+    if (rate) window.SiriusRates[pair.sym] = formatRate(rate, pair);
+  });
 }
 
 async function updateTicker() {

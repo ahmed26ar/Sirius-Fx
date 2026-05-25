@@ -6,6 +6,7 @@ const translations = {
     'nav.services': 'الخدمات',
     'nav.tools': 'أدوات التداول',
     'nav.ai': 'الذكاء الاصطناعي',
+    'nav.chat': 'المحادثة',
     'nav.courses': 'الكورسات',
     'nav.contact': 'تواصل',
     'nav.telegram': 'تيليجرام',
@@ -15,6 +16,7 @@ const translations = {
     'hero.subtitle': 'منصة فوركس احترافية — إشارات تداول دقيقة، كورسات متقدمة، وأدوات ذكاء اصطناعي للمتداولين المحترفين',
     'hero.cta': 'انضم لقناتنا',
     'hero.tools': 'استكشف الأدوات',
+    'hero.chat': 'محادثة الأسواق',
     'hero.stat1': 'متداول نشط',
     'hero.stat2': 'دعم مباشر',
     'hero.stat3': 'أدوات ذكية',
@@ -94,7 +96,19 @@ const translations = {
     'courses.ai.i3': 'إدارة المخاطر الذكية',
     'contact.title': 'تواصل معنا',
     'contact.desc': 'انضم لقناة Sirius Fx على تيليجرام للإشارات والكورسات والدعم',
-    'footer.rights': 'جميع الحقوق محفوظة'
+    'footer.rights': 'جميع الحقوق محفوظة',
+    'chat.tag': 'مساعد ذكي',
+    'chat.title': 'محادثة أسواق Sirius AI',
+    'chat.desc': 'اسأل عن الأسعار، الجلسات، المخاطر، والإشارات — يعمل مباشرة في المتصفح',
+    'chat.assistant': 'Sirius AI',
+    'chat.online': 'متصل الآن',
+    'chat.placeholder': 'اكتب سؤالك عن السوق...',
+    'chat.send': 'إرسال',
+    'chat.disclaimer': 'للتعليم فقط — ليس نصيحة استثمارية',
+    'chat.q1': 'EUR/USD',
+    'chat.q2': 'المخاطر',
+    'chat.q3': 'الإشارات',
+    'chat.q4': 'الجلسات'
   },
   en: {
     'ticker.live': '● LIVE',
@@ -103,6 +117,7 @@ const translations = {
     'nav.services': 'Services',
     'nav.tools': 'Trading Tools',
     'nav.ai': 'AI Tools',
+    'nav.chat': 'Chat',
     'nav.courses': 'Courses',
     'nav.contact': 'Contact',
     'nav.telegram': 'Telegram',
@@ -112,6 +127,7 @@ const translations = {
     'hero.subtitle': 'Professional Forex platform — precise trading signals, advanced courses, and AI tools for professional traders',
     'hero.cta': 'Join Our Channel',
     'hero.tools': 'Explore Tools',
+    'hero.chat': 'Market AI Chat',
     'hero.stat1': 'Active Traders',
     'hero.stat2': 'Live Support',
     'hero.stat3': 'Smart Tools',
@@ -191,7 +207,19 @@ const translations = {
     'courses.ai.i3': 'Smart Risk Management',
     'contact.title': 'Contact Us',
     'contact.desc': 'Join Sirius Fx Telegram for signals, courses, and support',
-    'footer.rights': 'All rights reserved'
+    'footer.rights': 'All rights reserved',
+    'chat.tag': 'Smart Assistant',
+    'chat.title': 'Sirius AI Market Chat',
+    'chat.desc': 'Ask about prices, sessions, risk, and signals — runs in your browser',
+    'chat.assistant': 'Sirius AI',
+    'chat.online': 'Online now',
+    'chat.placeholder': 'Ask about the market...',
+    'chat.send': 'Send',
+    'chat.disclaimer': 'Educational only — not financial advice',
+    'chat.q1': 'EUR/USD',
+    'chat.q2': 'Risk',
+    'chat.q3': 'Signals',
+    'chat.q4': 'Sessions'
   }
 };
 
@@ -207,7 +235,11 @@ function setLanguage(lang) {
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.getAttribute('data-i18n'));
+    const key = el.getAttribute('data-i18n');
+    if (key) el.textContent = t(key);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
   });
   const btn = document.getElementById('langToggle');
   if (btn) btn.textContent = lang === 'ar' ? 'EN' : 'AR';
