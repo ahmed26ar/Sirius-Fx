@@ -144,20 +144,25 @@
     return el;
   }
 
-  function sendMessage() {
-    var input = document.getElementById('chatInput');
-    var box = document.getElementById('chatMessages');
-    if (!input || !box) return;
-    var text = input.value.trim();
-    if (!text) return;
-    addMessage(box, text, 'user');
-    input.value = '';
-    var typing = showTyping(box);
-    setTimeout(function () {
-      if (typing.parentNode) typing.remove();
-      addMessage(box, replyFor(text), 'bot');
-    }, 500 + Math.random() * 600);
-  }
+ async function askAI(message) {
+
+    const response = await fetch(
+       "https://sirius-fx-production.up.railway.app/chat",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: message
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    return data.reply;
+} 
 
   function initChat() {
     var form = document.getElementById('chatForm');
