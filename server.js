@@ -1,40 +1,92 @@
 const express = require('express');
 const cors = require('cors');
-const { GoogleGenAI } = require('@google/generative-ai');
-
+ 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// استدعاء مفتاح الجيمناي الذي أضفناه في متغيرات ريلوي
-const aiKey = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenAI(aiKey);
-
-app.post('/chat', async (req, res) => {
-    try {
-        const userMessage = req.body.message;
-        
-        if (!userMessage) {
-            return res.status(400).json({ error: "الرسالة فارغة!" });
-        }
-
-        // تحديد موديل جيميناي السريع والمجاني
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        
-        const result = await model.generateContent(userMessage);
-        const response = await result.response;
-        const replyText = response.text();
-
-        // إرجاع الرد بنفس الصيغة المتوقعة في موقعك (data.reply)
-        res.json({ reply: replyText });
-
-    } catch (error) {
-        console.error("Gemini Error:", error);
-        res.status(500).json({ error: "حدث خطأ داخلي في السيرفر" });
-    }
-});
-
+ 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(Server is running on port ${PORT});
+const GEMINI_KEY = process.env.GEMINI_KEY;
+ 
+const SYSTEM_AR = `أنت Sirius AI — مستشار أسواق مالية لشركة Sirius Fx.
+تخصصك: فوركس، معادن (ذهب)، إدارة مخاطر، جلسات التداول، تحليل فني مبسط.
+قواعد: رد بالعربية، مختصر وعملي، لا تعد بأرباح مضمونة، ذكّر أنها ليست نصيحة استثمارية.
+للإشارات والكورسات: https://t.me/srfx0`;
+ 
+const SYSTEM_EN = `You are Sirius AI — market assistant for Sirius Fx.
+Focus: forex, gold, risk management, sessions, simple technical view.
+Rules: concise, practical, no guaranteed profits, not financial advice.
+Signals & courses: https://t.me/srfx0`;
+ 
+// ─── الصفحة الرئيسية (للتأكد أن السيرفر شغّال) ─────────────────────────────
+app.get('/', (req, res) => {
+  res.json({
+    ok: true,
+    service: 'Sirius Fx AI API — Powered by Gemini',
+    endpoints: { chat: 'POST /chat' }
+  });
 });
+ 
+// ─── نقطة المحادثة ───────────────────────────────────────────────────────────
+app.post('/chat', async (req, res) => {
+  try {
+    const { message = '', lang = 'ar', rates = {} } = req.body;
+ 
+    if (!message.trim()) {
+      return res.status(400).json({ error: 'message required' });
+    }
+ 
+    if (!GEMINI_KEY) {
+      return res.status(500).json({
+        error: 'GEMINI_KEY غير مضبوط في متغيرات البيئة'
+      });
+    }
+ 
+    // أضف الأسعار المباشرة للسياق
+    let ratesBlock = '';
+    if (Object.keys(rates).length) {
+      ratesBlock = lang === 'ar'
+        ? '\nأسعار حية:\n' + JSON.stringify(rates)
+        : '\nLive rates:\n' + JSON.stringify(rates);
+    }
+ 
+    const systemPrompt = (lang === 'ar' ? SYSTEM_AR : SYSTEM_EN) + ratesBlock;
+ 
+    // استدعاء Gemini API
+    const geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: message }] }],
+          generationConfig: { maxOutputTokens: 512, temperature: 0.7 }
+        })
+      }
+    );
+ 
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text();
+      throw new Error(`Gemini error: ${errText}`);
+    }
+ 
+    const data = await geminiRes.json();
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+ 
+    if (!reply) {
+      return res.status(502).json({ error: 'empty response from Gemini' });
+    }
+ 
+    res.json({ reply: reply.trim(), lang });
+ 
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message || 'server error' });
+  }
+});
+ 
+app.listen(PORT, () => {
+  console.log(`✅ Sirius AI Server running on port ${PORT}`);
+});
+ 
