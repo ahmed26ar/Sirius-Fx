@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sirius Fx - Trading signals, courses, and AI tools">
+  <title>Sirius Fx</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div class="ticker-wrap">
+    <div class="ticker-label" data-i18n="ticker.live">LIVE</div>
+    <div class="ticker-track" id="tickerTrack"><span data-i18n="ticker.loading">Loading...</span></div>
+  </div>
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo"><span class="logo-text">Sirius <span class="accent">Fx</span></span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" data-i18n="nav.home">Home</a></li>
+        <li><a href="#services" data-i18n="nav.services">Services</a></li>
+        <li><a href="#tools" data-i18n="nav.tools">Tools</a></li>
+        <li><a href="#ai" data-i18n="nav.ai">AI</a></li>
+        <li><a href="#courses" data-i18n="nav.courses">Courses</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="ctrl-btn" id="langToggle">EN</button>
+        <button class="ctrl-btn" id="themeToggle"><span class="icon-sun">☀</span><span class="icon-moon">☾</span></button>
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">Telegram</a>
+      </div>
+    </div>
+  </nav>
+  <section id="home" class="hero">
+    <div class="hero-bg"><div class="star-field"></div><div class="hero-glow"></div></div>
+    <div class="container hero-content">
+      <div class="hero-badge" data-i18n="hero.badge">Badge</div>
+      <h1 class="hero-title">Sirius <span class="accent">Fx</span></h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle">Subtitle</p>
+      <div class="hero-actions">
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="hero.cta">Join</a>
+        <a href="#tools" class="btn btn-outline btn-lg" data-i18n="hero.tools">Tools</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">500+</span><span class="stat-label" data-i18n="hero.stat1">Traders</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label" data-i18n="hero.stat2">Support</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">AI</span><span class="stat-label" data-i18n="hero.stat3">Tools</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="services.tag">Services</span>
+        <h2 class="section-title" data-i18n="services.title">Solutions</h2>
+      </div>
+      <div class="cards-grid">
+        <article class="card">
+          <div class="card-icon">📡</div>
+          <h3 data-i18n="services.signals.title">Signals</h3>
+          <p data-i18n="services.signals.desc">Desc</p>
+          <a href="https://t.me/srfx0" target="_blank" class="card-link" data-i18n="services.signals.link">Link</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🎓</div>
+          <h3 data-i18n="services.courses.title">Courses</h3>
+          <p data-i18n="services.courses.desc">Desc</p>
+          <a href="#courses" class="card-link" data-i18n="services.courses.link">Link</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🤖</div>
+          <h3 data-i18n="services.ai.title">AI</h3>
+          <p data-i18n="services.ai.desc">Desc</p>
+          <a href="#ai" class="card-link" data-i18n="services.ai.link">Link</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🛠️</div>
+          <h3 data-i18n="services.tools.title">Tools</h3>
+          <p data-i18n="services.tools.desc">Desc</p>
+          <a href="#tools" class="card-link" data-i18n="services.tools.link">Link</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="tools.tag">Tools</span>
+        <h2 class="section-title" data-i18n="tools.title">Pro Tools</h2>
+      </div>
+      <div class="tools-tabs">
+        <button class="tab active" data-tab="position" data-i18n="tools.position">Position</button>
+        <button class="tab" data-tab="pip" data-i18n="tools.pip">Pip</button>
+        <button class="tab" data-tab="rr" data-i18n="tools.rr">R:R</button>
+        <button class="tab" data-tab="fib" data-i18n="tools.fib">Fib</button>
+        <button class="tab" data-tab="margin" data-i18n="tools.margin">Margin</button>
+      </div>
+      <div id="toolPanels"></div>
+    </div>
+  </section>
+
+  <section id="ai" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="ai.tag">AI</span>
+        <h2 class="section-title" data-i18n="ai.title">AI Tools</h2>
+      </div>
+      <div class="ai-grid">
+        <div class="ai-card">
+          <h3 data-i18n="ai.setup.title">Setup Analyzer</h3>
+          <p data-i18n="ai.setup.desc">Score setups</p>
+          <form id="form-setup" class="tool-form">
+            <label><span data-i18n="ai.trend">Trend</span>
+              <select id="setup-trend"><option value="with">With trend</option><option value="against">Against</option><option value="range">Range</option></select>
+            </label>
+            <label><span data-i18n="ai.rr">R:R</span><input type="number" id="setup-rr" value="2" step="0.1"></label>
+            <label><span data-i18n="ai.risk">Risk %</span><input type="number" id="setup-risk" value="1" step="0.1"></label>
+            <label><span data-i18n="ai.session">Session</span>
+              <select id="setup-session"><option value="london">London</option><option value="ny">New York</option><option value="asia">Asia</option><option value="overlap">Overlap</option></select>
+            </label>
+            <button type="submit" class="btn btn-primary" data-i18n="tools.calc">Analyze</button>
+          </form>
+          <div class="ai-result" id="result-setup"></div>
+        </div>
+        <div class="ai-card">
+          <h3 data-i18n="ai.pattern.title">Pattern Detector</h3>
+          <p data-i18n="ai.pattern.desc">Candlestick patterns</p>
+          <form id="form-pattern" class="tool-form">
+            <label>O<input type="number" id="pat-o" value="1.0850" step="0.00001"></label>
+            <label>H<input type="number" id="pat-h" value="1.0870" step="0.00001"></label>
+            <label>L<input type="number" id="pat-l" value="1.0820" step="0.00001"></label>
+            <label>C<input type="number" id="pat-c" value="1.0865" step="0.00001"></label>
+            <button type="submit" class="btn btn-primary" data-i18n="tools.calc">Detect</button>
+          </form>
+          <div class="ai-result" id="result-pattern"></div>
+        </div>
+        <div class="ai-card">
+          <h3 data-i18n="ai.journal.title">Journal Analytics</h3>
+          <p data-i18n="ai.journal.desc">Trade analysis</p>
+          <textarea id="journal-input" rows="4" placeholder="50,30&#10;-20,15&#10;35,-10"></textarea>
+          <button type="button" id="btn-journal" class="btn btn-primary" data-i18n="tools.calc">Analyze</button>
+          <div class="ai-result" id="result-journal"></div>
+        </div>
+        <div class="ai-card">
+          <h3 data-i18n="ai.momentum.title">Momentum AI</h3>
+          <p data-i18n="ai.momentum.desc">Price sentiment</p>
+          <textarea id="momentum-input" rows="3" placeholder="1.0850, 1.0862, 1.0870, 1.0885"></textarea>
+          <button type="button" id="btn-momentum" class="btn btn-primary" data-i18n="tools.calc">Analyze</button>
+          <div class="ai-result" id="result-momentum"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="courses" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="courses.tag">Courses</span>
+        <h2 class="section-title" data-i18n="courses.title">Learn</h2>
+      </div>
+      <div class="courses-grid">
+        <div class="course-card">
+          <span class="course-level" data-i18n="courses.basic.level">Basic</span>
+          <h3 data-i18n="courses.basic.title">Forex Basics</h3>
+          <p data-i18n="courses.basic.desc">Foundation</p>
+          <ul><li data-i18n="courses.basic.i1">Markets</li><li data-i18n="courses.basic.i2">Pips</li><li data-i18n="courses.basic.i3">Orders</li></ul>
+          <a href="https://t.me/srfx0" target="_blank" class="btn btn-outline" data-i18n="courses.enroll">Enroll</a>
+        </div>
+        <div class="course-card featured">
+          <span class="course-level" data-i18n="courses.pro.level">Pro</span>
+          <h3 data-i18n="courses.pro.title">Technical Analysis</h3>
+          <p data-i18n="courses.pro.desc">Advanced</p>
+          <ul><li data-i18n="courses.pro.i1">Patterns</li><li data-i18n="courses.pro.i2">Indicators</li><li data-i18n="courses.pro.i3">Strategy</li></ul>
+          <a href="https://t.me/srfx0" target="_blank" class="btn btn-primary" data-i18n="courses.enroll">Enroll</a>
+        </div>
+        <div class="course-card">
+          <span class="course-level" data-i18n="courses.ai.level">AI</span>
+          <h3 data-i18n="courses.ai.title">AI Trading</h3>
+          <p data-i18n="courses.ai.desc">Smart trading</p>
+          <ul><li data-i18n="courses.ai.i1">Automation</li><li data-i18n="courses.ai.i2">Analysis</li><li data-i18n="courses.ai.i3">Risk</li></ul>
+          <a href="https://t.me/srfx0" target="_blank" class="btn btn-outline" data-i18n="courses.enroll">Enroll</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="contact-box">
+        <h2 data-i18n="contact.title">Contact</h2>
+        <p data-i18n="contact.desc">Join Telegram</p>
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg telegram-btn">@srfx0</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Sirius Fx. <span data-i18n="footer.rights">All rights reserved</span></p>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/ticker.js"></script>
+  <script src="js/trading-tools.js"></script>
+  <script src="js/ai-tools.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
