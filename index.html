@@ -12,10 +12,14 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+
+  <!-- ===== TICKER BAR (Live Prices) ===== -->
   <div class="ticker-wrap">
     <div class="ticker-label" data-i18n="ticker.live">LIVE</div>
     <div class="ticker-track" id="tickerTrack"><span data-i18n="ticker.loading">Loading...</span></div>
   </div>
+
+  <!-- ===== NAVBAR ===== -->
   <nav class="navbar" id="navbar">
     <div class="container nav-inner">
       <a href="#home" class="logo">
@@ -26,6 +30,9 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="#home" data-i18n="nav.home">Home</a></li>
         <li><a href="#services" data-i18n="nav.services">Services</a></li>
+        <li><a href="#market" data-i18n="nav.market">Market</a></li>
+        <li><a href="#chart" data-i18n="nav.chart">Chart</a></li>
+        <li><a href="#news" data-i18n="nav.news">News</a></li>
         <li><a href="#tools" data-i18n="nav.tools">Tools</a></li>
         <li><a href="#ai" data-i18n="nav.ai">AI</a></li>
         <li><a href="#chat" data-i18n="nav.chat">Chat</a></li>
@@ -39,6 +46,8 @@
       </div>
     </div>
   </nav>
+
+  <!-- ===== HERO ===== -->
   <section id="home" class="hero">
     <div class="hero-bg"><div class="star-field"></div><div class="hero-glow"></div></div>
     <div class="container hero-content">
@@ -48,8 +57,8 @@
       <p class="hero-subtitle" data-i18n="hero.subtitle">Subtitle</p>
       <div class="hero-actions">
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="hero.cta">Join</a>
+        <a href="#chart" class="btn btn-outline btn-lg" data-i18n="hero.chartBtn">Live Chart</a>
         <a href="#tools" class="btn btn-outline btn-lg" data-i18n="hero.tools">Tools</a>
-        <a href="#chat" class="btn btn-outline btn-lg" data-i18n="hero.chat">AI Chat</a>
       </div>
       <div class="hero-stats">
         <div class="stat"><span class="stat-num">500+</span><span class="stat-label" data-i18n="hero.stat1">Traders</span></div>
@@ -61,6 +70,7 @@
     </div>
   </section>
 
+  <!-- ===== SERVICES ===== -->
   <section id="services" class="section">
     <div class="container">
       <div class="section-header">
@@ -96,7 +106,111 @@
     </div>
   </section>
 
-  <section id="tools" class="section section-alt">
+  <!-- ===== LIVE MARKET PRICES (Real) ===== -->
+  <section id="market" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="market.tag">LIVE MARKET</span>
+        <h2 class="section-title" data-i18n="market.title">أسعار السوق المباشرة</h2>
+        <p class="section-desc market-update-row">
+          <span class="live-dot"></span>
+          <span data-i18n="market.updated">آخر تحديث:</span>
+          <span id="marketTimestamp" class="mono">--:--:--</span>
+          <span class="market-refresh-btn" id="marketRefresh" title="Refresh">⟳</span>
+        </p>
+      </div>
+      <div class="market-cards-grid" id="marketCardsGrid">
+        <!-- Rendered by ticker.js -->
+        <div class="mc-skeleton"></div>
+        <div class="mc-skeleton"></div>
+        <div class="mc-skeleton"></div>
+        <div class="mc-skeleton"></div>
+        <div class="mc-skeleton"></div>
+        <div class="mc-skeleton"></div>
+        <div class="mc-skeleton"></div>
+        <div class="mc-skeleton"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRADINGVIEW CHART ===== -->
+  <section id="chart" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="chart.tag">LIVE CHART</span>
+        <h2 class="section-title" data-i18n="chart.title">الرسم البياني المباشر</h2>
+      </div>
+
+      <!-- Chart Symbol Selector -->
+      <div class="chart-controls">
+        <div class="chart-symbol-row">
+          <button class="sym-btn active" data-sym="FX:EURUSD">EUR/USD</button>
+          <button class="sym-btn" data-sym="FX:GBPUSD">GBP/USD</button>
+          <button class="sym-btn" data-sym="FX:USDJPY">USD/JPY</button>
+          <button class="sym-btn" data-sym="OANDA:XAUUSD">XAU/USD</button>
+          <button class="sym-btn" data-sym="BINANCE:BTCUSDT">BTC/USD</button>
+          <button class="sym-btn" data-sym="FX:USDCAD">USD/CAD</button>
+          <button class="sym-btn" data-sym="FX:AUDUSD">AUD/USD</button>
+          <button class="sym-btn" data-sym="US30USD">US30</button>
+        </div>
+        <div class="chart-interval-row">
+          <button class="iv-btn active" data-iv="1">M1</button>
+          <button class="iv-btn" data-iv="5">M5</button>
+          <button class="iv-btn" data-iv="15">M15</button>
+          <button class="iv-btn active-default" data-iv="60">H1</button>
+          <button class="iv-btn" data-iv="240">H4</button>
+          <button class="iv-btn" data-iv="D">D1</button>
+          <button class="iv-btn" data-iv="W">W1</button>
+        </div>
+      </div>
+
+      <!-- TradingView Widget Container -->
+      <div class="chart-wrapper" id="chartWrapper">
+        <div id="tradingview-widget-container" class="tv-container">
+          <div id="tradingview_chart"></div>
+        </div>
+      </div>
+
+      <!-- Mini Symbol Overview Strip -->
+      <div class="tv-mini-strip" id="tvMiniStrip"></div>
+    </div>
+  </section>
+
+  <!-- ===== FOREX NEWS ===== -->
+  <section id="news" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="news.tag">FOREX NEWS</span>
+        <h2 class="section-title" data-i18n="news.title">أخبار الفوركس</h2>
+        <p class="section-desc" data-i18n="news.desc">أحدث الأخبار الاقتصادية والمالية</p>
+      </div>
+
+      <div class="news-layout">
+        <!-- News Feed -->
+        <div class="news-feed" id="newsFeed">
+          <div class="news-loading">
+            <div class="news-skeleton"></div>
+            <div class="news-skeleton"></div>
+            <div class="news-skeleton"></div>
+          </div>
+        </div>
+
+        <!-- Economic Calendar (TradingView) -->
+        <div class="news-sidebar">
+          <div class="news-sidebar-title" data-i18n="news.calendar">📅 التقويم الاقتصادي</div>
+          <div class="tv-calendar-wrap">
+            <!-- TradingView Economic Calendar Widget -->
+            <div class="tradingview-widget-container" id="tvCalendarWidget">
+              <div class="tradingview-widget-container__widget"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRADING TOOLS ===== -->
+  <section id="tools" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag" data-i18n="tools.tag">Tools</span>
@@ -113,7 +227,8 @@
     </div>
   </section>
 
-  <section id="ai" class="section">
+  <!-- ===== AI TOOLS ===== -->
+  <section id="ai" class="section section-alt">
     <div class="container">
       <div class="section-header">
         <span class="section-tag" data-i18n="ai.tag">AI</span>
@@ -166,7 +281,8 @@
     </div>
   </section>
 
-  <section id="chat" class="section section-alt">
+  <!-- ===== AI CHAT ===== -->
+  <section id="chat" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag" data-i18n="chat.tag">AI Assistant</span>
@@ -193,12 +309,14 @@
             <input type="text" id="chatInput" autocomplete="off" data-i18n-placeholder="chat.placeholder" placeholder="">
             <button type="submit" class="btn btn-primary" data-i18n="chat.send">Send</button>
           </form>
-          <p class="chat-disclaimer" data-i18n="chat.disclaimer">Educational only — not financial advice</p>
+          <p class="chat-disclaimer" data-i18n="chat.disclaimer">Educational only</p>
+          <p class="chat-api-badge" data-i18n="chat.api">Sirius API</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ===== COURSES ===== -->
   <section id="courses" class="section section-alt">
     <div class="container">
       <div class="section-header">
@@ -231,6 +349,7 @@
     </div>
   </section>
 
+  <!-- ===== CONTACT ===== -->
   <section id="contact" class="section">
     <div class="container">
       <div class="contact-box">
@@ -249,12 +368,15 @@
     </div>
   </footer>
 
+  <script src="js/config.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/ticker.js"></script>
   <script src="js/trading-tools.js"></script>
   <script src="js/ai-tools.js"></script>
   <script src="js/market-chat.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/news.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
