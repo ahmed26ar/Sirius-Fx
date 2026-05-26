@@ -29,6 +29,7 @@
       --bg-input: #050508;
       --nav-bg: rgba(0,0,0,0.88);
       --success: #22c55e;
+      --warning: #f59e0b;
       --error: #ef4444;
       --font-ar: 'Cairo', sans-serif;
       --font-en: 'Inter', sans-serif;
@@ -100,6 +101,21 @@
     .stat-item .num{font-size:1.6rem;font-weight:800;color:var(--sky);display:block;font-family:var(--font-en)}
     .stat-item .lbl{font-size:12px;color:var(--text-muted);font-weight:700}
 
+    /* ===== PERMISSION BANNER ===== */
+    .perm-banner{
+      background:rgba(245,158,11,.1);border:1px solid var(--warning);
+      border-radius:var(--radius-sm);padding:16px 20px;
+      margin-bottom:20px;display:none;text-align:center;color:var(--warning);
+      font-size:14px;font-weight:600
+    }
+    .perm-banner.show{display:block;animation:fadeUp .3s ease}
+    .perm-btn{
+      background:var(--warning);color:#000;border:none;padding:8px 20px;
+      border-radius:8px;font-weight:800;font-family:inherit;cursor:pointer;
+      margin-top:10px;transition:all var(--t)
+    }
+    .perm-btn:hover{filter:brightness(1.1)}
+
     /* ===== CATEGORY TABS ===== */
     .cat-tabs{
       display:flex;gap:6px;margin:0 0 22px;
@@ -170,6 +186,8 @@
     .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px var(--sky-glow)}
     .form-group select option{background:#111;color:var(--text)}
     .full{grid-column:1/-1}
+    .sound-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);cursor:pointer;user-select:none}
+    .sound-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--sky);cursor:pointer}
     .btn-submit{
       width:100%;padding:16px;font-size:16px;font-weight:800;
       display:flex;align-items:center;justify-content:center;gap:10px;
@@ -203,35 +221,32 @@
       transition:all var(--t);animation:fadeUp .3s ease
     }
     .alert-item:hover{border-color:var(--border-hover)}
+    .alert-item.triggered{
+      border-color:var(--success);background:rgba(34,197,94,.08);
+      animation:flash .5s ease 3
+    }
+    @keyframes flash{0%,100%{opacity:1}50%{opacity:.5}}
     .alert-left{display:flex;align-items:center;gap:14px}
-    .alert-dot{width:9px;height:9px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success);animation:blink 2.5s infinite;flex-shrink:0}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+    .alert-dot{width:9px;height:9px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success);flex-shrink:0}
+    .alert-dot.triggered{animation:blink .5s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
     .alert-sym{font-weight:800;font-size:15px;font-family:var(--font-en)}
     .alert-detail{font-size:12px;color:var(--text-muted)}
     .alert-detail b{color:var(--sky);font-weight:700}
+    .alert-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px}
+    .alert-status.monitoring{background:rgba(0,212,255,.12);color:var(--sky)}
+    .alert-status.triggered-status{background:rgba(34,197,94,.15);color:var(--success)}
     .alert-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
     .alert-time{font-size:11px;color:var(--text-muted)}
     .btn-del{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--error);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all var(--t);flex-shrink:0}
     .btn-del:hover{background:rgba(239,68,68,.22);border-color:var(--error)}
     .empty{text-align:center;padding:36px;color:var(--text-muted);border:1px dashed var(--border);border-radius:var(--radius-sm);font-size:14px;line-height:2;margin-bottom:32px}
 
-    /* ===== BACKEND CARD ===== */
-    .info-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
-    .backend-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-    .b-opt{padding:16px;border:1px solid var(--border);border-radius:var(--radius-sm);transition:var(--t)}
-    .b-opt.top{border-color:var(--sky);background:var(--sky-glow)}
-    .b-rec-tag{display:inline-block;background:var(--sky);color:#000;font-size:10px;font-weight:800;padding:3px 10px;border-radius:5px;margin-bottom:8px;letter-spacing:.5px}
-    .b-tag{font-size:11px;font-weight:700;color:var(--sky);margin-bottom:5px}
-    .b-name{font-weight:800;font-size:15px;margin-bottom:6px}
-    .b-desc{font-size:12px;color:var(--text-muted);line-height:1.65}
-    .b-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--sky);text-decoration:none;font-weight:700;margin-top:8px}
-    .b-link:hover{text-decoration:underline}
-
     /* ===== HOW-TO CARD ===== */
+    .info-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
     .howto-list{color:var(--text-muted);padding-right:20px}
     .howto-list li{margin-bottom:12px;line-height:1.8}
     .howto-list strong{color:var(--sky)}
-    .code-pill{display:inline-block;background:var(--bg-input);border:1px solid var(--border);padding:2px 10px;border-radius:5px;font-family:var(--font-en);font-size:13px;color:var(--sky)}
 
     /* ===== FOOTER ===== */
     .footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--text-muted);font-size:14px;margin-top:20px}
@@ -247,10 +262,10 @@
       }
       .nav-links.open{transform:translateY(0);opacity:1;pointer-events:all}
       .form-row{grid-template-columns:1fr}
-      .backend-grid{grid-template-columns:1fr}
       .cat-tab{font-size:12px;padding:9px 10px}
       .tab-badge{display:none}
       .pair-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+      .stats-row{gap:16px}
     }
     @media(max-width:500px){
       .sel-display{flex-direction:column;align-items:flex-start}
@@ -287,13 +302,19 @@
   <div class="page-header">
     <div class="page-badge">🔔 مراقبة لحظية للأسواق</div>
     <h1>التنبيهات الذكية</h1>
-    <p>راقب الفوركس، المعادن الثمينة، الكريبتو والمؤشرات. سنرسل إشعارًا فوريًا على تليجرام عند تحقق الشرط.</p>
+    <p>راقب الفوركس، المعادن الثمينة، الكريبتو والمؤشرات. إشعارات فورية في متصفحك عند تحقق الشروط.</p>
     <div class="stats-row">
       <div class="stat-item"><span class="num" id="pairCount">20+</span><span class="lbl">أصل مالي</span></div>
       <div class="stat-item"><span class="num">فوري</span><span class="lbl">الإشعار</span></div>
       <div class="stat-item"><span class="num">24/7</span><span class="lbl">مراقبة مستمرة</span></div>
       <div class="stat-item"><span class="num" id="activeCount">0</span><span class="lbl">تنبيه نشط</span></div>
     </div>
+  </div>
+
+  <!-- Permission Banner -->
+  <div class="perm-banner" id="permBanner">
+    <p>🔔 هذا الموقع يحتاج إذنك لإرسال إشعارات فورية عند تحقق التنبيهات</p>
+    <button class="perm-btn" onclick="requestNotificationPermission()">تفعيل الإشعارات الآن</button>
   </div>
 
   <!-- Category Tabs -->
@@ -333,10 +354,10 @@
           <label>🎯 السعر المستهدف</label>
           <input type="number" id="targetPrice" placeholder="مثال: 1.1000" step="0.00001" required>
         </div>
-        <div class="form-group full">
-          <label>🆔 معرف تليجرام (Chat ID)</label>
-          <input type="text" id="chatId" placeholder="احصل عليه من @userinfobot" required>
-        </div>
+      </div>
+      <div class="form-group full sound-row" style="margin-bottom:16px">
+        <input type="checkbox" id="soundEnabled" checked>
+        <label for="soundEnabled" style="color:var(--text-muted);cursor:pointer;font-size:13px">🔊 تفعيل صوت التنبيه عند تحقق الشرط</label>
       </div>
       <button type="submit" class="btn-submit" id="submitBtn">
         <span id="submitIcon">🔔</span>
@@ -353,48 +374,19 @@
   </div>
   <div id="alertsList"></div>
 
-  <!-- Backend Recommendations -->
+  <!-- How It Works -->
   <div class="info-card">
-    <div class="sec-title" style="margin-bottom:6px">⚙️ بديل n8n — الخيارات الموصى بها</div>
-    <p style="color:var(--text-muted);font-size:14px">غيّر متغير <code style="background:var(--bg-input);padding:1px 7px;border-radius:4px;font-size:13px;color:var(--sky)">WEBHOOK_URL</code> في كود الصفحة بعنوان الخدمة الجديدة:</p>
-    <div class="backend-grid">
-      <div class="b-opt top">
-        <div class="b-rec-tag">✦ الأفضل</div>
-        <div class="b-name">Make.com</div>
-        <div class="b-desc">واجهة بصرية سهلة، أكثر استقرارًا من n8n، خطة مجانية 1,000 عملية/شهر. أنشئ Scenario: Webhook ← Data Store ← Schedule (5 دقائق) ← Price Check ← Telegram.</div>
-        <a href="https://make.com" target="_blank" class="b-link">make.com ←</a>
-      </div>
-      <div class="b-opt">
-        <div class="b-tag">مجاني 100%</div>
-        <div class="b-name">Google Apps Script</div>
-        <div class="b-desc">Webhook يخزن التنبيهات في Google Sheets + Time Trigger كل 5 دقائق يتحقق من الأسعار ويرسل على تليجرام. مجاني تمامًا وموثوق بنسبة 99.9%.</div>
-        <a href="https://script.google.com" target="_blank" class="b-link">script.google.com ←</a>
-      </div>
-      <div class="b-opt">
-        <div class="b-tag">للمطورين</div>
-        <div class="b-name">Pipedream</div>
-        <div class="b-desc">موثوق جدًا، يدعم Node.js الكامل، خطة مجانية 100 invocation/يوم. أسرع في التكامل مع APIs خارجية.</div>
-        <a href="https://pipedream.com" target="_blank" class="b-link">pipedream.com ←</a>
-      </div>
-      <div class="b-opt">
-        <div class="b-tag">تحكم كامل</div>
-        <div class="b-name">Render / Railway</div>
-        <div class="b-desc">نشر Node.js أو Python مجانًا. يتيح جدولة سكريبت كل دقيقة يتحقق من الأسعار ويرسل تنبيهات فورية.</div>
-        <a href="https://render.com" target="_blank" class="b-link">render.com ←</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- How-To -->
-  <div class="info-card">
-    <div class="sec-title" style="margin-bottom:14px">📖 كيف تحصل على Chat ID؟</div>
+    <div class="sec-title" style="margin-bottom:14px">📖 كيف يعمل نظام التنبيهات؟</div>
     <ol class="howto-list">
-      <li>افتح تليجرام وابحث عن <strong>@userinfobot</strong></li>
-      <li>اضغط "ابدأ" وأرسل أي رسالة — سيظهر رقمك بجانب <strong>Id</strong></li>
-      <li>تأكد من بدء محادثة مع البوت: <span class="code-pill">@srfx0_bot</span></li>
-      <li>الصق الرقم في حقل "معرف تليجرام" أعلاه وفعّل التنبيه</li>
-      <li>ستصلك رسالة تأكيد فور تحقق الشرط مباشرة على تليجرام</li>
+      <li><strong>اختر الأصل المالي</strong> من القائمة أعلاه (فوركس، معادن، كريبتو، مؤشرات)</li>
+      <li><strong>حدد السعر المستهدف</strong> ونوع التنبيه (فوق/تحت)</li>
+      <li><strong>اضغط "فعّل التنبيه"</strong> وسيبدأ النظام بمراقبة السعر كل 30 ثانية</li>
+      <li><strong>عند تحقق الشرط</strong> — يصلك إشعار فوري في المتصفح + صوت تنبيه</li>
+      <li><strong>التنبيهات تُخزّن محليًا</strong> في متصفحك وتبقى نشطة حتى تحذفها</li>
     </ol>
+    <p style="color:var(--text-muted);font-size:13px;margin-top:12px">
+      ⚠️ <strong>ملاحظة:</strong> يجب أن تبقى صفحة التنبيهات مفتوحة في المتصفح للمراقبة المستمرة. امنح الموقع إذن الإشعارات لتلقي التنبيهات حتى لو كنت في علامة تبويب أخرى.
+    </p>
   </div>
 
 </main>
@@ -405,8 +397,7 @@
 
 <script>
 // ===== CONFIG =====
-// ← غيّر هذا الرابط لرابط Make.com أو Pipedream أو Google Apps Script
-const WEBHOOK_URL = 'https://siriusfx26z.app.n8n.cloud/webhook-test/alert';
+const PRICE_CHECK_INTERVAL = 30000; // فحص كل 30 ثانية
 
 // ===== PAIRS DATA =====
 const PAIRS = {
@@ -448,8 +439,10 @@ const COIN_MAP = {
 // ===== STATE =====
 let curCat = 'forex';
 let selPair = PAIRS.forex[0];
-let alerts = JSON.parse(localStorage.getItem('siriusFxAlerts') || '[]');
+let alerts = JSON.parse(localStorage.getItem('siriusFxAlertsV2') || '[]');
 const priceCache = {};
+let notificationPermission = false;
+let priceCheckTimer = null;
 
 // ===== THEME =====
 const html = document.documentElement;
@@ -469,199 +462,39 @@ document.getElementById('navToggle').addEventListener('click', () =>
   document.getElementById('navLinks').classList.toggle('open')
 );
 
-// ===== RENDER PAIRS =====
-function renderPairs() {
-  const grid = document.getElementById('pairGrid');
-  grid.innerHTML = PAIRS[curCat].map((p, i) => `
-    <div class="pair-card ${p.sym === selPair.sym ? 'sel' : ''}" onclick="selectPair(${i})">
-      <span class="pair-name">${p.sym}</span>
-      <span class="pair-desc">${p.full}</span>
-      <span class="pair-price" id="pc-${p.sym.replace('/','_')}">${priceCache[p.sym] ? fmt(p.sym, priceCache[p.sym]) : '—'}</span>
-    </div>`).join('');
-}
-
-// ===== SELECT PAIR =====
-function selectPair(idx) {
-  selPair = PAIRS[curCat][idx];
-  document.getElementById('dispSym').textContent = selPair.sym;
-  document.getElementById('dispFull').textContent = selPair.full;
-  document.getElementById('targetPrice').step = selPair.step;
-  document.getElementById('targetPrice').placeholder = 'مثال: ' + selPair.eg;
-  const lv = document.getElementById('liveVal');
-  if (priceCache[selPair.sym]) {
-    lv.textContent = fmt(selPair.sym, priceCache[selPair.sym]);
-    lv.className = 'live-val';
+// ===== NOTIFICATION PERMISSION =====
+function checkNotificationPermission() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'granted') {
+    notificationPermission = true;
+    document.getElementById('permBanner').classList.remove('show');
+  } else if (Notification.permission === 'denied') {
+    document.getElementById('permBanner').classList.add('show');
   } else {
-    lv.textContent = 'جاري التحميل...';
-    lv.className = 'live-val loading';
-    fetchPrice(selPair.sym);
-  }
-  renderPairs();
-}
-
-// ===== FORMAT PRICE =====
-function fmt(sym, p) {
-  if (!p && p !== 0) return '—';
-  const big = ['BTC/USDT','US30','NAS100','SPX500'];
-  const mid = ['ETH/USDT','BNB/USDT','SOL/USDT','XAU/USD','XPT/USD','XPD/USD','UK100'];
-  if (big.includes(sym)) return Number(p).toLocaleString('en-US',{maximumFractionDigits:0});
-  if (mid.includes(sym)) return Number(p).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-  return Number(p).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:5});
-}
-
-// ===== FETCH PRICE =====
-async function fetchPrice(sym) {
-  try {
-    let price = null;
-    if (COIN_MAP[sym]) {
-      const r = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${COIN_MAP[sym]}&vs_currencies=usd`);
-      const d = await r.json();
-      price = Object.values(d)[0]?.usd;
-    } else if (sym.includes('/') && !sym.startsWith('X') && !['US30','NAS100','SPX500','UK100'].includes(sym)) {
-      const [from, to] = sym.split('/');
-      const r = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=${to}`);
-      const d = await r.json();
-      price = d.rates?.[to];
-    }
-    if (price) {
-      priceCache[sym] = price;
-      const pc = document.getElementById('pc-' + sym.replace('/','_'));
-      if (pc) pc.textContent = fmt(sym, price);
-      if (selPair.sym === sym) {
-        const lv = document.getElementById('liveVal');
-        lv.textContent = fmt(sym, price);
-        lv.className = 'live-val';
-      }
-    } else {
-      if (selPair.sym === sym) {
-        document.getElementById('liveVal').textContent = 'N/A';
-        document.getElementById('liveVal').className = 'live-val';
-      }
-    }
-  } catch {
-    if (selPair.sym === sym) {
-      document.getElementById('liveVal').textContent = 'N/A';
-      document.getElementById('liveVal').className = 'live-val';
-    }
+    document.getElementById('permBanner').classList.add('show');
   }
 }
 
-// Prefetch all prices in current category
-function prefetchCat() {
-  PAIRS[curCat].forEach(p => { if (!priceCache[p.sym]) fetchPrice(p.sym); });
+function requestNotificationPermission() {
+  if (!('Notification' in window)) return;
+  Notification.requestPermission().then(perm => {
+    if (perm === 'granted') {
+      notificationPermission = true;
+      document.getElementById('permBanner').classList.remove('show');
+      showMsg('success', '✅ تم تفعيل الإشعارات بنجاح! ستصلك تنبيهات فورية.');
+    }
+  });
 }
 
-// ===== CATEGORY TABS =====
-document.getElementById('catTabs').addEventListener('click', e => {
-  const t = e.target.closest('.cat-tab');
-  if (!t) return;
-  curCat = t.dataset.cat;
-  document.querySelectorAll('.cat-tab').forEach(x => x.classList.remove('active'));
-  t.classList.add('active');
-  selPair = PAIRS[curCat][0];
-  renderPairs();
-  selectPair(0);
-  prefetchCat();
-});
-
-// ===== SUBMIT =====
-document.getElementById('alertForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const icon = document.getElementById('submitIcon');
-  const txt = document.getElementById('submitText');
-  const msg = document.getElementById('msg');
-  btn.disabled = true;
-  icon.textContent = '⏳'; txt.textContent = 'جاري التفعيل...';
-  msg.className = 'msg info show';
-  msg.innerHTML = '⏳ جاري إرسال التنبيه إلى الخادم...';
-
-  const payload = {
-    symbol: selPair.sym,
-    category: curCat,
-    condition: document.getElementById('condition').value,
-    targetPrice: parseFloat(document.getElementById('targetPrice').value),
-    chatId: document.getElementById('chatId').value.trim()
-  };
-
-  try {
-    const res = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
+function sendBrowserNotification(title, body) {
+  if (notificationPermission) {
+    new Notification(title, {
+      body: body,
+      icon: 'assets/logo_new.png',
+      badge: 'assets/logo_new.png',
+      tag: 'sirius-price-alert',
+      vibrate: [200, 100, 200],
+      requireInteraction: true
     });
-    if (res.ok) {
-      msg.className = 'msg success show';
-      msg.innerHTML = '✅ تم تفعيل التنبيه! ستصلك رسالة على تليجرام عند تحقق الشرط.';
-      saveAlert(payload);
-      e.target.reset();
-    } else throw new Error();
-  } catch {
-    msg.className = 'msg error show';
-    msg.innerHTML = '❌ فشل الاتصال. تأكد من ضغط "ابدأ" على <strong>@srfx0_bot</strong> في تليجرام أولاً.';
   }
-
-  btn.disabled = false;
-  icon.textContent = '🔔'; txt.textContent = 'فعّل التنبيه الآن';
-  setTimeout(() => { msg.className = 'msg'; }, 8000);
-});
-
-// ===== ALERTS STORAGE =====
-function saveAlert(data) {
-  const a = { id: Date.now(), ...data, time: new Date().toLocaleString('ar-IQ') };
-  alerts.unshift(a);
-  if (alerts.length > 30) alerts.pop();
-  localStorage.setItem('siriusFxAlerts', JSON.stringify(alerts));
-  renderAlerts();
 }
-function deleteAlert(id) {
-  alerts = alerts.filter(a => a.id !== id);
-  localStorage.setItem('siriusFxAlerts', JSON.stringify(alerts));
-  renderAlerts();
-}
-function clearAllAlerts() {
-  if (!confirm('حذف جميع التنبيهات؟')) return;
-  alerts = [];
-  localStorage.setItem('siriusFxAlerts', JSON.stringify(alerts));
-  renderAlerts();
-}
-function renderAlerts() {
-  const list = document.getElementById('alertsList');
-  const lbl = document.getElementById('alertCountLabel');
-  const clrBtn = document.getElementById('clearAll');
-  document.getElementById('activeCount').textContent = alerts.length;
-  lbl.textContent = alerts.length ? `(${alerts.length})` : '';
-  clrBtn.style.display = alerts.length ? 'block' : 'none';
-  if (!alerts.length) {
-    list.innerHTML = '<div class="empty">لا توجد تنبيهات نشطة بعد.<br>اختر أصلًا ماليًا وفعّل أول تنبيه! 🔔</div>';
-    return;
-  }
-  const cond = {above:'يرتفع فوق', below:'ينخفض تحت'};
-  list.innerHTML = '<div class="alerts-list">' + alerts.map(a => `
-    <div class="alert-item">
-      <div class="alert-left">
-        <div class="alert-dot"></div>
-        <div>
-          <div class="alert-sym">${a.symbol}</div>
-          <div class="alert-detail">${cond[a.condition]} <b>${a.targetPrice}</b></div>
-        </div>
-      </div>
-      <div class="alert-right">
-        <span class="alert-time">${a.time}</span>
-        <button class="btn-del" onclick="deleteAlert(${a.id})" title="حذف">✕</button>
-      </div>
-    </div>`).join('') + '</div>';
-}
-
-// ===== INIT =====
-renderPairs();
-renderAlerts();
-fetchPrice(selPair.sym);
-prefetchCat();
-
-// Update pair count in header
-const total = Object.values(PAIRS).reduce((s,a)=>s+a.length, 0);
-document.getElementById('pairCount').textContent = total + '+';
-</script>
-</body>
-</html>
