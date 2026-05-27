@@ -10,6 +10,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo_new.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    .risk-bar {
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      padding: 14px 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .risk-bar .risk-icon {
+      font-size: 1.2rem;
+      color: var(--sky);
+      opacity: 0.7;
+    }
+    .risk-bar strong {
+      color: var(--sky);
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
 
@@ -95,24 +121,72 @@
     </div>
   </section>
 
-  <!-- ===== LIVE MARKET PRICES ===== -->
+  <!-- ===== LIVE MARKET PRICES (TradingView Widget) ===== -->
   <section id="market" class="section section-alt">
     <div class="container">
       <div class="section-header">
         <span class="section-tag" data-i18n="market.tag">LIVE MARKET</span>
         <h2 class="section-title" data-i18n="market.title">أسعار السوق المباشرة</h2>
-        <p class="section-desc market-update-row">
-          <span class="live-dot"></span>
-          <span data-i18n="market.updated">آخر تحديث:</span>
-          <span id="marketTimestamp" class="mono">--:--:--</span>
-          <span class="market-refresh-btn" id="marketRefresh" title="Refresh">⟳</span>
-        </p>
       </div>
-      <div class="market-cards-grid" id="marketCardsGrid">
-        <div class="mc-skeleton"></div><div class="mc-skeleton"></div>
-        <div class="mc-skeleton"></div><div class="mc-skeleton"></div>
-        <div class="mc-skeleton"></div><div class="mc-skeleton"></div>
-        <div class="mc-skeleton"></div><div class="mc-skeleton"></div>
+      <!-- TradingView Market Overview Widget -->
+      <div class="tradingview-widget-container" style="height:400px;">
+        <div class="tradingview-widget-container__widget" style="height:100%;"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+        {
+          "colorTheme": "dark",
+          "dateRange": "12M",
+          "showChart": true,
+          "locale": "ar",
+          "largeChartUrl": "",
+          "isTransparent": true,
+          "showSymbolLogo": true,
+          "showFloatingTooltip": false,
+          "width": "100%",
+          "height": "100%",
+          "plotLineColorFalling": "rgba(239, 68, 68, 1)",
+          "plotLineColorGrowing": "rgba(34, 197, 94, 1)",
+          "gridLineColor": "rgba(0, 212, 255, 0.1)",
+          "scaleFontColor": "rgba(148, 163, 184, 1)",
+          "belowLineFillColorGrowing": "rgba(34, 197, 94, 0.12)",
+          "belowLineFillColorFalling": "rgba(239, 68, 68, 0.12)",
+          "symbolActiveColor": "rgba(0, 212, 255, 0.12)",
+          "tabs": [
+            {
+              "title": "فوركس",
+              "symbols": [
+                { "s": "FX:EURUSD", "d": "EUR/USD" },
+                { "s": "FX:GBPUSD", "d": "GBP/USD" },
+                { "s": "FX:USDJPY", "d": "USD/JPY" },
+                { "s": "FX:USDCHF", "d": "USD/CHF" },
+                { "s": "FX:AUDUSD", "d": "AUD/USD" },
+                { "s": "FX:USDCAD", "d": "USD/CAD" }
+              ]
+            },
+            {
+              "title": "المعادن",
+              "symbols": [
+                { "s": "OANDA:XAUUSD", "d": "ذهب / دولار" },
+                { "s": "OANDA:XAGUSD", "d": "فضة / دولار" }
+              ]
+            },
+            {
+              "title": "كريبتو",
+              "symbols": [
+                { "s": "BINANCE:BTCUSDT", "d": "بيتكوين" },
+                { "s": "BINANCE:ETHUSDT", "d": "إيثيريوم" }
+              ]
+            },
+            {
+              "title": "مؤشرات",
+              "symbols": [
+                { "s": "FOREXCOM:SPXUSD", "d": "S&P 500" },
+                { "s": "FOREXCOM:NSXUSD", "d": "ناسداك 100" },
+                { "s": "FOREXCOM:DJI", "d": "داو جونز" }
+              ]
+            }
+          ]
+        }
+        </script>
       </div>
     </div>
   </section>
@@ -329,7 +403,6 @@
 
   <button type="button" class="chat-fab" id="chatFab" aria-label="Chat">💬</button>
 
-  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Sirius Fx. جميع الحقوق محفوظة.</p>
@@ -345,7 +418,7 @@
   <script src="js/config.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/theme.js"></script>
-  <script src="js/ticker.js"></script>
+  <!-- تم حذف ticker.js -->
   <script src="js/trading-tools.js"></script>
   <script src="js/ai-tools.js"></script>
   <script src="js/market-chat.js"></script>
