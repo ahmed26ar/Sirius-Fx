@@ -10,7 +10,6 @@
   <link rel="icon" href="assets/logo_new.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style>
-    /* تنسيقات إضافية خاصة بمركز AI */
     .page-hero { text-align: center; padding: 60px 0 40px; }
     .page-hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; background: linear-gradient(135deg, var(--text) 0%, var(--sky) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
     
@@ -28,7 +27,6 @@
     .ai-tool-card h3 { font-size: 1.25rem; margin-bottom: 10px; font-weight: 700; color: var(--sky); }
     .ai-tool-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.7; }
 
-    /* Chat Section */
     .chat-section { margin-top: 60px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
   </style>
 </head>
@@ -119,7 +117,7 @@
           <button type="submit" class="btn btn-primary">📤 إرسال</button>
         </form>
         <p class="chat-disclaimer">⚠️ للتعليم فقط — ليس نصيحة استثمارية</p>
-        <p class="chat-api-badge">🟢 متصل بـ Sirius API</p>
+        <p class="chat-api-badge">🟢 متصل بـ Sirius AI (Cloudflare Workers)</p>
       </div>
     </section>
   </main>
@@ -138,7 +136,7 @@
   </div>
 
   <script>
-    // Theme toggle
+    // ===== THEME =====
     const html = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     themeToggle?.addEventListener('click', () => {
@@ -148,23 +146,68 @@
     });
     html.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
 
-    // Mobile menu
+    // ===== MOBILE MENU =====
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     navToggle?.addEventListener('click', () => navLinks.classList.toggle('open'));
     navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
 
-    // Chat functions
-    function askQuick(q) { document.getElementById('userInput').value = q; document.getElementById('userInput').focus(); }
-    function sendMessage(e) {
+    // ===== SIRIUS AI CHAT =====
+    const AI_WORKER = 'https://yellow-block-03cc.6611zzrru.workers.dev';
+
+    function askQuick(q) {
+      document.getElementById('userInput').value = q;
+      document.getElementById('userInput').focus();
+      sendMessage(new Event('submit'));
+    }
+
+    async function sendMessage(e) {
       e.preventDefault();
       const input = document.getElementById('userInput');
       const box = document.getElementById('chatMessages');
-      if (!input.value.trim()) return;
-      box.innerHTML += `<div class="chat-msg chat-msg--user">${input.value}</div>`;
-      box.innerHTML += `<div class="chat-msg chat-msg--bot">شكراً على سؤالك! يمكنني مساعدتك في تحليل الأزواج، شرح استراتيجيات التداول، أو الإجابة عن أسئلة إدارة المخاطر. جرب سؤالي عن زوج معين مثل "تحليل GBP/USD". 🚀</div>`;
+      const text = input.value.trim();
+      if (!text) return;
+
+      // إضافة رسالة المستخدم
+      const userMsg = document.createElement('div');
+      userMsg.className = 'chat-msg chat-msg--user';
+      userMsg.textContent = text;
+      box.appendChild(userMsg);
       input.value = '';
       box.scrollTop = box.scrollHeight;
+
+      // إظهار مؤشر الكتابة
+      const typingEl = document.createElement('div');
+      typingEl.className = 'chat-msg chat-msg--bot chat-typing';
+      typingEl.textContent = 'Sirius AI يفكر...';
+      box.appendChild(typingEl);
+      box.scrollTop = box.scrollHeight;
+
+      try {
+        const response = await fetch(AI_WORKER, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, lang: 'ar' })
+        });
+        const data = await response.json();
+        
+        // إزالة مؤشر الكتابة
+        typingEl.remove();
+        
+        // إضافة رد AI
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-msg chat-msg--bot';
+        botMsg.textContent = data.reply || '⚠️ عذراً، لم أستطع الإجابة.';
+        box.appendChild(botMsg);
+        box.scrollTop = box.scrollHeight;
+      } catch (error) {
+        typingEl.remove();
+        const errMsg = document.createElement('div');
+        errMsg.className = 'chat-msg chat-msg--bot';
+        errMsg.textContent = '⚠️ المساعد غير متاح حالياً. تواصل معنا على https://t.me/srfx0';
+        box.appendChild(errMsg);
+        box.scrollTop = box.scrollHeight;
+      }
     }
   </script>
 </body>
