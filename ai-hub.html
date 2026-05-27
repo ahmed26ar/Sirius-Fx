@@ -112,7 +112,7 @@
           <button class="chat-quick" onclick="askQuick('كيف أحسب حجم الصفقة المناسب؟')">🧮 إدارة مخاطر</button>
           <button class="chat-quick" onclick="askQuick('ما هي أهم الأخبار الاقتصادية اليوم؟')">📰 أخبار</button>
         </div>
-        <form class="chat-form" onsubmit="sendMessage(event)">
+        <form class="chat-form" id="chatForm">
           <input type="text" id="userInput" placeholder="اسأل عن أي زوج أو سوق..." autocomplete="off">
           <button type="submit" class="btn btn-primary">📤 إرسال</button>
         </form>
@@ -152,17 +152,15 @@
     navToggle?.addEventListener('click', () => navLinks.classList.toggle('open'));
     navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
 
-    // ===== SIRIUS AI CHAT =====
+    // ===== SIRIUS AI CHAT (مُحدّث) =====
     const AI_WORKER = 'https://yellow-block-03cc.6611zzrru.workers.dev';
 
     function askQuick(q) {
       document.getElementById('userInput').value = q;
-      document.getElementById('userInput').focus();
-      sendMessage(new Event('submit'));
+      handleSend();
     }
 
-    async function sendMessage(e) {
-      e.preventDefault();
+    async function handleSend() {
       const input = document.getElementById('userInput');
       const box = document.getElementById('chatMessages');
       const text = input.value.trim();
@@ -189,26 +187,31 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: text, lang: 'ar' })
         });
+
         const data = await response.json();
-        
-        // إزالة مؤشر الكتابة
         typingEl.remove();
-        
-        // إضافة رد AI
+
         const botMsg = document.createElement('div');
         botMsg.className = 'chat-msg chat-msg--bot';
-        botMsg.textContent = data.reply || '⚠️ عذراً، لم أستطع الإجابة.';
+        botMsg.textContent = data.reply || '⚠️ لم أستطع الإجابة. حاول مجددًا.';
         box.appendChild(botMsg);
         box.scrollTop = box.scrollHeight;
       } catch (error) {
         typingEl.remove();
         const errMsg = document.createElement('div');
         errMsg.className = 'chat-msg chat-msg--bot';
-        errMsg.textContent = '⚠️ المساعد غير متاح حالياً. تواصل معنا على https://t.me/srfx0';
+        errMsg.textContent = '⚠️ فشل الاتصال. تأكد من اتصالك بالإنترنت وأن الخادم يعمل.';
         box.appendChild(errMsg);
         box.scrollTop = box.scrollHeight;
+        console.error('Sirius AI Error:', error);
       }
     }
+
+    // ربط النموذج بدالة الإرسال
+    document.getElementById('chatForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleSend();
+    });
   </script>
 </body>
 </html>
