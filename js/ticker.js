@@ -11,7 +11,7 @@ const PAIRS = [
   { sym: 'USD/CAD', from: 'USD', to: 'CAD', icon: '🇨🇦', label: 'US Dollar / CAD' },
   { sym: 'NZD/USD', from: 'NZD', to: 'USD', icon: '🇳🇿', label: 'New Zealand / USD' },
   { sym: 'EUR/GBP', from: 'EUR', to: 'GBP', icon: '🇪🇺', label: 'Euro / British Pound' },
-  { sym: 'XAU/USD', from: 'XAU', to: 'USD', icon: '🥇', label: 'Gold / US Dollar' },
+  { sym: 'XAU/USD', from: 'XAU', to: 'USD', icon: 'XU', label: 'Gold / US Dollar' },
   { sym: 'BTC/USD', from: 'BTC', to: 'USD', icon: '₿', label: 'Bitcoin / USD' },
 ];
 
@@ -35,15 +35,17 @@ async function fetchForex() {
   }
 }
 
-// ===== Fetch Gold via Yahoo Finance (مجاني - لا يحتاج مفتاح) =====
+// ===== Fetch Gold via api.metals.live (مجاني - لا يحتاج مفتاح) =====
 async function fetchGold() {
   try {
-    const r = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/GC=F');
+    const r = await fetch('https://api.metals.live/v1/spot/gold');
     if (!r.ok) throw new Error();
     const d = await r.json();
-    const price = d.chart?.result?.[0]?.meta?.regularMarketPrice;
-    return price || null;
-  } catch { return null; }
+    const price = parseFloat(d.gold);
+    return !isNaN(price) ? price : null;
+  } catch {
+    return null;
+  }
 }
 
 // ===== Fetch BTC via CoinGecko (مجاني - لا يحتاج مفتاح) =====
@@ -87,7 +89,6 @@ function renderMarketCards(forexRates, goldPrice, btcPrice) {
     const rate = getPairRate(forexRates, goldPrice, btcPrice, pair);
     const key = pair.sym;
     
-    // حساب التغير منذ آخر تحديث
     let diff = 0, pct = 0, trend = 'neutral';
     if (rate && prevRates[key]) {
       diff = rate - prevRates[key];
