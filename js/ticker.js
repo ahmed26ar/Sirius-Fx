@@ -1,76 +1,75 @@
 // =====================================================
-// SIRIUS FX — LIVE TICKER (Real Prices via APIs)
+// SIRIUS FX — LIVE TICKER (محسّن - مصادر مجانية)
 // =====================================================
 
 const PAIRS = [
-  { sym: 'EUR/USD', from: 'EUR', to: 'USD' },
-  { sym: 'GBP/USD', from: 'GBP', to: 'USD' },
-  { sym: 'USD/JPY', from: 'USD', to: 'JPY' },
-  { sym: 'USD/CHF', from: 'USD', to: 'CHF' },
-  { sym: 'AUD/USD', from: 'AUD', to: 'USD' },
-  { sym: 'USD/CAD', from: 'USD', to: 'CAD' },
-  { sym: 'NZD/USD', from: 'NZD', to: 'USD' },
-  { sym: 'EUR/GBP', from: 'EUR', to: 'GBP' },
-  { sym: 'XAU/USD', from: 'XAU', to: 'USD' },
-  { sym: 'BTC/USD', from: 'BTC', to: 'USD' },
+  { sym: 'EUR/USD', from: 'EUR', to: 'USD', icon: '🇪🇺', label: 'Euro / US Dollar' },
+  { sym: 'GBP/USD', from: 'GBP', to: 'USD', icon: '🇬🇧', label: 'British Pound / USD' },
+  { sym: 'USD/JPY', from: 'USD', to: 'JPY', icon: '🇯🇵', label: 'US Dollar / Yen' },
+  { sym: 'USD/CHF', from: 'USD', to: 'CHF', icon: '🇨🇭', label: 'US Dollar / Franc' },
+  { sym: 'AUD/USD', from: 'AUD', to: 'USD', icon: '🇦🇺', label: 'Australian / USD' },
+  { sym: 'USD/CAD', from: 'USD', to: 'CAD', icon: '🇨🇦', label: 'US Dollar / CAD' },
+  { sym: 'NZD/USD', from: 'NZD', to: 'USD', icon: '🇳🇿', label: 'New Zealand / USD' },
+  { sym: 'EUR/GBP', from: 'EUR', to: 'GBP', icon: '🇪🇺', label: 'Euro / British Pound' },
+  { sym: 'XAU/USD', from: 'XAU', to: 'USD', icon: '🥇', label: 'Gold / US Dollar' },
+  { sym: 'BTC/USD', from: 'BTC', to: 'USD', icon: '₿', label: 'Bitcoin / USD' },
 ];
 
-const CRYPTO_IDS = { 'BTC/USD': 'bitcoin', 'ETH/USD': 'ethereum' };
 let prevRates = {};
-let prevTickerRates = {};
 window.SiriusRates = {};
 
-// --- Fetch Forex via open.er-api.com ---
+// ===== Fetch Forex via Frankfurter (مجاني - لا يحتاج مفتاح) =====
 async function fetchForex() {
   try {
-    const r = await fetch('https://open.er-api.com/v6/latest/USD');
+    const r = await fetch('https://api.frankfurter.app/latest?from=USD');
     if (!r.ok) throw new Error();
     const d = await r.json();
     return d.rates;
   } catch {
+    // Fallback إلى open.er-api.com
     try {
-      const r = await fetch('https://api.frankfurter.app/latest?from=USD');
+      const r = await fetch('https://open.er-api.com/v6/latest/USD');
       const d = await r.json();
       return d.rates;
     } catch { return null; }
   }
 }
 
-// --- Fetch Gold via metals API (free tier) ---
-async function fetchGold(forexRates) {
-  // Gold price relative to USD from forex rates (XAU)
-  // We'll use a fallback gold price from a free source
+// ===== Fetch Gold via Yahoo Finance (مجاني - لا يحتاج مفتاح) =====
+async function fetchGold() {
   try {
-    const r = await fetch('https://open.er-api.com/v6/latest/XAU');
+    const r = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/GC=F');
     if (!r.ok) throw new Error();
     const d = await r.json();
-    return d.rates ? d.rates.USD : null;
-  } catch {
-    // Fallback: estimate from forex (rough)
-    return null;
-  }
-}
-
-// --- Fetch BTC via CoinGecko free API ---
-async function fetchBTC() {
-  try {
-    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', { signal: AbortSignal.timeout(5000) });
-    if (!r.ok) throw new Error();
-    const d = await r.json();
-    return d.bitcoin ? d.bitcoin.usd : null;
+    const price = d.chart?.result?.[0]?.meta?.regularMarketPrice;
+    return price || null;
   } catch { return null; }
 }
 
-function getPairRate(forexRates, goldUsd, btcUsd, pair) {
+// ===== Fetch BTC via CoinGecko (مجاني - لا يحتاج مفتاح) =====
+async function fetchBTC() {
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
+      signal: AbortSignal.timeout(5000)
+    });
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    return d.bitcoin?.usd || null;
+  } catch { return null; }
+}
+
+// ===== Get rate for a specific pair =====
+function getPairRate(forexRates, goldPrice, btcPrice, pair) {
+  if (pair.sym === 'XAU/USD') return goldPrice;
+  if (pair.sym === 'BTC/USD') return btcPrice;
   if (!forexRates) return null;
-  if (pair.sym === 'XAU/USD') return goldUsd;
-  if (pair.sym === 'BTC/USD') return btcUsd;
   if (pair.from === 'USD') return forexRates[pair.to] || null;
   if (pair.to === 'USD') return forexRates[pair.from] ? 1 / forexRates[pair.from] : null;
   if (forexRates[pair.to] && forexRates[pair.from]) return forexRates[pair.to] / forexRates[pair.from];
   return null;
 }
 
+// ===== Format rate =====
 function fmtRate(rate, pair) {
   if (!rate) return '—';
   if (pair.sym === 'BTC/USD') return rate.toLocaleString('en-US', { maximumFractionDigits: 0 });
@@ -79,62 +78,28 @@ function fmtRate(rate, pair) {
   return rate.toFixed(5);
 }
 
-// ---- Render TOP ticker bar ----
-function renderTicker(forexRates, goldUsd, btcUsd) {
-  const track = document.getElementById('tickerTrack');
-  if (!track) return;
-
-  const html = PAIRS.map(pair => {
-    const rate = getPairRate(forexRates, goldUsd, btcUsd, pair);
-    const key = pair.sym;
-    let chgHtml = '';
-    if (rate && prevTickerRates[key]) {
-      const diff = rate - prevTickerRates[key];
-      const pct = (diff / prevTickerRates[key]) * 100;
-      if (Math.abs(pct) > 0.00001) {
-        const cls = diff >= 0 ? 'up' : 'down';
-        const arrow = diff >= 0 ? '▲' : '▼';
-        chgHtml = ` <span class="${cls}">${arrow} ${Math.abs(pct).toFixed(3)}%</span>`;
-      }
-    }
-    if (rate) prevTickerRates[key] = rate;
-    if (rate) window.SiriusRates[key] = fmtRate(rate, pair);
-    return `<span class="ticker-item"><span class="pair">${pair.sym}</span><span class="price">${fmtRate(rate, pair)}</span>${chgHtml}</span>`;
-  }).join('');
-
-  track.innerHTML = html + html; // duplicate for seamless loop
-}
-
-// ---- Render MARKET CARDS section ----
-function renderMarketCards(forexRates, goldUsd, btcUsd) {
+// ===== Render Market Cards =====
+function renderMarketCards(forexRates, goldPrice, btcPrice) {
   const grid = document.getElementById('marketCardsGrid');
   if (!grid) return;
 
-  const display = [
-    { sym: 'EUR/USD', from: 'EUR', to: 'USD', icon: '🇪🇺', label: 'Euro / US Dollar' },
-    { sym: 'GBP/USD', from: 'GBP', to: 'USD', icon: '🇬🇧', label: 'British Pound / USD' },
-    { sym: 'USD/JPY', from: 'USD', to: 'JPY', icon: '🇯🇵', label: 'US Dollar / Yen' },
-    { sym: 'XAU/USD', from: 'XAU', to: 'USD', icon: '🥇', label: 'Gold / US Dollar' },
-    { sym: 'BTC/USD', from: 'BTC', to: 'USD', icon: '₿', label: 'Bitcoin / USD' },
-    { sym: 'USD/CAD', from: 'USD', to: 'CAD', icon: '🇨🇦', label: 'US Dollar / CAD' },
-    { sym: 'AUD/USD', from: 'AUD', to: 'USD', icon: '🇦🇺', label: 'Australian / USD' },
-    { sym: 'USD/CHF', from: 'USD', to: 'CHF', icon: '🇨🇭', label: 'US Dollar / Franc' },
-  ];
-
-  grid.innerHTML = display.map(pair => {
-    const rate = getPairRate(forexRates, goldUsd, btcUsd, pair);
+  grid.innerHTML = PAIRS.map(pair => {
+    const rate = getPairRate(forexRates, goldPrice, btcPrice, pair);
     const key = pair.sym;
+    
+    // حساب التغير منذ آخر تحديث
     let diff = 0, pct = 0, trend = 'neutral';
     if (rate && prevRates[key]) {
       diff = rate - prevRates[key];
       pct = (diff / prevRates[key]) * 100;
-      trend = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
+      trend = diff > 0.00001 ? 'up' : diff < -0.00001 ? 'down' : 'neutral';
     }
     if (rate) prevRates[key] = rate;
+    if (rate) window.SiriusRates[key] = fmtRate(rate, pair);
 
     const trendIcon = trend === 'up' ? '▲' : trend === 'down' ? '▼' : '—';
     const trendCls = trend === 'up' ? 'market-up' : trend === 'down' ? 'market-down' : '';
-    const pctStr = pct !== 0 ? ` ${Math.abs(pct).toFixed(3)}%` : '';
+    const pctStr = Math.abs(pct) > 0.00001 ? ` ${Math.abs(pct).toFixed(3)}%` : '';
 
     return `
       <div class="market-card ${trendCls ? 'market-card--' + trend : ''}">
@@ -159,19 +124,18 @@ function renderMarketCards(forexRates, goldUsd, btcUsd) {
   }
 }
 
+// ===== Main update function =====
 async function updateAll() {
-  const [forexRates, goldUsd, btcUsd] = await Promise.all([
+  const [forexRates, goldPrice, btcPrice] = await Promise.all([
     fetchForex(),
     fetchGold(),
     fetchBTC()
   ]);
-  renderTicker(forexRates, goldUsd, btcUsd);
-  renderMarketCards(forexRates, goldUsd, btcUsd);
+  renderMarketCards(forexRates, goldPrice, btcPrice);
 }
 
+// ===== Initialize =====
 document.addEventListener('DOMContentLoaded', () => {
   updateAll();
-  setInterval(updateAll, 30000); // refresh every 30s
+  setInterval(updateAll, 30000); // تحديث كل 30 ثانية
 });
-
-document.addEventListener('langchange', () => {});
