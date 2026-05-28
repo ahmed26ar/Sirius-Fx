@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="assets/logo_new.png" type="image/png">
+  <link rel="icon" href="assets/logo_new.png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .risk-bar {
@@ -35,7 +35,6 @@
       color: var(--sky);
       font-weight: 600;
     }
-    /* تحسين مظهر أداة Ticker Tape */
     .ticker-container {
       margin: 20px 0;
       border-radius: 12px;
@@ -50,7 +49,7 @@
   <nav class="navbar" id="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="logo">
-        <img src="assets/logo_new.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo_new.png';">
+        <img src="assets/logo_new.png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo_new.png.png';">
         <span class="logo-text">Sirius&nbsp;<span class="accent">Fx</span></span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -73,7 +72,7 @@
   <section id="home" class="hero">
     <div class="hero-bg"><div class="star-field"></div><div class="hero-glow"></div></div>
     <div class="container hero-content">
-      <img src="assets/logo_new.png" alt="Sirius Fx" class="hero-logo" width="140" height="140" onerror="this.onerror=null;this.src='assets/logo_new.png';">
+      <img src="assets/logo_new.png.png" alt="Sirius Fx" class="hero-logo" width="140" height="140" onerror="this.onerror=null;this.src='assets/logo_new.png.png';">
       <div class="hero-badge" data-i18n="hero.badge">Badge</div>
       <h1 class="hero-title">Sirius <span class="accent">Fx</span></h1>
       <p class="hero-subtitle" data-i18n="hero.subtitle">Subtitle</p>
@@ -128,14 +127,13 @@
     </div>
   </section>
 
-  <!-- ===== LIVE MARKET TICKER (TradingView Ticker Tape) ===== -->
+  <!-- ===== LIVE MARKET TICKER ===== -->
   <section id="market" class="section section-alt">
     <div class="container">
       <div class="section-header">
         <span class="section-tag" data-i18n="market.tag">LIVE MARKET</span>
         <h2 class="section-title" data-i18n="market.title">أسعار السوق المباشرة</h2>
       </div>
-      <!-- TradingView Ticker Tape Widget -->
       <div class="ticker-container">
         <div class="tradingview-widget-container">
           <div class="tradingview-widget-container__widget"></div>
@@ -305,7 +303,7 @@
       <div class="chat-layout">
         <div class="chat-window">
           <div class="chat-header">
-            <img src="assets/logo_new.png" alt="" width="40" height="40" class="chat-header-logo" onerror="this.src='assets/logo_new.png'">
+            <img src="assets/logo_new.png.png" alt="" width="40" height="40" class="chat-header-logo" onerror="this.src='assets/logo_new.png.png'">
             <div><strong data-i18n="chat.assistant">Sirius AI</strong><span data-i18n="chat.online">Online</span></div>
           </div>
           <div class="chat-messages" id="chatMessages"></div>
@@ -381,13 +379,12 @@
   <!-- ===== RISK BAR ===== -->
   <div class="risk-bar">
     <span class="risk-icon">⚠️</span>
-    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال .</span>
+    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
   </div>
 
   <script src="js/config.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/theme.js"></script>
-  <!-- تم حذف ticker.js -->
   <script src="js/trading-tools.js"></script>
   <script src="js/ai-tools.js"></script>
   <script src="js/market-chat.js"></script>
