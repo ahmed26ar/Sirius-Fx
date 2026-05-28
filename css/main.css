@@ -179,13 +179,41 @@ body::after {
   animation: logoPulseSmall 3s ease-in-out infinite;
 }
 
-/* --- حماية في وضع Light Mode --- */
-/* في الوضع الفاتح، نوقف blend mode لأن الخلفية بيضاء */
-[data-theme="light"] .hero-logo,
-[data-theme="light"] .navbar .logo-img,
+/* --- إصلاح وضع Light Mode --- */
+/*
+ * في الوضع الفاتح، mix-blend-mode:screen يجعل اللوغو يختفي على الخلفية البيضاء.
+ * الحل: نضع اللوغو داخل حاوية دائرية داكنة تحاكي الخلفية الفضائية.
+ */
+
+/* Hero logo في الوضع الفاتح: نُحيط الصورة بخلفية دائرية داكنة */
+[data-theme="light"] .hero-logo {
+  mix-blend-mode: normal;
+  background: radial-gradient(circle, #0a0f1e 60%, #000510 100%) !important;
+  border-radius: 50% !important;
+  padding: 6px;
+  filter: drop-shadow(0 0 20px rgba(0, 153, 204, 0.8))
+          drop-shadow(0 0 40px rgba(0, 212, 255, 0.4));
+  animation: logoPulse 3s ease-in-out infinite;
+}
+
+/* Navbar logo في الوضع الفاتح */
+[data-theme="light"] .navbar .logo-img {
+  mix-blend-mode: normal;
+  background: radial-gradient(circle, #0a0f1e 60%, #000510 100%) !important;
+  border-radius: 50% !important;
+  padding: 3px;
+  filter: drop-shadow(0 0 8px rgba(0, 153, 204, 0.7))
+          drop-shadow(0 0 16px rgba(0, 212, 255, 0.4));
+  animation: logoPulseSmall 3s ease-in-out infinite;
+}
+
+/* Chat header logo في الوضع الفاتح */
 [data-theme="light"] .chat-header-logo {
   mix-blend-mode: normal;
-  filter: drop-shadow(0 0 12px rgba(0, 153, 204, 0.6));
+  background: radial-gradient(circle, #0a0f1e 60%, #000510 100%) !important;
+  border-radius: 50% !important;
+  padding: 3px;
+  filter: drop-shadow(0 0 8px rgba(0, 153, 204, 0.7));
 }
 
 /* ==================== SHOOTING STARS ==================== */
