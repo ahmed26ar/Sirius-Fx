@@ -24,16 +24,7 @@
   --transition: 0.3s ease;
 }
 
-[data-theme="light"] {
-  --bg: var(--gray-100);
-  --bg-alt: var(--white);
-  --text: var(--gray-900);
-  --text-muted: var(--gray-600);
-  --card-bg: var(--white);
-  --border: rgba(0, 153, 204, 0.2);
-  --nav-bg: rgba(255, 255, 255, 0.92);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-}
+
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -177,43 +168,6 @@ body::after {
   filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.7))
           drop-shadow(0 0 16px rgba(255, 255, 255, 0.3));
   animation: logoPulseSmall 3s ease-in-out infinite;
-}
-
-/* --- إصلاح وضع Light Mode --- */
-/*
- * في الوضع الفاتح، mix-blend-mode:screen يجعل اللوغو يختفي على الخلفية البيضاء.
- * الحل: نضع اللوغو داخل حاوية دائرية داكنة تحاكي الخلفية الفضائية.
- */
-
-/* Hero logo في الوضع الفاتح: نُحيط الصورة بخلفية دائرية داكنة */
-[data-theme="light"] .hero-logo {
-  mix-blend-mode: normal;
-  background: radial-gradient(circle, #0a0f1e 60%, #000510 100%) !important;
-  border-radius: 50% !important;
-  padding: 6px;
-  filter: drop-shadow(0 0 20px rgba(0, 153, 204, 0.8))
-          drop-shadow(0 0 40px rgba(0, 212, 255, 0.4));
-  animation: logoPulse 3s ease-in-out infinite;
-}
-
-/* Navbar logo في الوضع الفاتح */
-[data-theme="light"] .navbar .logo-img {
-  mix-blend-mode: normal;
-  background: radial-gradient(circle, #0a0f1e 60%, #000510 100%) !important;
-  border-radius: 50% !important;
-  padding: 3px;
-  filter: drop-shadow(0 0 8px rgba(0, 153, 204, 0.7))
-          drop-shadow(0 0 16px rgba(0, 212, 255, 0.4));
-  animation: logoPulseSmall 3s ease-in-out infinite;
-}
-
-/* Chat header logo في الوضع الفاتح */
-[data-theme="light"] .chat-header-logo {
-  mix-blend-mode: normal;
-  background: radial-gradient(circle, #0a0f1e 60%, #000510 100%) !important;
-  border-radius: 50% !important;
-  padding: 3px;
-  filter: drop-shadow(0 0 8px rgba(0, 153, 204, 0.7));
 }
 
 /* ==================== SHOOTING STARS ==================== */
