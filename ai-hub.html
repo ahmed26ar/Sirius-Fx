@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="assets/logo_new.png" type="image/png">
+  <link rel="icon" href="assets/logo_new.png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .page-hero { text-align: center; padding: 60px 0 40px; }
@@ -36,8 +36,7 @@
   <nav class="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="logo">
-        <!-- تم إصلاح الشعار: استخدام SVG احتياطي عند الخطأ -->
-        <img src="assets/logo_new.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHZpZXdCb3g9IjAgMCA0NCA0NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMiIgY3k9IjIyIiByPSIyMiIgZmlsbD0iIzAwMDAwMCIvPjx0ZXh0IHg9IjIyIiB5PSIyOCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMDBkNGZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+UzwvdGV4dD48L3N2Zz4=';">
+        <img src="assets/logo_new.png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo_new.png.png';">
         <span class="logo-text">Sirius&nbsp;<span class="accent">Fx</span></span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -99,8 +98,7 @@
       </p>
       <div class="chat-window">
         <div class="chat-header">
-          <!-- إصلاح الشعار في المحادثة أيضًا -->
-          <img src="assets/logo_new.png" alt="Sirius AI" class="chat-header-logo" width="40" height="40" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzAwMDAwMCIvPjx0ZXh0IHg9IjIwIiB5PSIyNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMDBkNGZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+UzwvdGV4dD48L3N2Zz4=';">
+          <img src="assets/logo_new.png.png" alt="Sirius AI" class="chat-header-logo" width="40" height="40" onerror="this.src='assets/logo_new.png.png'">
           <div><strong>Sirius AI</strong><span>متصل الآن</span></div>
         </div>
         <div class="chat-messages" id="chatMessages">
@@ -138,7 +136,6 @@
   </div>
 
   <script>
-    // ===== THEME =====
     const html = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     themeToggle?.addEventListener('click', () => {
@@ -148,13 +145,11 @@
     });
     html.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
 
-    // ===== MOBILE MENU =====
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     navToggle?.addEventListener('click', () => navLinks.classList.toggle('open'));
     navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
 
-    // ===== SIRIUS AI CHAT (مُحدّث) =====
     const AI_WORKER = 'https://yellow-block-03cc.6611zzrru.workers.dev';
 
     function askQuick(q) {
@@ -168,7 +163,6 @@
       const text = input.value.trim();
       if (!text) return;
 
-      // إضافة رسالة المستخدم
       const userMsg = document.createElement('div');
       userMsg.className = 'chat-msg chat-msg--user';
       userMsg.textContent = text;
@@ -176,7 +170,6 @@
       input.value = '';
       box.scrollTop = box.scrollHeight;
 
-      // إظهار مؤشر الكتابة
       const typingEl = document.createElement('div');
       typingEl.className = 'chat-msg chat-msg--bot chat-typing';
       typingEl.textContent = 'Sirius AI يفكر...';
@@ -189,10 +182,8 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: text, lang: 'ar' })
         });
-
         const data = await response.json();
         typingEl.remove();
-
         const botMsg = document.createElement('div');
         botMsg.className = 'chat-msg chat-msg--bot';
         botMsg.textContent = data.reply || '⚠️ لم أستطع الإجابة. حاول مجددًا.';
@@ -209,7 +200,6 @@
       }
     }
 
-    // ربط النموذج بدالة الإرسال
     document.getElementById('chatForm').addEventListener('submit', (e) => {
       e.preventDefault();
       handleSend();
