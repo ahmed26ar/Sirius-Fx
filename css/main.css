@@ -246,6 +246,8 @@ body::after {
   letter-spacing: 1.5px !important; line-height: 1 !important;
   display: inline-flex !important; align-items: center !important;
   gap: 5px !important; white-space: nowrap; color: var(--text);
+  font-family: var(--font-en) !important;
+  font-style: italic;
 }
 .logo-text .accent { color: var(--sky); font-style: italic; }
 .nav-links { display: flex; list-style: none; gap: 8px; }
