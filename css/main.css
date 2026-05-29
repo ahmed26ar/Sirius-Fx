@@ -299,34 +299,115 @@ body::after {
 }
 @keyframes pulse { 0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
 
-/* ==================== NEBULA CANVAS ==================== */
-#nebulaCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
+/* hero-content فوق كل الخلفيات */
+.hero-content { position: relative; z-index: 10; }
 
 /* ==================== PARALLAX STARS CANVAS ==================== */
 #parallaxCanvas {
   position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ==================== BLACK HOLE CANVAS ==================== */
-#blackholeCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 1;
+}
+
+/* ==================== NEBULA CANVAS ==================== */
+#nebulaCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ==================== SATELLITE CANVAS ==================== */
+#satelliteCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ==================== TYPEWRITER ==================== */
+#typewriterText {
+  min-height: 1.8em;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0 auto 36px;
+}
+#typewriterText::after {
+  content: '|';
+  color: var(--sky);
+  animation: blink-cursor 0.75s step-end infinite;
+  margin-inline-start: 2px;
+}
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ==================== INTRO OVERLAY ==================== */
+#introOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000010;
+  pointer-events: none;
+}
+#introCanvas {
+  position: absolute;
+  inset: 0;
+}
+#introLogo {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  animation: introLogoAnim 1.8s ease forwards;
+}
+.intro-star-burst {
+  width: 80px; height: 80px;
+  margin: 0 auto 16px;
+  background: radial-gradient(circle, #ffffff 0%, rgba(0,212,255,0.8) 40%, transparent 70%);
+  border-radius: 50%;
+  animation: introBurst 1.8s ease forwards;
+  box-shadow: 0 0 40px rgba(0,212,255,1), 0 0 80px rgba(0,212,255,0.5);
+}
+.intro-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: #ffffff;
+  text-shadow: 0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.5);
+  animation: introTextAnim 1.8s ease forwards;
+}
+.intro-text span { color: var(--sky); }
+
+@keyframes introBurst {
+  0%   { transform: scale(0.2); opacity: 0; }
+  40%  { transform: scale(1.4); opacity: 1; }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(3);   opacity: 0; }
+}
+@keyframes introLogoAnim {
+  0%   { opacity: 0; transform: scale(0.5); }
+  30%  { opacity: 1; transform: scale(1.05); }
+  70%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes introTextAnim {
+  0%   { opacity: 0; letter-spacing: 20px; }
+  30%  { opacity: 1; letter-spacing: 8px; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* ==================== CUSTOM CURSOR ==================== */
@@ -336,46 +417,44 @@ body::after {
   position: fixed;
   top: 0; left: 0;
   pointer-events: none;
-  z-index: 99999;
+  z-index: 999999;
   opacity: 0;
   transition: opacity 0.3s;
 }
 
-/* النواة — نقطة صغيرة بيضاء */
 .cursor-core {
-  position: absolute;
+  position: fixed;
   width: 8px; height: 8px;
   background: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(0,212,255,0.9), 0 0 16px rgba(0,212,255,0.5);
-  transition: transform 0.05s linear;
-  will-change: transform;
+  box-shadow: 0 0 10px rgba(0,212,255,1), 0 0 20px rgba(0,212,255,0.6);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999999;
 }
 
-/* الحلقة — دائرة أكبر تتبع بتأخير */
 .cursor-ring {
-  position: absolute;
+  position: fixed;
   width: 36px; height: 36px;
-  border: 1.5px solid rgba(0,212,255,0.7);
+  border: 2px solid rgba(0,212,255,0.8);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(0,212,255,0.3), inset 0 0 10px rgba(0,212,255,0.05);
-  transition: width 0.2s, height 0.2s, border-color 0.2s, transform 0.08s linear;
-  will-change: transform;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999998;
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
 }
 
 .cursor-ring.ring-hover {
-  width: 52px; height: 52px;
+  width: 54px; height: 54px;
   border-color: rgba(0,212,255,1);
-  box-shadow: 0 0 20px rgba(0,212,255,0.6), inset 0 0 20px rgba(0,212,255,0.1);
-  margin-left: -8px; margin-top: -8px;
+  box-shadow: 0 0 20px rgba(0,212,255,0.5);
 }
 
-/* أثر المؤشر */
 #cursorTrail {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0;
   pointer-events: none;
-  z-index: 99998;
+  z-index: 999997;
 }
 .hero-content { position: relative; z-index: 1; text-align: center; padding: 80px 0; }
 .hero-badge { display: inline-block; padding: 8px 20px; border: 1px solid var(--border); border-radius: 50px; font-size: 14px; color: var(--sky); margin-bottom: 24px; background: var(--sky-glow); }
