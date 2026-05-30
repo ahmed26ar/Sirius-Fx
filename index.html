@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="assets/logo_new_png.png" type="image/png">
+  <link rel="icon" href="assets/logo_new.png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .risk-bar {
@@ -54,18 +54,20 @@
   <nav class="navbar" id="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="logo">
-        <img src="assets/logo_new_png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo_new_png.png';">
-        <span class="logo-text" dir="ltr">Sirius&nbsp;<span class="accent">Fx</span></span>
+        <img src="assets/logo_new.png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo_new.png.png';">
+        <span class="logo-text">Sirius&nbsp;<span class="accent">Fx</span></span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
       <ul class="nav-links" id="navLinks">
-  <li><a href="index.html" class="active">🏠 الرئيسية</a></li>
-  <li><a href="dashboard.html">📊 Dashboard</a></li>
-  <li><a href="ai-hub.html">🤖 مركز AI</a></li>
-  <li><a href="alerts.html">🚨 التنبيهات</a></li>
-</ul>
+        <li><a href="index.html" class="active">🏠 الرئيسية</a></li>
+        <li><a href="ai-hub.html">🤖 مركز AI</a></li>
+        <li><a href="alerts.html">🚨 التنبيهات</a></li>
+        <li><a href="#tools">🛠️ الأدوات</a></li>
+        <li><a href="#chart">📊 الشارت</a></li>
+      </ul>
       <div class="nav-controls">
         <button class="ctrl-btn" id="langToggle">EN</button>
+        <button class="ctrl-btn" id="themeToggle"><span class="icon-sun">☀</span><span class="icon-moon">☾</span></button>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm">تيليجرام</a>
       </div>
     </div>
@@ -73,17 +75,12 @@
 
   <!-- ===== HERO ===== -->
   <section id="home" class="hero">
-    <div class="hero-bg">
-      <canvas id="parallaxCanvas"></canvas>
-      <div class="star-field"></div>
-      <canvas id="nebulaCanvas"></canvas>
-      <canvas id="blackholeCanvas"></canvas>
-      <div class="hero-glow"></div>
-    </div>
+    <div class="hero-bg"><div class="star-field"></div><div class="hero-glow"></div></div>
     <div class="container hero-content">
-
+      <img src="assets/logo_new.png.png" alt="Sirius Fx" class="hero-logo" width="140" height="140" onerror="this.onerror=null;this.src='assets/logo_new.png.png';">
+      <div class="hero-badge" data-i18n="hero.badge">Badge</div>
       <h1 class="hero-title">Sirius <span class="accent">Fx</span></h1>
-      <p class="hero-subtitle" id="typewriterText"></p>
+      <p class="hero-subtitle" data-i18n="hero.subtitle">Subtitle</p>
       <div class="hero-actions">
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="hero.cta">Join</a>
         <a href="#chart" class="btn btn-outline btn-lg" data-i18n="hero.chartBtn">Live Chart</a>
@@ -311,7 +308,7 @@
       <div class="chat-layout">
         <div class="chat-window">
           <div class="chat-header">
-            <img src="assets/logo_new_png.png" alt="" width="40" height="40" class="chat-header-logo" onerror="this.src='assets/logo_new_png.png'">
+            <img src="assets/logo_new.png.png" alt="" width="40" height="40" class="chat-header-logo" onerror="this.src='assets/logo_new.png.png'">
             <div><strong data-i18n="chat.assistant">Sirius AI</strong><span data-i18n="chat.online">Online</span></div>
           </div>
           <div class="chat-messages" id="chatMessages"></div>
@@ -387,7 +384,7 @@
   <!-- ===== RISK BAR ===== -->
   <div class="risk-bar">
     <span class="risk-icon">⚠️</span>
-    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
+    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال .</span>
   </div>
 
   <script src="js/config.js"></script>
@@ -399,335 +396,5 @@
   <script src="js/chart.js"></script>
   <script src="js/news.js"></script>
   <script src="js/app.js"></script>
-
-  <!-- ===== CUSTOM CURSOR ===== -->
-
-  <script src="js/config.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/trading-tools.js"></script>
-  <script src="js/ai-tools.js"></script>
-  <script src="js/market-chat.js"></script>
-  <script src="js/chart.js"></script>
-  <script src="js/news.js"></script>
-  <script src="js/app.js"></script>
-
-  <!-- ===== SPACE EFFECTS ===== -->
-  <script>
-  /* ──────────────────────────────────────────
-     1. PARALLAX STARS
-  ────────────────────────────────────────── */
-  (function(){
-    const canvas = document.getElementById('parallaxCanvas');
-    const ctx    = canvas.getContext('2d');
-    let W, H, mouseX = 0, mouseY = 0;
-
-    const LAYERS = [
-      { count: 120, speed: 0.012, size: 0.8,  alpha: 0.5  },
-      { count:  70, speed: 0.025, size: 1.4,  alpha: 0.7  },
-      { count:  30, speed: 0.045, size: 2.2,  alpha: 0.9  },
-    ];
-    let stars = [];
-
-    function resize(){
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-
-    function init(){
-      stars = [];
-      LAYERS.forEach(l => {
-        for(let i = 0; i < l.count; i++){
-          stars.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            baseX: Math.random() * W,
-            baseY: Math.random() * H,
-            size:  l.size + Math.random() * l.size,
-            alpha: l.alpha * (0.5 + Math.random() * 0.5),
-            speed: l.speed,
-            twinkle: Math.random() * Math.PI * 2,
-          });
-        }
-      });
-    }
-
-    function draw(){
-      ctx.clearRect(0, 0, W, H);
-      const cx = W / 2, cy = H / 2;
-      const dx = (mouseX - cx) / cx;
-      const dy = (mouseY - cy) / cy;
-
-      stars.forEach(s => {
-        s.twinkle += 0.02;
-        const a = s.alpha * (0.7 + 0.3 * Math.sin(s.twinkle));
-        const px = s.baseX + dx * s.speed * W * 0.5;
-        const py = s.baseY + dy * s.speed * H * 0.5;
-
-        ctx.beginPath();
-        ctx.arc(px, py, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${a})`;
-        ctx.fill();
-
-        // نجوم مضيئة بلمعة زرقاء
-        if(s.size > 2){
-          ctx.beginPath();
-          ctx.arc(px, py, s.size * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0,212,255,${a * 0.15})`;
-          ctx.fill();
-        }
-      });
-      requestAnimationFrame(draw);
-    }
-
-    window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-    window.addEventListener('resize', () => { resize(); init(); });
-    resize(); init(); draw();
-  })();
-
-  /* ──────────────────────────────────────────
-     2. NEBULA
-  ────────────────────────────────────────── */
-  (function() {
-    const canvas = document.getElementById('nebulaCanvas');
-    const ctx = canvas.getContext('2d');
-    let angle = 0, W, H;
-
-    function resize() {
-      const hero = document.getElementById('home');
-      W = canvas.width  = hero.offsetWidth;
-      H = canvas.height = hero.offsetHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    const layers = [
-      { rx: 0.38, ry: 0.18, ox: -0.12, oy: -0.08, color: 'rgba(0,212,255,',  alpha: 0.22, blur: 90,  speed: 1.0  },
-      { rx: 0.28, ry: 0.32, ox:  0.14, oy:  0.10, color: 'rgba(80,0,255,',   alpha: 0.16, blur: 110, speed: -0.7 },
-      { rx: 0.22, ry: 0.14, ox: -0.18, oy:  0.16, color: 'rgba(0,255,180,',  alpha: 0.13, blur: 80,  speed: 1.4  },
-      { rx: 0.32, ry: 0.20, ox:  0.10, oy: -0.14, color: 'rgba(0,100,255,',  alpha: 0.18, blur: 120, speed: -1.1 },
-      { rx: 0.18, ry: 0.26, ox: -0.06, oy:  0.20, color: 'rgba(180,0,255,',  alpha: 0.12, blur: 95,  speed: 0.8  },
-      { rx: 0.25, ry: 0.15, ox:  0.20, oy: -0.06, color: 'rgba(0,200,255,',  alpha: 0.10, blur: 70,  speed: -1.3 },
-    ];
-
-    function drawLayer(layer, a) {
-      const sa = a * layer.speed;
-      const cx = W / 2, cy = H / 2;
-      const dx = Math.cos(sa) * layer.ox * W - Math.sin(sa) * layer.oy * H;
-      const dy = Math.sin(sa) * layer.ox * W + Math.cos(sa) * layer.oy * H;
-      ctx.save();
-      ctx.filter = `blur(${layer.blur}px)`;
-      ctx.globalAlpha = layer.alpha;
-      const grad = ctx.createRadialGradient(cx+dx, cy+dy, 0, cx+dx, cy+dy, Math.max(layer.rx*W, layer.ry*H));
-      grad.addColorStop(0,   layer.color + '1)');
-      grad.addColorStop(0.4, layer.color + '0.5)');
-      grad.addColorStop(1,   layer.color + '0)');
-      ctx.beginPath();
-      ctx.save();
-      ctx.translate(cx+dx, cy+dy);
-      ctx.rotate(sa * 0.5);
-      ctx.scale(layer.rx * W / (layer.ry * H), 1);
-      ctx.arc(0, 0, layer.ry * H, 0, Math.PI * 2);
-      ctx.restore();
-      ctx.fillStyle = grad;
-      ctx.fill();
-      ctx.restore();
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-      angle += 0.002;
-      layers.forEach(l => drawLayer(l, angle));
-      requestAnimationFrame(draw);
-    }
-    draw();
-  })();
-
-  /* ──────────────────────────────────────────
-     3. BLACK HOLE
-  ────────────────────────────────────────── */
-  (function(){
-    const canvas = document.getElementById('blackholeCanvas');
-    const ctx    = canvas.getContext('2d');
-    let W, H, t = 0;
-
-    // جسيمات القرص التراكمي
-    const DISK_PARTICLES = 380;
-    const particles = [];
-
-    function resize(){
-      const hero = document.getElementById('home');
-      W = canvas.width  = hero.offsetWidth;
-      H = canvas.height = hero.offsetHeight;
-    }
-
-    function initParticles(){
-      particles.length = 0;
-      for(let i = 0; i < DISK_PARTICLES; i++){
-        spawnParticle(i / DISK_PARTICLES * Math.PI * 2);
-      }
-    }
-
-    function spawnParticle(angleOffset){
-      const R   = Math.min(W, H) * 0.22;   // نصف قطر القرص
-      const spread = 0.38;
-      const angle  = angleOffset || Math.random() * Math.PI * 2;
-      const r      = R * (0.75 + Math.random() * spread);
-      // لون من أبيض → أزرق → برتقالي حسب المسافة
-      const t = Math.random();
-      const colors = t < 0.33
-        ? `rgba(255,255,255,`
-        : t < 0.66
-          ? `rgba(0,200,255,`
-          : `rgba(255,160,40,`;
-      particles.push({
-        angle,
-        r,
-        baseR:  r,
-        speed:  (0.008 + Math.random() * 0.014) * (Math.random() < 0.5 ? 1 : -1),
-        size:   0.6 + Math.random() * 1.8,
-        alpha:  0.4 + Math.random() * 0.6,
-        color:  colors,
-        life:   0,
-        maxLife: 200 + Math.random() * 300,
-      });
-    }
-
-    function draw(){
-      ctx.clearRect(0, 0, W, H);
-      t += 0.008;
-
-      const cx = W / 2;
-      const cy = H / 2;
-      const R  = Math.min(W, H) * 0.22;
-      const BH = R * 0.32;   // نصف قطر الثقب الأسود
-
-      // ── توهج الـ Accretion Disk ──
-      const diskGrad = ctx.createRadialGradient(cx, cy, BH * 0.9, cx, cy, R * 1.3);
-      diskGrad.addColorStop(0,   'rgba(0,212,255,0.0)');
-      diskGrad.addColorStop(0.3, 'rgba(0,180,255,0.06)');
-      diskGrad.addColorStop(0.6, 'rgba(255,140,0,0.08)');
-      diskGrad.addColorStop(1,   'rgba(0,0,0,0)');
-      ctx.save();
-      ctx.filter = 'blur(18px)';
-      ctx.beginPath();
-      ctx.arc(cx, cy, R * 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = diskGrad;
-      ctx.fill();
-      ctx.restore();
-
-      // ── رسم جسيمات القرص ──
-      particles.forEach((p, idx) => {
-        p.angle += p.speed;
-        p.life++;
-
-        // تأثير الشد نحو المركز (gravitational lensing)
-        const pull = 1 - (p.life / p.maxLife) * 0.25;
-        p.r = p.baseR * pull;
-
-        const x = cx + Math.cos(p.angle) * p.r;
-        const y = cy + Math.sin(p.angle) * p.r * 0.28; // مسطّح يعطي شكل القرص
-
-        // تلاشي عند الاقتراب
-        const distRatio = p.r / R;
-        const fade = distRatio < 0.85 ? distRatio / 0.85 : 1;
-        const a    = p.alpha * fade * (0.6 + 0.4 * Math.sin(t * 3 + p.angle));
-
-        ctx.beginPath();
-        ctx.arc(x, y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + a + ')';
-        ctx.fill();
-
-        // إعادة توليد الجسيم
-        if(p.life >= p.maxLife || p.r < BH * 1.1){
-          particles[idx] = null;
-          spawnParticle();
-        }
-      });
-
-      // تنظيف null
-      for(let i = particles.length - 1; i >= 0; i--){
-        if(particles[i] === null) particles.splice(i, 1);
-      }
-
-      // ── الثقب الأسود نفسه ──
-      // هالة خارجية
-      const halo = ctx.createRadialGradient(cx, cy, BH * 0.7, cx, cy, BH * 2.2);
-      halo.addColorStop(0,   'rgba(0,0,0,1)');
-      halo.addColorStop(0.5, 'rgba(0,212,255,0.25)');
-      halo.addColorStop(0.75,'rgba(0,80,180,0.12)');
-      halo.addColorStop(1,   'rgba(0,0,0,0)');
-      ctx.save();
-      ctx.filter = 'blur(6px)';
-      ctx.beginPath();
-      ctx.arc(cx, cy, BH * 2.2, 0, Math.PI * 2);
-      ctx.fillStyle = halo;
-      ctx.fill();
-      ctx.restore();
-
-      // الجسم الأسود الصلب
-      const core = ctx.createRadialGradient(cx, cy, 0, cx, cy, BH);
-      core.addColorStop(0,   '#000000');
-      core.addColorStop(0.85,'#000005');
-      core.addColorStop(1,   'rgba(0,10,30,0)');
-      ctx.beginPath();
-      ctx.arc(cx, cy, BH, 0, Math.PI * 2);
-      ctx.fillStyle = core;
-      ctx.fill();
-
-      // خط ضوئي يدور حول الحافة (photon ring)
-      ctx.save();
-      ctx.globalAlpha = 0.55 + 0.45 * Math.sin(t * 1.5);
-      const ring = ctx.createRadialGradient(cx, cy, BH * 0.88, cx, cy, BH * 1.12);
-      ring.addColorStop(0,   'rgba(0,212,255,0)');
-      ring.addColorStop(0.5, 'rgba(0,212,255,0.9)');
-      ring.addColorStop(1,   'rgba(0,212,255,0)');
-      ctx.beginPath();
-      ctx.arc(cx, cy, BH, 0, Math.PI * 2);
-      ctx.strokeStyle = ring;
-      ctx.lineWidth   = BH * 0.22;
-      ctx.stroke();
-      ctx.restore();
-
-      requestAnimationFrame(draw);
-    }
-
-    resize();
-    initParticles();
-    draw();
-    window.addEventListener('resize', () => { resize(); initParticles(); });
-  })();
-
-  /* ──────────────────────────────────────────
-     4. TYPEWRITER EFFECT
-  ────────────────────────────────────────── */
-  (function(){
-    const el = document.getElementById('typewriterText');
-    if(!el) return;
-
-    const phrases = [
-      'تداول أذكى مع قوة الذكاء الاصطناعي 🤖',
-      'إشارات دقيقة في الوقت الفعلي 📡',
-      'استكشف الأسواق كالكون اللانهائي 🌌',
-      'AI Tools · Live Signals · Pro Education ✦',
-    ];
-
-    let pi = 0, ci = 0, deleting = false, pause = 0;
-
-    function tick(){
-      const phrase = phrases[pi];
-      if(pause > 0){ pause--; setTimeout(tick, 60); return; }
-      if(!deleting){
-        el.textContent = phrase.slice(0, ++ci);
-        if(ci === phrase.length){ deleting = true; pause = 55; }
-      } else {
-        el.textContent = phrase.slice(0, --ci);
-        if(ci === 0){ deleting = false; pi = (pi + 1) % phrases.length; pause = 18; }
-      }
-      setTimeout(tick, deleting ? 38 : 72);
-    }
-    setTimeout(tick, 300);
-  })();
-  </script>
 </body>
 </html>
