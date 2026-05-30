@@ -170,8 +170,9 @@ body::after {
   line-height: 1 !important;
   display: inline-flex !important;
   align-items: center !important;
+  gap: 5px !important;
   white-space: nowrap;
-  color: var(--sky);
+  color: var(--white);
   font-family: 'Inter', sans-serif !important;
   font-style: italic;
 }
