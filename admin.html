@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sirius Fx — لوحة التحكم</title>
+  <link rel="icon" href="assets/logo_new_png.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sky: #00d4ff; --sky-glow: rgba(0,212,255,0.2);
+      --bg: #000010; --card: rgba(10,15,30,0.85);
+      --border: rgba(0,212,255,0.18); --text: #ffffff; --muted: #94a3b8;
+      --buy: #22c55e; --sell: #ef4444;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0,212,255,0.1), transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    body > * { position: relative; z-index: 1; }
+
+    /* ===== LOGIN ===== */
+    #loginScreen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    }
+    .login-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px 40px; width: 360px;
+      backdrop-filter: blur(16px); text-align: center;
+    }
+    .login-box img { width: 64px; height: 64px; border-radius: 50%; margin-bottom: 20px; border: 2px solid var(--border); }
+    .login-box h2 { font-size: 1.4rem; margin-bottom: 6px; }
+    .login-box p  { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
+    .input-field {
+      width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 10px; color: var(--text);
+      font-family: inherit; font-size: 14px; margin-bottom: 14px;
+      transition: border-color .25s;
+    }
+    .input-field:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
+    .btn-primary {
+      width: 100%; padding: 13px; background: var(--sky); color: #000;
+      border: none; border-radius: 10px; font-family: inherit; font-size: 15px;
+      font-weight: 800; cursor: pointer; transition: all .25s;
+    }
+    .btn-primary:hover { background: #0099cc; transform: translateY(-1px); }
+    .login-error { color: var(--sell); font-size: 12px; margin-top: 10px; }
+
+    /* ===== DASHBOARD ===== */
+    #dashboard { display: none; }
+
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 68px;
+      background: rgba(0,0,0,0.8); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+    .nav-logo img { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); }
+    .nav-logo span { font-family: 'Inter', sans-serif; font-weight: 800; font-style: italic; font-size: 1.1rem; }
+    .nav-logo span em { color: var(--sky); }
+    .admin-badge {
+      background: rgba(0,212,255,0.1); color: var(--sky);
+      border: 1px solid rgba(0,212,255,0.3); border-radius: 50px;
+      font-size: 11px; font-weight: 700; padding: 4px 12px; letter-spacing: 1px;
+    }
+    .btn-logout {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      padding: 7px 14px; border-radius: 8px; cursor: pointer; font-family: inherit;
+      font-size: 12px; transition: all .25s;
+    }
+    .btn-logout:hover { border-color: var(--sell); color: var(--sell); }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+
+    /* ===== FORM ===== */
+    .form-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 36px;
+      backdrop-filter: blur(16px); margin-bottom: 40px;
+    }
+    .form-card h3 {
+      font-size: 1.2rem; color: var(--sky); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .form-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; margin-bottom: 20px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .5px; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 11px 14px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text); font-family: inherit; font-size: 14px; transition: border-color .25s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow);
+    }
+    .form-group select option { background: #0a0f1e; }
+
+    /* أزرار الاتجاه */
+    .dir-btns { display: flex; gap: 10px; }
+    .dir-btn {
+      flex: 1; padding: 11px; border-radius: 10px; border: 2px solid var(--border);
+      background: transparent; color: var(--muted); font-family: inherit;
+      font-size: 14px; font-weight: 800; cursor: pointer; transition: all .25s; letter-spacing: 1px;
+    }
+    .dir-btn.buy.active  { background: rgba(34,197,94,0.15); border-color: var(--buy); color: var(--buy); }
+    .dir-btn.sell.active { background: rgba(239,68,68,0.15);  border-color: var(--sell); color: var(--sell); }
+    .dir-btn.buy:hover   { border-color: var(--buy); color: var(--buy); }
+    .dir-btn.sell:hover  { border-color: var(--sell); color: var(--sell); }
+
+    .rr-preview {
+      display: inline-block; background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2); border-radius: 8px;
+      padding: 8px 16px; font-size: 13px; font-family: 'Inter', monospace;
+      color: var(--sky); margin-bottom: 20px;
+    }
+
+    .btn-publish {
+      width: 100%; padding: 15px; background: var(--sky); color: #000;
+      border: none; border-radius: 12px; font-family: inherit; font-size: 16px;
+      font-weight: 800; cursor: pointer; transition: all .3s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-publish:hover { background: #0099cc; transform: translateY(-2px); box-shadow: 0 8px 24px var(--sky-glow); }
+    .btn-publish:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    /* toast */
+    #toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: rgba(10,15,30,0.95); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 28px; font-size: 14px; font-weight: 600;
+      backdrop-filter: blur(16px); transition: transform .35s ease; z-index: 9999;
+      pointer-events: none; white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.success { border-color: var(--buy); color: var(--buy); }
+    #toast.error   { border-color: var(--sell); color: var(--sell); }
+
+    /* ===== SIGNALS TABLE ===== */
+    .table-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px; backdrop-filter: blur(16px);
+    }
+    .table-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+    }
+    .table-header h3 { font-size: 1.1rem; color: var(--sky); }
+    .table-count { font-size: 12px; color: var(--muted); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: right; padding: 10px 12px; color: var(--muted);
+      font-size: 11px; font-weight: 700; letter-spacing: .5px;
+      border-bottom: 1px solid var(--border); font-family: 'Inter', sans-serif;
+    }
+    td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .tbl-pair { font-family: 'Inter', monospace; font-weight: 700; font-size: 14px; }
+    .tbl-dir  { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 50px; }
+    .tbl-dir.buy  { background: rgba(34,197,94,0.12); color: var(--buy); }
+    .tbl-dir.sell { background: rgba(239,68,68,0.12);  color: var(--sell); }
+
+    .status-select {
+      padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04); color: var(--text);
+      font-family: inherit; font-size: 12px; cursor: pointer;
+    }
+    .status-select:focus { outline: none; border-color: var(--sky); }
+
+    .btn-delete {
+      background: transparent; border: 1px solid rgba(239,68,68,0.3); color: var(--sell);
+      padding: 5px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;
+      font-family: inherit; transition: all .2s;
+    }
+    .btn-delete:hover { background: rgba(239,68,68,0.1); }
+
+    .empty-row td { text-align: center; color: var(--muted); padding: 40px; }
+
+    @media(max-width:700px){
+      .form-grid { grid-template-columns: 1fr 1fr; }
+      nav { padding: 0 16px; }
+      table { font-size: 11px; }
+      th, td { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== شاشة الدخول ===== -->
+  <div id="loginScreen">
+    <div class="login-box">
+      <img src="assets/logo_new_png.png" alt="Sirius Fx">
+      <h2>لوحة التحكم</h2>
+      <p>أدخل كلمة المرور للدخول</p>
+      <input type="password" id="passInput" class="input-field" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')login()">
+      <button class="btn-primary" onclick="login()">دخول 🔐</button>
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </div>
+
+  <!-- ===== لوحة التحكم ===== -->
+  <div id="dashboard">
+
+    <nav>
+      <div class="nav-logo">
+        <img src="assets/logo_new_png.png" alt="">
+        <span>Sirius <em>Fx</em></span>
+      </div>
+      <span class="admin-badge">⚙️ ADMIN</span>
+      <button class="btn-logout" onclick="logout()">تسجيل خروج</button>
+    </nav>
+
+    <div class="container">
+
+      <!-- ===== فورم نشر إشارة ===== -->
+      <div class="form-card">
+        <h3>📡 نشر إشارة جديدة</h3>
+
+        <div class="form-grid">
+          <!-- الزوج -->
+          <div class="form-group">
+            <label>الزوج</label>
+            <select id="fPair">
+              <option>XAU/USD</option>
+              <option>EUR/USD</option>
+              <option>GBP/USD</option>
+              <option>USD/JPY</option>
+              <option>BTC/USD</option>
+              <option>ETH/USD</option>
+              <option>USD/CAD</option>
+              <option>AUD/USD</option>
+              <option>NAS100</option>
+              <option>US30</option>
+            </select>
+          </div>
+          <!-- Entry -->
+          <div class="form-group">
+            <label>Entry</label>
+            <input type="number" id="fEntry" placeholder="1.0850" step="0.00001" oninput="updateRR()">
+          </div>
+          <!-- SL -->
+          <div class="form-group">
+            <label>Stop Loss</label>
+            <input type="number" id="fSL" placeholder="1.0820" step="0.00001" oninput="updateRR()">
+          </div>
+          <!-- TP -->
+          <div class="form-group">
+            <label>Take Profit</label>
+            <input type="number" id="fTP" placeholder="1.0910" step="0.00001" oninput="updateRR()">
+          </div>
+        </div>
+
+        <!-- الاتجاه -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label>الاتجاه</label>
+          <div class="dir-btns">
+            <button class="dir-btn buy active" id="btnBuy"  onclick="setDir('buy')">▲ BUY</button>
+            <button class="dir-btn sell"       id="btnSell" onclick="setDir('sell')">▼ SELL</button>
+          </div>
+        </div>
+
+        <!-- تعليق اختياري -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label>تعليق (اختياري)</label>
+          <input type="text" id="fComment" placeholder="مثال: فرصة على H4 مع تقاطع MA...">
+        </div>
+
+        <!-- R:R تلقائي -->
+        <div class="rr-preview" id="rrPreview">R:R — </div>
+
+        <button class="btn-publish" id="publishBtn" onclick="publishSignal()">
+          📡 نشر الإشارة الآن
+        </button>
+      </div>
+
+      <!-- ===== جدول الإشارات ===== -->
+      <div class="table-card">
+        <div class="table-header">
+          <h3>📋 الإشارات المنشورة</h3>
+          <span class="table-count" id="tableCount">0 إشارة</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>الزوج</th>
+                <th>الاتجاه</th>
+                <th>Entry</th>
+                <th>SL</th>
+                <th>TP</th>
+                <th>R:R</th>
+                <th>الحالة</th>
+                <th>الوقت</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody id="signalsTable">
+              <tr class="empty-row"><td colspan="9">لا توجد إشارات بعد</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, remove, update, onValue }
+      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // ضع هنا نفس بيانات مشروعك
+    const firebaseConfig = {
+      apiKey:            "AIzaSyAzw8QculXm6UVwWsll0Pmf5ssjlh94u7Q",
+      authDomain:        "siriusfx-8d0a4.firebaseapp.com",
+      databaseURL:       "https://siriusfx-8d0a4-default-rtdb.firebaseio.com",
+      projectId:         "siriusfx-8d0a4",
+      storageBucket:     "siriusfx-8d0a4.firebasestorage.app",
+      messagingSenderId: "966126767772",
+      appId:             "1:966126767772:web:1d9db795661c760d962759"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+
+    // ── كلمة المرور — غيّرها لما تريد ──
+    const ADMIN_PASSWORD = "sirius2026";
+
+    window.login = function(){
+      const val = document.getElementById('passInput').value;
+      if(val === ADMIN_PASSWORD){
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('dashboard').style.display   = 'block';
+        loadSignals();
+      } else {
+        document.getElementById('loginError').textContent = '❌ كلمة المرور خاطئة';
+      }
+    };
+
+    window.logout = function(){
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('dashboard').style.display   = 'none';
+      document.getElementById('passInput').value = '';
+    };
+
+    // ── اتجاه الصفقة ──
+    let currentDir = 'buy';
+    window.setDir = function(dir){
+      currentDir = dir;
+      document.getElementById('btnBuy').classList.toggle('active',  dir==='buy');
+      document.getElementById('btnSell').classList.toggle('active', dir==='sell');
+    };
+
+    // ── R:R تلقائي ──
+    window.updateRR = function(){
+      const e = parseFloat(document.getElementById('fEntry').value);
+      const s = parseFloat(document.getElementById('fSL').value);
+      const t = parseFloat(document.getElementById('fTP').value);
+      if(e && s && t){
+        const risk = Math.abs(e-s), reward = Math.abs(t-e);
+        const rr = risk ? (reward/risk).toFixed(2) : null;
+        document.getElementById('rrPreview').textContent = rr ? `R:R ${rr}` : 'R:R —';
+      }
+    };
+
+    // ── نشر إشارة ──
+    window.publishSignal = async function(){
+      const pair    = document.getElementById('fPair').value;
+      const entry   = document.getElementById('fEntry').value.trim();
+      const sl      = document.getElementById('fSL').value.trim();
+      const tp      = document.getElementById('fTP').value.trim();
+      const comment = document.getElementById('fComment').value.trim();
+
+      if(!entry || !sl || !tp){
+        showToast('❗ أدخل Entry و SL و TP', 'error'); return;
+      }
+
+      const btn = document.getElementById('publishBtn');
+      btn.disabled = true; btn.textContent = 'جاري النشر...';
+
+      try {
+        await push(ref(db, 'signals'), {
+          pair, entry, sl, tp, comment,
+          direction: currentDir,
+          status: 'active',
+          timestamp: Date.now()
+        });
+        // تفريغ الحقول
+        ['fEntry','fSL','fTP','fComment'].forEach(id => document.getElementById(id).value='');
+        document.getElementById('rrPreview').textContent = 'R:R —';
+        showToast('✅ تم نشر الإشارة!', 'success');
+      } catch(e) {
+        showToast('❌ خطأ في النشر: ' + e.message, 'error');
+      }
+      btn.disabled = false; btn.textContent = '📡 نشر الإشارة الآن';
+    };
+
+    // ── تحميل الإشارات ──
+    function loadSignals(){
+      const signalsRef = ref(db, 'signals');
+      onValue(signalsRef, (snapshot) => {
+        const data    = snapshot.val();
+        const entries = data ? Object.entries(data) : [];
+        renderTable(entries);
+      });
+    }
+
+    function renderTable(entries){
+      const tbody = document.getElementById('signalsTable');
+      document.getElementById('tableCount').textContent = `${entries.length} إشارة`;
+
+      if(!entries.length){
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="9">لا توجد إشارات بعد</td></tr>';
+        return;
+      }
+
+      entries.sort((a,b) => (b[1].timestamp||0) - (a[1].timestamp||0));
+
+      tbody.innerHTML = entries.map(([key, s]) => {
+        const dir = (s.direction||'buy').toLowerCase();
+        const e = parseFloat(s.entry), sl = parseFloat(s.sl), tp = parseFloat(s.tp);
+        const rr = (e&&sl&&tp) ? (Math.abs(tp-e)/Math.abs(e-sl)).toFixed(2) : '—';
+        const t  = s.timestamp ? new Date(s.timestamp).toLocaleString('ar') : '—';
+        return `
+        <tr>
+          <td><span class="tbl-pair">${s.pair||'—'}</span></td>
+          <td><span class="tbl-dir ${dir}">${dir==='buy'?'▲ BUY':'▼ SELL'}</span></td>
+          <td style="font-family:'Inter',monospace;color:#00d4ff">${s.entry||'—'}</td>
+          <td style="font-family:'Inter',monospace;color:#ef4444">${s.sl||'—'}</td>
+          <td style="font-family:'Inter',monospace;color:#22c55e">${s.tp||'—'}</td>
+          <td style="font-family:'Inter',monospace;color:#94a3b8">${rr}</td>
+          <td>
+            <select class="status-select" onchange="updateStatus('${key}', this.value)">
+              <option value="active"  ${s.status==='active'  ?'selected':''}>🔵 نشط</option>
+              <option value="pending" ${s.status==='pending' ?'selected':''}>⏳ معلق</option>
+              <option value="win"     ${s.status==='win'     ?'selected':''}>✅ Win</option>
+              <option value="loss"    ${s.status==='loss'    ?'selected':''}>❌ Loss</option>
+              <option value="closed"  ${s.status==='closed'  ?'selected':''}>⬛ مغلق</option>
+            </select>
+          </td>
+          <td style="font-size:11px;color:#94a3b8">${t}</td>
+          <td><button class="btn-delete" onclick="deleteSignal('${key}')">🗑</button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    window.updateStatus = async function(key, status){
+      try {
+        await update(ref(db, `signals/${key}`), { status });
+        showToast('✅ تم تحديث الحالة', 'success');
+      } catch(e) { showToast('❌ ' + e.message, 'error'); }
+    };
+
+    window.deleteSignal = async function(key){
+      if(!confirm('حذف هذه الإشارة؟')) return;
+      try {
+        await remove(ref(db, `signals/${key}`));
+        showToast('🗑 تم الحذف', 'success');
+      } catch(e) { showToast('❌ ' + e.message, 'error'); }
+    };
+
+    function showToast(msg, type='success'){
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = `show ${type}`;
+      setTimeout(() => t.className = '', 3000);
+    }
+    window.showToast = showToast;
+  </script>
+
+</body>
+</html>
