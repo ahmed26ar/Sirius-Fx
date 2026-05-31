@@ -388,6 +388,142 @@ body::after {
 .tv-calendar-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; min-height: 400px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ==================== ECONOMIC CALENDAR ==================== */
+.cal-filters {
+  display: flex; flex-direction: column; gap: 14px;
+  background: rgba(10,15,30,0.6);
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 24px; margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+}
+.cal-filter-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.cal-filter-label {
+  font-size: 12px; font-weight: 700; color: var(--text-muted);
+  letter-spacing: 1px; min-width: 58px; text-align: right;
+}
+.cal-filter-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.cal-fbtn {
+  padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-muted); font-family: inherit;
+  font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s;
+  white-space: nowrap;
+}
+.cal-fbtn:hover  { border-color: var(--sky); color: var(--sky); }
+.cal-fbtn.active { background: var(--sky); color: #000; border-color: var(--sky); font-weight: 800; }
+.cal-fbtn.high.active   { background: #ef4444; border-color: #ef4444; }
+.cal-fbtn.medium.active { background: #f59e0b; border-color: #f59e0b; color: #000; }
+.cal-fbtn.low.active    { background: #22c55e; border-color: #22c55e; }
+
+/* إحصائيات سريعة */
+.cal-stats {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  padding: 12px 20px; margin-bottom: 16px;
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 10px; font-size: 13px;
+}
+.cal-stat { display: flex; align-items: center; gap: 7px; color: var(--text-muted); }
+.cs-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.cs-dot.high   { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+.cs-dot.medium { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+.cs-dot.low    { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+
+/* الجدول */
+.cal-table-wrap {
+  background: rgba(10,15,30,0.6); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; backdrop-filter: blur(12px);
+}
+.cal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.cal-table thead th {
+  padding: 13px 14px; text-align: right; background: rgba(0,212,255,0.05);
+  border-bottom: 1px solid var(--border); color: var(--text-muted);
+  font-size: 11px; font-weight: 700; letter-spacing: .5px;
+  font-family: 'Inter', sans-serif; white-space: nowrap;
+}
+
+/* صف التاريخ */
+.cal-date-row td {
+  padding: 10px 16px; background: rgba(0,212,255,0.04);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 700; color: var(--sky); letter-spacing: .5px;
+}
+
+/* صفوف الأحداث */
+.cal-row td { padding: 13px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+.cal-row:last-child td { border-bottom: none; }
+.cal-row:hover td { background: rgba(0,212,255,0.03); }
+.cal-row-past { opacity: .55; }
+.cal-row-next td { background: rgba(0,212,255,0.04) !important; }
+.cal-row-next .cal-time { color: var(--sky) !important; font-weight: 700; }
+
+/* الوقت */
+.cal-time {
+  font-family: 'Inter', monospace; font-size: 12px;
+  color: var(--text-muted); white-space: nowrap;
+}
+.next-badge {
+  display: inline-block; margin-inline-start: 6px;
+  background: rgba(0,212,255,0.15); color: var(--sky);
+  border: 1px solid rgba(0,212,255,0.3); border-radius: 4px;
+  font-size: 10px; font-weight: 700; padding: 2px 7px; letter-spacing: .5px;
+}
+
+/* العملة */
+.cal-cur {
+  font-family: 'Inter', monospace; font-size: 11px; font-weight: 800;
+  padding: 3px 9px; border-radius: 5px; letter-spacing: .5px;
+}
+.cur-usd { background: rgba(34,197,94,0.12);  color: #4ade80; }
+.cur-eur { background: rgba(0,51,160,0.2);     color: #60a5fa; }
+.cur-gbp { background: rgba(0,36,125,0.2);     color: #93c5fd; }
+.cur-jpy { background: rgba(188,0,45,0.15);    color: #fca5a5; }
+.cur-xau { background: rgba(255,215,0,0.12);   color: #fbbf24; }
+.cur-cad { background: rgba(255,50,50,0.12);   color: #f87171; }
+.cur-aud { background: rgba(0,150,255,0.12);   color: #7dd3fc; }
+
+/* اسم الحدث */
+.cal-name { font-size: 13px; line-height: 1.4; max-width: 320px; }
+
+/* أيقونة التأثير */
+.imp-dot { font-size: 14px; }
+
+/* الأرقام */
+.cal-num {
+  font-family: 'Inter', monospace; font-size: 12px;
+  color: var(--text-muted); text-align: center; white-space: nowrap;
+}
+.cal-actual { font-weight: 700; color: var(--text); }
+.act-good { color: #22c55e !important; }
+.act-bad  { color: #ef4444 !important; }
+
+/* حالات خاصة */
+.cal-loading, .cal-empty {
+  text-align: center; padding: 48px; color: var(--text-muted); font-size: 14px;
+}
+
+/* فوتر التقويم */
+.cal-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 14px; font-size: 11px; color: var(--text-muted);
+}
+.cal-refresh-btn {
+  background: transparent; border: 1px solid var(--border); color: var(--sky);
+  padding: 6px 14px; border-radius: 8px; cursor: pointer; font-family: inherit;
+  font-size: 12px; font-weight: 600; transition: all .2s;
+}
+.cal-refresh-btn:hover { background: var(--sky-glow); }
+
+/* Responsive */
+@media(max-width: 768px){
+  .cal-table thead th:nth-child(5),
+  .cal-table .cal-row td:nth-child(5) { display: none; }
+  .cal-name { max-width: 180px; font-size: 12px; }
+  .cal-filters { padding: 16px; }
+}
+@media(max-width: 500px){
+  .cal-table thead th:nth-child(6),
+  .cal-table .cal-row td:nth-child(6) { display: none; }
+}
+
 /* ==================== FOOTER & RISK BAR ==================== */
 .footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--text-muted); font-size: 14px; }
 .risk-bar { background: var(--card-bg); border-top: 1px solid var(--border); padding: 14px 24px; text-align: center; font-size: 12px; color: var(--text-muted); line-height: 1.8; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
