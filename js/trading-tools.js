@@ -78,9 +78,9 @@ function buildToolPanels() {
         '<label><span data-i18n="tools.pair"></span><select id="pos-pair">' + opts + '</select></label>' +
         '<button type="submit" class="btn btn-primary" data-i18n="tools.calc"></button>' +
       '</form>' +
-      '<div class="tool-result" id="result-position"></div>' +
+      '<div class="tool-result" id="result-position"></motion>' +
     '</div>' +
-    '<div class="tool-panel" id="panel-pip">' +
+    '<motion class="tool-panel" id="panel-pip">' +
       '<h3 data-i18n="tools.pipTitle"></h3>' +
       '<form class="tool-form" id="form-pip">' +
         '<label><span data-i18n="tools.pair"></span><select id="pip-pair">' + opts + '</select></label>' +
@@ -118,8 +118,10 @@ function buildToolPanels() {
         '<label><span data-i18n="tools.entry"></span><input type="number" id="margin-price" value="1.0850" step="0.0001"></label>' +
         '<button type="submit" class="btn btn-primary" data-i18n="tools.calc"></button>' +
       '</form>' +
-      '<div class="tool-result" id="result-margin"></div>' +
+      '<motion class="tool-result" id="result-margin"></div>' +
     '</div>';
+
+  panels.innerHTML = panels.innerHTML.split('motion').join('div');
 
   bindToolForms();
   if (typeof setLanguage === 'function') setLanguage(currentLang);

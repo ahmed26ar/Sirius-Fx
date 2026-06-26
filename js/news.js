@@ -9,12 +9,12 @@
     {
       name: 'ForexLive',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.forexlive.com%2Ffeed%2F&api_key=public&count=8',
-      logo: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:14px;height:14px;vertical-align:middle"><circle cx="10" cy="10" r="8"/><polyline points="5 13 8 10 11 12 15 7"/></svg>'
+      logo: '📰'
     },
     {
       name: 'Investing.com',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.investing.com%2Frss%2Fnews_25.rss&api_key=public&count=6',
-      logo: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:14px;height:14px;vertical-align:middle"><circle cx="10" cy="10" r="8"/><line x1="8" y1="6" x2="8" y2="14"/><line x1="12" y1="8" x2="12" y2="14"/></svg>'
+      logo: '📊'
     }
   ];
 
@@ -29,9 +29,9 @@
   ];
 
   function impactLabel(impact) {
-    if (impact === 'high') return '<span class="news-impact" title="High Impact"><span class="impact-dot impact-dot--high" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);box-shadow:0 0 6px var(--danger)"></span></span>';
-    if (impact === 'medium') return '<span class="news-impact" title="Medium Impact"><span class="impact-dot impact-dot--medium" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent)"></span></span>';
-    return '<span class="news-impact" title="Low Impact"><span class="impact-dot impact-dot--low" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 6px var(--success)"></span></span>';
+    if (impact === 'high') return '<span class="news-impact high" title="High Impact">🔴</span>';
+    if (impact === 'medium') return '<span class="news-impact medium" title="Medium Impact">🟡</span>';
+    return '<span class="news-impact low" title="Low Impact">🟢</span>';
   }
 
   function timeAgo(dateStr) {
@@ -92,7 +92,7 @@
     }).join('');
 
     feed.innerHTML = '<div class="news-items">' + html + '</div>' +
-      '<div class="news-footer"><a href="https://t.me/srfx0" target="_blank" class="news-more-btn" data-i18n="news.more">المزيد من الأخبار على تيليجرام</a></div>';
+      '<div class="news-footer"><a href="https://t.me/srfx0" target="_blank" class="news-more-btn" data-i18n="news.more">المزيد من الأخبار على تيليجرام ←</a></div>';
   }
 
   function renderFallback() {
@@ -110,7 +110,7 @@
         '</a>';
     }).join('');
     feed.innerHTML = '<div class="news-items">' + html + '</div>' +
-      '<div class="news-footer"><a href="https://t.me/srfx0" target="_blank" class="news-more-btn">المزيد من الأخبار على تيليجرام</a></div>';
+      '<div class="news-footer"><a href="https://t.me/srfx0" target="_blank" class="news-more-btn">المزيد من الأخبار على تيليجرام ←</a></div>';
   }
 
   async function fetchNews() {

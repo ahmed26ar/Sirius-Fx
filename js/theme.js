@@ -19,6 +19,5 @@ function toggleTheme() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setTheme(getPreferredTheme());
-  var toggleBtn = document.getElementById('themeToggle');
-  if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
+  document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
 });

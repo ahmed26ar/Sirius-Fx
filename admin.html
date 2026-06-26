@@ -3,13 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>لوحة التحكم | Sirius Fx</title>
+  <title>Sirius Fx — لوحة التحكم</title>
   <link rel="icon" href="assets/logo_new_png.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#000010">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -190,26 +185,11 @@
 
     .empty-row td { text-align: center; color: var(--muted); padding: 40px; }
 
-    @media(max-width:768px){
-      .form-grid { grid-template-columns: 1fr; }
-      .form-card { padding: 24px 16px; }
+    @media(max-width:700px){
+      .form-grid { grid-template-columns: 1fr 1fr; }
       nav { padding: 0 16px; }
-      .container { padding: 24px 16px; }
       table { font-size: 11px; }
       th, td { padding: 8px; }
-      .login-box { padding: 32px 24px; width: auto; margin: 0 16px; }
-    }
-    @media(max-width:480px){
-      .form-grid { grid-template-columns: 1fr; }
-      .table-card { padding: 16px; overflow-x: auto; }
-      .dir-btns { flex-direction: column; }
-      table { font-size: 10px; }
-      th, td { padding: 6px 4px; white-space: nowrap; }
-      .tbl-pair { font-size: 12px; }
-      .btn-publish { font-size: 14px; padding: 12px; }
-      nav { height: 56px; }
-      .nav-logo img { width: 28px; height: 28px; }
-      .nav-logo span { font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -220,8 +200,7 @@
     <div class="login-box">
       <img src="assets/logo_new_png.png" alt="Sirius Fx">
       <h2>لوحة التحكم</h2>
-      <p>أدخل البريد الإلكتروني وكلمة المرور</p>
-      <input type="email" id="emailInput" class="input-field" placeholder="البريد الإلكتروني" onkeydown="if(event.key==='Enter')document.getElementById('passInput').focus()">
+      <p>أدخل كلمة المرور للدخول</p>
       <input type="password" id="passInput" class="input-field" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')login()">
       <button class="btn-primary" onclick="login()">دخول 🔐</button>
       <div class="login-error" id="loginError"></div>
@@ -233,10 +212,10 @@
 
     <nav>
       <div class="nav-logo">
-        <img src="assets/logo_new_png.png" alt="Sirius Fx">
+        <img src="assets/logo_new_png.png" alt="">
         <span>Sirius <em>Fx</em></span>
       </div>
-      <span class="admin-badge">ADMIN</span>
+      <span class="admin-badge">⚙️ ADMIN</span>
       <button class="btn-logout" onclick="logout()">تسجيل خروج</button>
     </nav>
 
@@ -244,7 +223,7 @@
 
       <!-- ===== فورم نشر إشارة ===== -->
       <div class="form-card">
-        <h3>نشر إشارة جديدة</h3>
+        <h3>📡 نشر إشارة جديدة</h3>
 
         <div class="form-grid">
           <!-- الزوج -->
@@ -299,14 +278,14 @@
         <div class="rr-preview" id="rrPreview">R:R — </div>
 
         <button class="btn-publish" id="publishBtn" onclick="publishSignal()">
-          نشر الإشارة الآن
+          📡 نشر الإشارة الآن
         </button>
       </div>
 
       <!-- ===== جدول الإشارات ===== -->
       <div class="table-card">
         <div class="table-header">
-          <h3>الإشارات المنشورة</h3>
+          <h3>📋 الإشارات المنشورة</h3>
           <span class="table-count" id="tableCount">0 إشارة</span>
         </div>
         <div style="overflow-x:auto">
@@ -337,15 +316,13 @@
   <!-- Toast -->
   <div id="toast"></div>
 
-  <script src="js/icons.js"></script>
   <!-- Firebase -->
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getDatabase, ref, push, remove, update, onValue }
       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+    // ضع هنا نفس بيانات مشروعك
     const firebaseConfig = {
       apiKey:            "AIzaSyAzw8QculXm6UVwWsll0Pmf5ssjlh94u7Q",
       authDomain:        "siriusfx-8d0a4.firebaseapp.com",
@@ -357,41 +334,26 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db  = getDatabase(app);
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
+    // ── كلمة المرور — غيّرها لما تريد ──
+    const ADMIN_PASSWORD = "sirius2026";
+
+    window.login = function(){
+      const val = document.getElementById('passInput').value;
+      if(val === ADMIN_PASSWORD){
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('dashboard').style.display   = 'block';
         loadSignals();
+      } else {
+        document.getElementById('loginError').textContent = '❌ كلمة المرور خاطئة';
       }
-    });
-
-    window.login = function(){
-      const email = document.getElementById('emailInput').value.trim();
-      const pass  = document.getElementById('passInput').value;
-      if (!email || !pass) {
-        document.getElementById('loginError').textContent = 'أدخل البريد وكلمة المرور';
-        return;
-      }
-      signInWithEmailAndPassword(auth, email, pass)
-        .then(() => {
-          document.getElementById('loginScreen').style.display = 'none';
-          document.getElementById('dashboard').style.display   = 'block';
-        })
-        .catch((err) => {
-          document.getElementById('loginError').textContent = (err.code === 'auth/invalid-credential' ? 'بريد أو كلمة مرور خاطئة' : err.message);
-        });
     };
 
     window.logout = function(){
-      signOut(auth).then(() => {
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('dashboard').style.display   = 'none';
-        document.getElementById('emailInput').value = '';
-        document.getElementById('passInput').value = '';
-      });
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('dashboard').style.display   = 'none';
+      document.getElementById('passInput').value = '';
     };
 
     // ── اتجاه الصفقة ──
@@ -423,7 +385,7 @@
       const comment = document.getElementById('fComment').value.trim();
 
       if(!entry || !sl || !tp){
-        showToast('أدخل Entry و SL و TP', 'error'); return;
+        showToast('❗ أدخل Entry و SL و TP', 'error'); return;
       }
 
       const btn = document.getElementById('publishBtn');
@@ -439,11 +401,11 @@
         // تفريغ الحقول
         ['fEntry','fSL','fTP','fComment'].forEach(id => document.getElementById(id).value='');
         document.getElementById('rrPreview').textContent = 'R:R —';
-        showToast('تم نشر الإشارة!', 'success');
+        showToast('✅ تم نشر الإشارة!', 'success');
       } catch(e) {
-        showToast('خطأ في النشر: ' + e.message, 'error');
+        showToast('❌ خطأ في النشر: ' + e.message, 'error');
       }
-      btn.disabled = false; btn.textContent = 'نشر الإشارة الآن';
+      btn.disabled = false; btn.textContent = '📡 نشر الإشارة الآن';
     };
 
     // ── تحميل الإشارات ──
@@ -482,15 +444,15 @@
           <td style="font-family:'Inter',monospace;color:#94a3b8">${rr}</td>
           <td>
             <select class="status-select" onchange="updateStatus('${key}', this.value)">
-              <option value="active"  ${s.status==='active'  ?'selected':''}>نشط</option>
-              <option value="pending" ${s.status==='pending' ?'selected':''}>معلق</option>
-              <option value="win"     ${s.status==='win'     ?'selected':''}>Win</option>
-              <option value="loss"    ${s.status==='loss'    ?'selected':''}>Loss</option>
-              <option value="closed"  ${s.status==='closed'  ?'selected':''}>مغلق</option>
+              <option value="active"  ${s.status==='active'  ?'selected':''}>🔵 نشط</option>
+              <option value="pending" ${s.status==='pending' ?'selected':''}>⏳ معلق</option>
+              <option value="win"     ${s.status==='win'     ?'selected':''}>✅ Win</option>
+              <option value="loss"    ${s.status==='loss'    ?'selected':''}>❌ Loss</option>
+              <option value="closed"  ${s.status==='closed'  ?'selected':''}>⬛ مغلق</option>
             </select>
           </td>
           <td style="font-size:11px;color:#94a3b8">${t}</td>
-          <td><button class="btn-delete" onclick="deleteSignal('${key}')">حذف</button></td>
+          <td><button class="btn-delete" onclick="deleteSignal('${key}')">🗑</button></td>
         </tr>`;
       }).join('');
     }
@@ -498,16 +460,16 @@
     window.updateStatus = async function(key, status){
       try {
         await update(ref(db, `signals/${key}`), { status });
-        showToast('تم تحديث الحالة', 'success');
-      } catch(e) { showToast(e.message, 'error'); }
+        showToast('✅ تم تحديث الحالة', 'success');
+      } catch(e) { showToast('❌ ' + e.message, 'error'); }
     };
 
     window.deleteSignal = async function(key){
       if(!confirm('حذف هذه الإشارة؟')) return;
       try {
         await remove(ref(db, `signals/${key}`));
-        showToast('تم الحذف', 'success');
-      } catch(e) { showToast(e.message, 'error'); }
+        showToast('🗑 تم الحذف', 'success');
+      } catch(e) { showToast('❌ ' + e.message, 'error'); }
     };
 
     function showToast(msg, type='success'){
@@ -518,12 +480,5 @@
     window.showToast = showToast;
   </script>
 
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch(() => {});
-  });
-}
-</script>
 </body>
 </html>

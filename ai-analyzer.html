@@ -3,40 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="محلل الصفقة الذكي من Sirius Fx — أداة AI لتقييم الصفقات بناءً على R:R، الاتجاه، الجلسة، والزخم. احصل على توصية فورية قبل الدخول في أي صفقة.">
-  <meta name="keywords" content="محلل صفقات, تحليل فني, تقييم صفقات فوركس, حاسبة حجم عقد, R:R, risk reward">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://siriusfx.com/ai-analyzer.html">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="محلل الصفقة الذكي | Sirius Fx — تقييم فوري للصفقات">
-  <meta property="og:description" content="أداة AI ذكية تقيم صفقتك من جميع الزوايا: العائد/المخاطرة، الاتجاه، الجلسة، والزخم. توصية فورية وشفافة.">
-  <meta property="og:image" content="https://siriusfx.com/assets/logo_new_png.png">
-  <meta property="og:url" content="https://siriusfx.com/ai-analyzer.html">
-  <meta property="og:locale" content="ar_AR">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="محلل الصفقة الذكي | Sirius Fx">
-  <meta name="twitter:description" content="تقييم فوري للصفقات باستخدام الذكاء الاصطناعي">
-  <meta name="twitter:image" content="https://siriusfx.com/assets/logo_new_png.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Sirius Fx Trade Analyzer",
-    "url": "https://siriusfx.com/ai-analyzer.html",
-    "description": "أداة تحليل صفقات ذكية للمتداولين",
-    "applicationCategory": "FinanceApplication",
-    "operatingSystem": "All"
-  }
-  </script>
-  <title>محلل الصفقة الذكي | Sirius Fx — أداة تقييم صفقات AI</title>
+  <title>محلل الصفقة الذكي | Sirius Fx</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo_new.png.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#000010">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .page-header { text-align: center; padding: 40px 0 20px; }
@@ -107,19 +78,6 @@
       .nav-toggle { display: flex; }
       .nav-links { position: fixed; top: 72px; inset-inline: 0; background: var(--nav-bg); flex-direction: column; padding: 24px; border-bottom: 1px solid var(--border); transform: translateY(-120%); opacity: 0; pointer-events: none; transition: all var(--transition); }
       .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
-      .analyzer-card { padding: 20px; margin: 12px 0 24px; }
-      .form-grid { grid-template-columns: 1fr; gap: 14px; }
-      .score-circle { width: 100px; height: 100px; font-size: 2rem; }
-      .score-inner { width: 84px; height: 84px; }
-      .details-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-    }
-    @media (max-width: 480px) {
-      .page-header h1 { font-size: 1.4rem; }
-      .analyzer-card { padding: 16px; }
-      .form-group input, .form-group select { padding: 10px 12px; font-size: 13px; }
-      .btn-analyze { padding: 12px; font-size: 15px; }
-      .details-grid { grid-template-columns: 1fr; }
-      .detail-card { padding: 12px; }
     }
   </style>
 </head>
@@ -129,7 +87,7 @@
   <nav class="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="logo">
-        <img src="assets/logo_new_png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo_new.png.png';">
+        <img src="assets/logo_new.png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;this.src='assets/logo_new.png.png';">
         <span class="logo-text">Sirius&nbsp;<span class="accent">Fx</span></span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -141,7 +99,7 @@
         <li><a href="index.html#chart">الشارت</a></li>
       </ul>
       <div class="nav-controls">
-        <button class="ctrl-btn" id="themeToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+        <button class="ctrl-btn" id="themeToggle">🌙</button>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm">تيليجرام</a>
       </div>
     </div>
@@ -149,26 +107,26 @@
 
   <main class="container">
     <div class="page-header">
-      <h1>محلل الصفقة الذكي</h1>
+      <h1>📊 محلل الصفقة الذكي</h1>
       <p>أدخل تفاصيل صفقتك المحتملة، وسيقوم المحلل بتقييمها من جميع الزوايا ويمنحك توصية واضحة.</p>
     </div>
 
     <div class="analyzer-card">
       <div class="form-grid">
-        <div class="form-group"><label>الزوج / الأصل</label><input type="text" id="symbol" value="EUR/USD" placeholder="مثال: EUR/USD"></div>
-        <div class="form-group"><label>نوع الصفقة</label><select id="type"><option value="buy">شراء</option><option value="sell">بيع</option></select></div>
-        <div class="form-group"><label>حجم رأس المال ($)</label><input type="number" id="capital" value="1000" min="1" step="1"></div>
-        <div class="form-group"><label>نسبة المخاطرة %</label><input type="number" id="riskPercent" value="2" min="0.1" max="100" step="0.1"></div>
-        <div class="form-group"><label>نقاط وقف الخسارة</label><input type="number" id="stopLoss" value="20" min="1" step="1"></div>
-        <div class="form-group"><label>نقاط الهدف</label><input type="number" id="takeProfit" value="40" min="1" step="1"></div>
-        <div class="form-group"><label>الجلسة</label><select id="session"><option value="london">لندن</option><option value="ny">نيويورك</option><option value="asia">آسيا</option><option value="overlap">تداخل</option></select></div>
-        <div class="form-group"><label>الاتجاه العام</label><select id="trend"><option value="with">مع الاتجاه</option><option value="against">عكس الاتجاه</option><option value="range">عرضي</option></select></div>
-        <div class="form-group"><label>سعر الدخول</label><input type="number" id="entryPrice" value="1.0850" step="0.00001"></div>
-        <div class="form-group"><label>سعر الإغلاق السابق 1</label><input type="number" id="close1" value="1.0830" step="0.00001"></div>
-        <div class="form-group"><label>سعر الإغلاق السابق 2</label><input type="number" id="close2" value="1.0810" step="0.00001"></div>
-        <div class="form-group"><label>سعر الإغلاق السابق 3</label><input type="number" id="close3" value="1.0800" step="0.00001"></div>
+        <div class="form-group"><label>💰 الزوج / الأصل</label><input type="text" id="symbol" value="EUR/USD" placeholder="مثال: EUR/USD"></div>
+        <div class="form-group"><label>📈 نوع الصفقة</label><select id="type"><option value="buy">شراء</option><option value="sell">بيع</option></select></div>
+        <div class="form-group"><label>📊 حجم رأس المال ($)</label><input type="number" id="capital" value="1000" min="1" step="1"></div>
+        <div class="form-group"><label>⚠️ نسبة المخاطرة %</label><input type="number" id="riskPercent" value="2" min="0.1" max="100" step="0.1"></div>
+        <div class="form-group"><label>🎯 نقاط وقف الخسارة</label><input type="number" id="stopLoss" value="20" min="1" step="1"></div>
+        <div class="form-group"><label>🏆 نقاط الهدف</label><input type="number" id="takeProfit" value="40" min="1" step="1"></div>
+        <div class="form-group"><label>🌐 الجلسة</label><select id="session"><option value="london">لندن</option><option value="ny">نيويورك</option><option value="asia">آسيا</option><option value="overlap">تداخل</option></select></div>
+        <div class="form-group"><label>📉 الاتجاه العام</label><select id="trend"><option value="with">مع الاتجاه</option><option value="against">عكس الاتجاه</option><option value="range">عرضي</option></select></div>
+        <div class="form-group"><label>📊 سعر الدخول</label><input type="number" id="entryPrice" value="1.0850" step="0.00001"></div>
+        <div class="form-group"><label>📊 سعر الإغلاق السابق 1</label><input type="number" id="close1" value="1.0830" step="0.00001"></div>
+        <div class="form-group"><label>📊 سعر الإغلاق السابق 2</label><input type="number" id="close2" value="1.0810" step="0.00001"></div>
+        <div class="form-group"><label>📊 سعر الإغلاق السابق 3</label><input type="number" id="close3" value="1.0800" step="0.00001"></div>
       </div>
-      <button class="btn btn-primary btn-analyze" onclick="analyzeTrade()">حلل الصفقة الآن</button>
+      <button class="btn btn-primary btn-analyze" onclick="analyzeTrade()">🔍 حلل الصفقة الآن</button>
 
       <div class="result-container" id="result">
         <div class="score-circle" id="scoreCircle"><div class="score-inner"><span id="scoreText">0</span>%</div></div>
@@ -189,11 +147,10 @@
 
   <!-- ===== RISK BAR ===== -->
   <div class="risk-bar">
-    <span class="risk-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+    <span class="risk-icon">⚠️</span>
     <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال .</span>
   </div>
 
-  <script src="js/icons.js"></script>
   <script>
     const html = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
@@ -279,15 +236,15 @@
       
       let verdict, vText, vClass;
       if (scorePercent >= 75) {
-        verdict = 'صفقة موصى بها بقوة';
+        verdict = '✅ صفقة موصى بها بقوة';
         vText = 'جميع المؤشرات تدعم هذه الصفقة. يمكنك الدخول بثقة مع الالتزام بإدارة المخاطر.';
         vClass = 'good';
       } else if (scorePercent >= 55) {
-        verdict = 'صفقة مقبولة بحذر';
+        verdict = '⚠️ صفقة مقبولة بحذر';
         vText = 'الصفقة جيدة لكن بعض العوامل تحتاج مراقبة. التزم بوقف الخسارة.';
         vClass = 'caution';
       } else {
-        verdict = 'يفضل تجنب الصفقة';
+        verdict = '⛔ يفضل تجنب الصفقة';
         vText = 'المخاطر مرتفعة مقارنة بالعائد. انتظر إعداداً أفضل.';
         vClass = 'avoid';
       }
@@ -296,18 +253,18 @@
       verdictText.textContent = vText;
 
       document.getElementById('detailsGrid').innerHTML = `
-        <div class="detail-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="detail-icon"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><div class="detail-title">نسبة العائد/المخاطرة</div><div class="detail-value ${rr >= 2 ? 'good' : 'warn'}">1:${rr.toFixed(1)}</div></div>
-        <div class="detail-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="detail-icon"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div class="detail-title">حجم العقد المناسب</div><div class="detail-value good">${lotSize.toFixed(2)} لوت</div></div>
-        <div class="detail-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="detail-icon"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><div class="detail-title">قيمة المخاطرة</div><div class="detail-value warn">${riskAmount.toFixed(2)} $</div></div>
-        <div class="detail-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="detail-icon"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><div class="detail-title">تقييم الجلسة</div><div class="detail-value ${session === 'asia' ? 'warn' : 'good'}">${session === 'london' || session === 'overlap' ? 'ممتازة' : 'متوسطة'}</div></div>
-        <div class="detail-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="detail-icon"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg><div class="detail-title">تقييم الاتجاه</div><div class="detail-value ${trend === 'with' ? 'good' : 'warn'}">${trend === 'with' ? 'ممتاز' : trend === 'range' ? 'محايد' : 'ضعيف'}</div></div>
-        <div class="detail-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="detail-icon"><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg><div class="detail-title">تقييم الزخم</div><div class="detail-value ${momentumScore >= 20 ? 'good' : momentumScore >= 15 ? 'warn' : 'bad'}">${momentumScore >= 20 ? 'قوي' : momentumScore >= 15 ? 'محايد' : 'ضعيف'}</div></div>
+        <div class="detail-card"><div class="detail-icon">📊</div><div class="detail-title">نسبة العائد/المخاطرة</div><div class="detail-value ${rr >= 2 ? 'good' : 'warn'}">1:${rr.toFixed(1)}</div></div>
+        <div class="detail-card"><div class="detail-icon">💵</div><div class="detail-title">حجم العقد المناسب</div><div class="detail-value good">${lotSize.toFixed(2)} لوت</div></div>
+        <div class="detail-card"><div class="detail-icon">💸</div><div class="detail-title">قيمة المخاطرة</div><div class="detail-value warn">${riskAmount.toFixed(2)} $</div></div>
+        <div class="detail-card"><div class="detail-icon">🌐</div><div class="detail-title">تقييم الجلسة</div><div class="detail-value ${session === 'asia' ? 'warn' : 'good'}">${session === 'london' || session === 'overlap' ? 'ممتازة' : 'متوسطة'}</div></div>
+        <div class="detail-card"><div class="detail-icon">📉</div><div class="detail-title">تقييم الاتجاه</div><div class="detail-value ${trend === 'with' ? 'good' : 'warn'}">${trend === 'with' ? 'ممتاز' : trend === 'range' ? 'محايد' : 'ضعيف'}</div></div>
+        <div class="detail-card"><div class="detail-icon">⚡</div><div class="detail-title">تقييم الزخم</div><div class="detail-value ${momentumScore >= 20 ? 'good' : momentumScore >= 15 ? 'warn' : 'bad'}">${momentumScore >= 20 ? 'قوي' : momentumScore >= 15 ? 'محايد' : 'ضعيف'}</div></div>
       `;
 
       const pattern = detectCandlestick(entryPrice, c1);
       const patternDiv = document.getElementById('patternAlert');
       if (pattern) {
-        patternDiv.innerHTML = `<span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;vertical-align:middle"><rect x="10" y="4" width="4" height="16" rx="1"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/></svg></span><span class="text">تم كشف نمط: <strong>${pattern.name}</strong> — ${pattern.meaning}</span>`;
+        patternDiv.innerHTML = `<span class="icon">🕯️</span><span class="text">تم كشف نمط: <strong>${pattern.name}</strong> — ${pattern.meaning}</span>`;
         patternDiv.style.display = 'flex';
       } else {
         patternDiv.innerHTML = '';
@@ -315,12 +272,5 @@
       }
     }
   </script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch(() => {});
-  });
-}
-</script>
 </body>
 </html>
