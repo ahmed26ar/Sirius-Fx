@@ -3,7 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام التنبيهات | Sirius Fx</title>
+  <meta name="description" content="نظام التنبيهات الذكية من Sirius Fx — راقب الفوركس، المعادن، الكريبتو والمؤشرات. إشعارات فورية عند تحقق الشروط السعرية.">
+  <meta name="keywords" content="تنبيهات أسعار, مراقبة فوركس, price alerts, forex alerts, gold alerts, crypto alerts">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://siriusfx.com/alerts.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="نظام التنبيهات الذكية | Sirius Fx — راقب الأسواق لحظياً">
+  <meta property="og:description" content="أنشئ تنبيهات سعرية للفوركس، الذهب، الكريبتو والمؤشرات. إشعارات فورية في المتصفح عند تحقق الشروط.">
+  <meta property="og:image" content="https://siriusfx.com/assets/logo_new_png.png">
+  <meta property="og:url" content="https://siriusfx.com/alerts.html">
+  <meta property="og:locale" content="ar_AR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="نظام التنبيهات الذكية | Sirius Fx">
+  <meta name="twitter:description" content="راقب الفوركس والذهب والكريبتو مع إشعارات فورية">
+  <meta name="twitter:image" content="https://siriusfx.com/assets/logo_new_png.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sirius Fx Price Alerts",
+    "url": "https://siriusfx.com/alerts.html",
+    "description": "نظام مراقبة وتنبيهات سعرية للأسواق المالية",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <title>نظام التنبيهات الذكية | Sirius Fx — مراقبة الأسواق لحظياً</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -162,6 +187,14 @@
     @media(max-width:500px){
       .sel-display{flex-direction:column;align-items:flex-start}
       .live-box{text-align:right}
+      .pair-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px}
+      .pair-card{padding:10px}
+      .pair-name{font-size:12px}
+      .form-card{padding:20px 16px}
+      .alerts-list{gap:6px}
+      .alert-item{padding:12px 14px;flex-wrap:wrap}
+      .alert-sym{font-size:13px}
+      .page-header h1{font-size:1.5rem}
     }
   </style>
 </head>
@@ -171,19 +204,19 @@
   <nav class="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="logo">
-        <img src="assets/logo_new.png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;">
+        <img src="assets/logo_new_png.png" alt="Sirius Fx" class="logo-img" width="44" height="44" onerror="this.onerror=null;">
         <span class="logo-text">Sirius&nbsp;<span class="accent">Fx</span></span>
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">🏠 الرئيسية</a></li>
-        <li><a href="ai-hub.html">🤖 مركز AI</a></li>
-        <li><a href="alerts.html" class="active">🚨 التنبيهات</a></li>
-        <li><a href="index.html#tools">🛠️ الأدوات</a></li>
-        <li><a href="index.html#chart">📊 الشارت</a></li>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="ai-hub.html">مركز AI</a></li>
+        <li><a href="alerts.html" class="active">التنبيهات</a></li>
+        <li><a href="index.html#tools">الأدوات</a></li>
+        <li><a href="index.html#chart">الشارت</a></li>
       </ul>
       <div class="nav-controls">
-        <button class="ctrl-btn" id="themeToggle">🌙</button>
+        <button class="ctrl-btn" id="themeToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm">تيليجرام</a>
       </div>
     </div>
@@ -191,7 +224,7 @@
 
   <main class="container">
     <div class="page-header">
-      <div class="page-badge">🔔 مراقبة لحظية للأسواق</div>
+      <div class="page-badge">مراقبة لحظية للأسواق</div>
       <h1>التنبيهات الذكية</h1>
       <p>راقب الفوركس، المعادن الثمينة، الكريبتو والمؤشرات. إشعارات فورية في متصفحك عند تحقق الشروط.</p>
       <div class="stats-row">
@@ -203,15 +236,15 @@
     </div>
 
     <div class="perm-banner" id="permBanner">
-      <p>🔔 هذا الموقع يحتاج إذنك لإرسال إشعارات فورية عند تحقق التنبيهات</p>
+      <p>هذا الموقع يحتاج إذنك لإرسال إشعارات فورية عند تحقق التنبيهات</p>
       <button class="perm-btn" onclick="requestNotificationPermission()">تفعيل الإشعارات الآن</button>
     </div>
 
     <div class="cat-tabs" id="catTabs">
-      <button class="cat-tab active" data-cat="forex">💱 فوركس <span class="tab-badge">6</span></button>
-      <button class="cat-tab" data-cat="metals">🥇 معادن <span class="tab-badge">4</span></button>
-      <button class="cat-tab" data-cat="crypto">₿ كريبتو <span class="tab-badge">6</span></button>
-      <button class="cat-tab" data-cat="indices">📊 مؤشرات <span class="tab-badge">4</span></button>
+      <button class="cat-tab active" data-cat="forex">فوركس <span class="tab-badge">6</span></button>
+      <button class="cat-tab" data-cat="metals">معادن <span class="tab-badge">4</span></button>
+      <button class="cat-tab" data-cat="crypto">كريبتو <span class="tab-badge">6</span></button>
+      <button class="cat-tab" data-cat="indices">مؤشرات <span class="tab-badge">4</span></button>
     </div>
 
     <div class="pair-grid" id="pairGrid"></div>
@@ -223,26 +256,26 @@
       </div>
       <form id="alertForm">
         <div class="form-row">
-          <div class="form-group"><label>📈 نوع التنبيه</label><select id="condition" required><option value="above">⬆️ يرتفع فوق</option><option value="below">⬇️ ينخفض تحت</option></select></div>
-          <div class="form-group"><label>🎯 السعر المستهدف</label><input type="number" id="targetPrice" placeholder="مثال: 1.1000" step="0.00001" required></div>
+          <div class="form-group"><label>نوع التنبيه</label><select id="condition" required><option value="above">يرتفع فوق</option><option value="below">ينخفض تحت</option></select></div>
+          <div class="form-group"><label>السعر المستهدف</label><input type="number" id="targetPrice" placeholder="مثال: 1.1000" step="0.00001" required></div>
         </div>
         <div class="form-group full sound-row" style="margin-bottom:16px">
           <input type="checkbox" id="soundEnabled" checked>
-          <label for="soundEnabled" style="color:var(--text-muted);cursor:pointer;font-size:13px">🔊 تفعيل صوت التنبيه عند تحقق الشرط</label>
+          <label for="soundEnabled" style="color:var(--text-muted);cursor:pointer;font-size:13px">تفعيل صوت التنبيه عند تحقق الشرط</label>
         </div>
-        <button type="submit" class="btn-submit" id="submitBtn"><span id="submitIcon">🔔</span><span id="submitText">فعّل التنبيه الآن</span></button>
+        <button type="submit" class="btn-submit" id="submitBtn"><span id="submitText">فعّل التنبيه الآن</span></button>
       </form>
       <div class="msg" id="msg"></div>
     </div>
 
     <div class="sec-head">
-      <span class="sec-title">⚡ التنبيهات النشطة <span class="sec-count" id="alertCountLabel"></span></span>
+      <span class="sec-title">التنبيهات النشطة <span class="sec-count" id="alertCountLabel"></span></span>
       <button class="btn-clear-all" id="clearAll" onclick="clearAllAlerts()" style="display:none">حذف الكل</button>
     </div>
     <div id="alertsList"></div>
 
     <div class="info-card">
-      <div class="sec-title" style="margin-bottom:14px">📖 كيف يعمل نظام التنبيهات؟</div>
+      <div class="sec-title" style="margin-bottom:14px">كيف يعمل نظام التنبيهات؟</div>
       <ol class="howto-list">
         <li><strong>اختر الأصل المالي</strong> من القائمة أعلاه</li>
         <li><strong>حدد السعر المستهدف</strong> ونوع التنبيه</li>
@@ -250,7 +283,7 @@
         <li><strong>عند تحقق الشرط</strong> — إشعار فوري + صوت</li>
         <li><strong>التنبيهات تُخزّن محليًا</strong> وتبقى نشطة حتى تحذفها</li>
       </ol>
-      <p style="color:var(--text-muted);font-size:13px;margin-top:12px">⚠️ <strong>ملاحظة:</strong> يجب أن تبقى صفحة التنبيهات مفتوحة للمراقبة المستمرة.</p>
+      <p style="color:var(--text-muted);font-size:13px;margin-top:12px"><strong>ملاحظة:</strong> يجب أن تبقى صفحة التنبيهات مفتوحة للمراقبة المستمرة.</p>
     </div>
   </main>
 
@@ -263,10 +296,11 @@
 
   <!-- ===== RISK BAR ===== -->
   <div class="risk-bar">
-    <span class="risk-icon">⚠️</span>
+    <span class="risk-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
     <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
   </div>
 
+  <script src="js/icons.js"></script>
   <script>
     const PRICE_CHECK_INTERVAL = 30000;
     const PAIRS = {
@@ -283,7 +317,12 @@
 
     const html = document.documentElement;
     const themeBtn = document.getElementById('themeToggle');
-    const applyTheme = t => { html.setAttribute('data-theme', t); themeBtn.textContent = t === 'dark' ? '🌙' : '☀️'; };
+    const applyTheme = t => {
+      html.setAttribute('data-theme', t);
+      themeBtn.innerHTML = t === 'dark'
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+    };
     applyTheme(localStorage.getItem('siriusTheme') || 'dark');
     themeBtn.addEventListener('click', () => { const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(t); localStorage.setItem('siriusTheme', t); });
 
@@ -322,7 +361,7 @@
       alerts.unshift({ id: Date.now(), symbol: selPair.sym, condition: document.getElementById('condition').value, targetPrice: parseFloat(document.getElementById('targetPrice').value), time: new Date().toLocaleString('ar-IQ') });
       localStorage.setItem('siriusFxAlertsV2', JSON.stringify(alerts));
       renderAlerts(); e.target.reset();
-      document.getElementById('msg').className = 'msg success show'; document.getElementById('msg').textContent = '✅ تم تفعيل التنبيه!';
+      document.getElementById('msg').className = 'msg success show'; document.getElementById('msg').textContent = 'تم تفعيل التنبيه!';
       setTimeout(() => document.getElementById('msg').className = 'msg', 3000);
       if (!notificationPermission) requestNotificationPermission();
     });
@@ -333,7 +372,7 @@
     function renderAlerts() {
       document.getElementById('activeCount').textContent = alerts.length;
       document.getElementById('clearAll').style.display = alerts.length ? 'block' : 'none';
-      document.getElementById('alertsList').innerHTML = alerts.length ? alerts.map(a => `<div class="alert-item"><div class="alert-left"><div class="alert-dot"></div><div><div class="alert-sym">${a.symbol}</div><div class="alert-detail">${a.condition==='above'?'يرتفع فوق':'ينخفض تحت'} <b>${a.targetPrice}</b></div></div></div><div class="alert-right"><span class="alert-time">${a.time}</span><button class="btn-del" onclick="deleteAlert(${a.id})">✕</button></div></div>`).join('') : '<div class="empty">لا توجد تنبيهات نشطة بعد.<br>اختر أصلًا ماليًا وفعّل أول تنبيه! 🔔</div>';
+      document.getElementById('alertsList').innerHTML = alerts.length ? alerts.map(a => `<div class="alert-item"><div class="alert-left"><div class="alert-dot"></div><div><div class="alert-sym">${a.symbol}</div><div class="alert-detail">${a.condition==='above'?'يرتفع فوق':'ينخفض تحت'} <b>${a.targetPrice}</b></div></div></div><div class="alert-right"><span class="alert-time">${a.time}</span><button class="btn-del" onclick="deleteAlert(${a.id})">✕</button></div></div>`).join('') : '<div class="empty">لا توجد تنبيهات نشطة بعد.<br>اختر أصلًا ماليًا وفعّل أول تنبيه!</div>';
     }
 
     renderPairs(); renderAlerts(); checkNotificationPermission();

@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sirius Fx — لوحة التحكم</title>
+  <meta name="robots" content="noindex, nofollow">
+  <title>لوحة التحكم | Sirius Fx</title>
   <link rel="icon" href="assets/logo_new_png.png" type="image/png">
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -189,11 +190,26 @@
 
     .empty-row td { text-align: center; color: var(--muted); padding: 40px; }
 
-    @media(max-width:700px){
-      .form-grid { grid-template-columns: 1fr 1fr; }
+    @media(max-width:768px){
+      .form-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 16px; }
       nav { padding: 0 16px; }
+      .container { padding: 24px 16px; }
       table { font-size: 11px; }
       th, td { padding: 8px; }
+      .login-box { padding: 32px 24px; width: auto; margin: 0 16px; }
+    }
+    @media(max-width:480px){
+      .form-grid { grid-template-columns: 1fr; }
+      .table-card { padding: 16px; overflow-x: auto; }
+      .dir-btns { flex-direction: column; }
+      table { font-size: 10px; }
+      th, td { padding: 6px 4px; white-space: nowrap; }
+      .tbl-pair { font-size: 12px; }
+      .btn-publish { font-size: 14px; padding: 12px; }
+      nav { height: 56px; }
+      .nav-logo img { width: 28px; height: 28px; }
+      .nav-logo span { font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -217,10 +233,10 @@
 
     <nav>
       <div class="nav-logo">
-        <img src="assets/logo_new_png.png" alt="">
+        <img src="assets/logo_new_png.png" alt="Sirius Fx">
         <span>Sirius <em>Fx</em></span>
       </div>
-      <span class="admin-badge">⚙️ ADMIN</span>
+      <span class="admin-badge">ADMIN</span>
       <button class="btn-logout" onclick="logout()">تسجيل خروج</button>
     </nav>
 
@@ -228,7 +244,7 @@
 
       <!-- ===== فورم نشر إشارة ===== -->
       <div class="form-card">
-        <h3>📡 نشر إشارة جديدة</h3>
+        <h3>نشر إشارة جديدة</h3>
 
         <div class="form-grid">
           <!-- الزوج -->
@@ -283,14 +299,14 @@
         <div class="rr-preview" id="rrPreview">R:R — </div>
 
         <button class="btn-publish" id="publishBtn" onclick="publishSignal()">
-          📡 نشر الإشارة الآن
+          نشر الإشارة الآن
         </button>
       </div>
 
       <!-- ===== جدول الإشارات ===== -->
       <div class="table-card">
         <div class="table-header">
-          <h3>📋 الإشارات المنشورة</h3>
+          <h3>الإشارات المنشورة</h3>
           <span class="table-count" id="tableCount">0 إشارة</span>
         </div>
         <div style="overflow-x:auto">
@@ -321,6 +337,7 @@
   <!-- Toast -->
   <div id="toast"></div>
 
+  <script src="js/icons.js"></script>
   <!-- Firebase -->
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -355,7 +372,7 @@
       const email = document.getElementById('emailInput').value.trim();
       const pass  = document.getElementById('passInput').value;
       if (!email || !pass) {
-        document.getElementById('loginError').textContent = '❌ أدخل البريد وكلمة المرور';
+        document.getElementById('loginError').textContent = 'أدخل البريد وكلمة المرور';
         return;
       }
       signInWithEmailAndPassword(auth, email, pass)
@@ -364,7 +381,7 @@
           document.getElementById('dashboard').style.display   = 'block';
         })
         .catch((err) => {
-          document.getElementById('loginError').textContent = '❌ ' + (err.code === 'auth/invalid-credential' ? 'بريد أو كلمة مرور خاطئة' : err.message);
+          document.getElementById('loginError').textContent = (err.code === 'auth/invalid-credential' ? 'بريد أو كلمة مرور خاطئة' : err.message);
         });
     };
 
@@ -406,7 +423,7 @@
       const comment = document.getElementById('fComment').value.trim();
 
       if(!entry || !sl || !tp){
-        showToast('❗ أدخل Entry و SL و TP', 'error'); return;
+        showToast('أدخل Entry و SL و TP', 'error'); return;
       }
 
       const btn = document.getElementById('publishBtn');
@@ -422,11 +439,11 @@
         // تفريغ الحقول
         ['fEntry','fSL','fTP','fComment'].forEach(id => document.getElementById(id).value='');
         document.getElementById('rrPreview').textContent = 'R:R —';
-        showToast('✅ تم نشر الإشارة!', 'success');
+        showToast('تم نشر الإشارة!', 'success');
       } catch(e) {
-        showToast('❌ خطأ في النشر: ' + e.message, 'error');
+        showToast('خطأ في النشر: ' + e.message, 'error');
       }
-      btn.disabled = false; btn.textContent = '📡 نشر الإشارة الآن';
+      btn.disabled = false; btn.textContent = 'نشر الإشارة الآن';
     };
 
     // ── تحميل الإشارات ──
@@ -465,15 +482,15 @@
           <td style="font-family:'Inter',monospace;color:#94a3b8">${rr}</td>
           <td>
             <select class="status-select" onchange="updateStatus('${key}', this.value)">
-              <option value="active"  ${s.status==='active'  ?'selected':''}>🔵 نشط</option>
-              <option value="pending" ${s.status==='pending' ?'selected':''}>⏳ معلق</option>
-              <option value="win"     ${s.status==='win'     ?'selected':''}>✅ Win</option>
-              <option value="loss"    ${s.status==='loss'    ?'selected':''}>❌ Loss</option>
-              <option value="closed"  ${s.status==='closed'  ?'selected':''}>⬛ مغلق</option>
+              <option value="active"  ${s.status==='active'  ?'selected':''}>نشط</option>
+              <option value="pending" ${s.status==='pending' ?'selected':''}>معلق</option>
+              <option value="win"     ${s.status==='win'     ?'selected':''}>Win</option>
+              <option value="loss"    ${s.status==='loss'    ?'selected':''}>Loss</option>
+              <option value="closed"  ${s.status==='closed'  ?'selected':''}>مغلق</option>
             </select>
           </td>
           <td style="font-size:11px;color:#94a3b8">${t}</td>
-          <td><button class="btn-delete" onclick="deleteSignal('${key}')">🗑</button></td>
+          <td><button class="btn-delete" onclick="deleteSignal('${key}')">حذف</button></td>
         </tr>`;
       }).join('');
     }
@@ -481,16 +498,16 @@
     window.updateStatus = async function(key, status){
       try {
         await update(ref(db, `signals/${key}`), { status });
-        showToast('✅ تم تحديث الحالة', 'success');
-      } catch(e) { showToast('❌ ' + e.message, 'error'); }
+        showToast('تم تحديث الحالة', 'success');
+      } catch(e) { showToast(e.message, 'error'); }
     };
 
     window.deleteSignal = async function(key){
       if(!confirm('حذف هذه الإشارة؟')) return;
       try {
         await remove(ref(db, `signals/${key}`));
-        showToast('🗑 تم الحذف', 'success');
-      } catch(e) { showToast('❌ ' + e.message, 'error'); }
+        showToast('تم الحذف', 'success');
+      } catch(e) { showToast(e.message, 'error'); }
     };
 
     function showToast(msg, type='success'){

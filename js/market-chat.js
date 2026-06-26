@@ -12,7 +12,7 @@
       if (!res.ok) throw new Error('API error');
       return res.json();
     }).then(function (data) {
-      return data.reply || '⚠️ لم أستطع الإجابة حالياً.';
+      return data.reply || 'لم أستطع الإجابة حالياً.';
     });
   }
 
@@ -53,7 +53,7 @@
       })
       .catch(function () {
         if (typing.parentNode) typing.remove();
-        addMessage(box, '⚠️ عذراً، المساعد غير متاح. تواصل معنا على https://t.me/srfx0', 'bot');
+        addMessage(box, 'عذراً، المساعد غير متاح. تواصل معنا على https://t.me/srfx0', 'bot');
       })
       .finally(function () {
         input.disabled = false;

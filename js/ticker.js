@@ -3,16 +3,16 @@
 // =====================================================
 
 const PAIRS = [
-  { sym: 'EUR/USD', from: 'EUR', to: 'USD', icon: '🇪🇺', label: 'Euro / US Dollar' },
-  { sym: 'GBP/USD', from: 'GBP', to: 'USD', icon: '🇬🇧', label: 'British Pound / USD' },
-  { sym: 'USD/JPY', from: 'USD', to: 'JPY', icon: '🇯🇵', label: 'US Dollar / Yen' },
-  { sym: 'USD/CHF', from: 'USD', to: 'CHF', icon: '🇨🇭', label: 'US Dollar / Franc' },
-  { sym: 'AUD/USD', from: 'AUD', to: 'USD', icon: '🇦🇺', label: 'Australian / USD' },
-  { sym: 'USD/CAD', from: 'USD', to: 'CAD', icon: '🇨🇦', label: 'US Dollar / CAD' },
-  { sym: 'NZD/USD', from: 'NZD', to: 'USD', icon: '🇳🇿', label: 'New Zealand / USD' },
-  { sym: 'EUR/GBP', from: 'EUR', to: 'GBP', icon: '🇪🇺', label: 'Euro / British Pound' },
-  { sym: 'XAU/USD', from: 'XAU', to: 'USD', icon: 'XU', label: 'Gold / US Dollar' },
-  { sym: 'BTC/USD', from: 'BTC', to: 'USD', icon: '₿', label: 'Bitcoin / USD' },
+  { sym: 'EUR/USD', from: 'EUR', to: 'USD', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" font-family="Inter">€</text></svg>', label: 'Euro / US Dollar' },
+  { sym: 'GBP/USD', from: 'GBP', to: 'USD', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" font-family="Inter">£</text></svg>', label: 'British Pound / USD' },
+  { sym: 'USD/JPY', from: 'USD', to: 'JPY', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" font-family="Inter">¥</text></svg>', label: 'US Dollar / Yen' },
+  { sym: 'USD/CHF', from: 'USD', to: 'CHF', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" font-family="Inter">₣</text></svg>', label: 'US Dollar / Franc' },
+  { sym: 'AUD/USD', from: 'AUD', to: 'USD', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" font-family="Inter">A</text></svg>', label: 'Australian / USD' },
+  { sym: 'USD/CAD', from: 'USD', to: 'CAD', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" font-family="Inter">C</text></svg>', label: 'US Dollar / CAD' },
+  { sym: 'NZD/USD', from: 'NZD', to: 'USD', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" font-family="Inter">N</text></svg>', label: 'New Zealand / USD' },
+  { sym: 'EUR/GBP', from: 'EUR', to: 'GBP', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" font-family="Inter">E£</text></svg>', label: 'Euro / British Pound' },
+  { sym: 'XAU/USD', from: 'XAU', to: 'USD', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="#fbbf24" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="10" r="3" fill="none" stroke="#fbbf24"/></svg>', label: 'Gold / US Dollar' },
+  { sym: 'BTC/USD', from: 'BTC', to: 'USD', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="#fb923c" stroke-width="1.5" style="width:16px;height:16px"><circle cx="10" cy="10" r="8"/><text x="10" y="14" text-anchor="middle" font-size="10" font-weight="800" fill="#fb923c" font-family="Inter">₿</text></svg>', label: 'Bitcoin / USD' },
 ];
 
 let prevRates = {};

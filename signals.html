@@ -3,7 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sirius Fx — الإشارات</title>
+  <meta name="description" content="إشارات تداول مباشرة من Sirius Fx — صفقات فوركس وذهب وكريبتو محدثة لحظياً مع نقاط الدخول، وقف الخسارة، وجني الأرباح.">
+  <meta name="keywords" content="إشارات فوركس, trading signals, forex signals live, إشارات تداول, XAU/USD, EUR/USD signals">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://siriusfx.com/signals.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="إشارات التداول المباشرة | Sirius Fx">
+  <meta property="og:description" content="إشارات تداول فوركس وذهب وكريبتو محدثة لحظياً. انضم لأكثر من 500 متداول.">
+  <meta property="og:image" content="https://siriusfx.com/assets/logo_new_png.png">
+  <meta property="og:url" content="https://siriusfx.com/signals.html">
+  <meta property="og:locale" content="ar_AR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="إشارات التداول المباشرة | Sirius Fx">
+  <meta name="twitter:description" content="إشارات فوركس وذهب وكريبتو محدثة لحظياً">
+  <meta name="twitter:image" content="https://siriusfx.com/assets/logo_new_png.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Sirius Fx Trading Signals",
+    "url": "https://siriusfx.com/signals.html",
+    "description": "إشارات تداول مباشرة للفوركس والمعادن والكريبتو",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <title>إشارات التداول المباشرة | Sirius Fx — فوركس، ذهب، كريبتو</title>
   <link rel="icon" href="assets/logo_new_png.png" type="image/png">
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -267,9 +292,22 @@
     }
 
     /* Responsive */
-    @media(max-width:600px){
-      .stats-bar { gap: 20px; padding: 16px 20px; }
-      nav { padding: 0 16px; }
+    @media(max-width:768px){
+      .stats-bar { gap: 16px; padding: 14px 16px; }
+      .stat-item .num { font-size: 1.2rem; }
+      .page-header { padding: 32px 16px 24px; }
+      .signal-card { padding: 16px; }
+      .card-levels { gap: 6px; }
+      .level-box { padding: 8px; }
+      .level-box .level-val { font-size: 12px; }
+      .pair { font-size: 1.1rem; }
+    }
+    @media(max-width:480px){
+      .stats-bar { flex-wrap: wrap; gap: 12px; }
+      .stat-item { flex: 1; min-width: 80px; }
+      .signals-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 12px; }
+      .nav-logo span { font-size: 1rem; }
     }
   </style>
 </head>
@@ -281,12 +319,12 @@
       <img src="assets/logo_new_png.png" alt="Sirius Fx">
       <span>Sirius <em>Fx</em></span>
     </a>
-    <a href="index.html" class="nav-back">← الرئيسية</a>
+    <a href="index.html" class="nav-back">الرئيسية</a>
   </nav>
 
   <!-- HEADER -->
   <div class="page-header">
-    <div class="page-tag">📡 Live Signals</div>
+    <div class="page-tag">Live Signals</div>
     <h1 class="page-title">إشارات <span>التداول</span></h1>
     <p class="page-desc">الصفقات المنشورة مباشرة من فريق Sirius Fx</p>
   </div>
@@ -301,14 +339,14 @@
     <div class="stats-bar" id="statsBar">
       <div class="stat-item"><span class="num" id="statTotal">0</span><div class="lbl">إجمالي الإشارات</div></div>
       <div class="stat-item"><span class="num" id="statActive" style="color:#00d4ff">0</span><div class="lbl">نشطة</div></div>
-      <div class="stat-item"><span class="num" id="statWin" style="color:#22c55e">0</span><div class="lbl">✅ Win</div></div>
+      <div class="stat-item"><span class="num" id="statWin" style="color:#22c55e">0</span><div class="lbl">الرابحة</div></div>
       <div class="stat-item"><span class="num" id="statWR" style="color:#22c55e">—</span><div class="lbl">نسبة الربح</div></div>
     </div>
 
     <!-- بطاقات الإشارات -->
     <div class="signals-grid" id="signalsGrid">
       <div class="empty-state">
-        <div class="icon">📡</div>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;opacity:.5;margin-bottom:16px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
         <p>جاري تحميل الإشارات...</p>
       </div>
     </div>
@@ -317,6 +355,7 @@
 
   <footer>© 2026 Sirius Fx — للأغراض التعليمية فقط. التداول ينطوي على مخاطر.</footer>
 
+  <script src="js/icons.js"></script>
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -356,14 +395,14 @@
     }
 
     function statusLabel(s){
-      const map = { active:'نشط 🔵', pending:'معلق ⏳', win:'✅ Win', loss:'❌ Loss', closed:'مغلق' };
+      const map = { active:'نشط', pending:'معلق', win:'محققة', loss:'خاسرة', closed:'مغلق' };
       return map[s] || s;
     }
 
     function renderCards(signals){
       const grid = document.getElementById('signalsGrid');
       if(!signals || signals.length === 0){
-        grid.innerHTML = `<div class="empty-state"><div class="icon">📡</div><p>لا توجد إشارات حالياً، ترقب الإشارات القادمة!</p></div>`;
+        grid.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;opacity:.5;margin-bottom:16px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><p>لا توجد إشارات حالياً، ترقب الإشارات القادمة!</p></div>`;
         return;
       }
 
@@ -402,7 +441,7 @@
           <div class="status-row">
             <span class="status-badge ${status}">${statusLabel(status)}</span>
           </div>
-          ${s.comment ? `<div class="comment-text">💬 ${s.comment}</div>` : ''}
+          ${s.comment ? `<div class="comment-text">${s.comment}</div>` : ''}
         </div>`;
       }).join('');
     }

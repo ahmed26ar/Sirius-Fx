@@ -2,18 +2,18 @@ function analyzeSetup(trend, rr, risk, session) {
   let score = 50;
   const notes = [];
 
-  if (trend === 'with') { score += 20; notes.push('✓ With-trend setup (+20)'); }
+  if (trend === 'with') { score += 20; notes.push('+ With-trend setup (+20)'); }
   else if (trend === 'range') { score += 5; notes.push('~ Range-bound market (+5)'); }
-  else { score -= 15; notes.push('✗ Counter-trend trade (-15)'); }
+  else { score -= 15; notes.push('- Counter-trend trade (-15)'); }
 
-  if (rr >= 3) { score += 20; notes.push('✓ Excellent R:R ≥ 3 (+20)'); }
-  else if (rr >= 2) { score += 15; notes.push('✓ Good R:R ≥ 2 (+15)'); }
+  if (rr >= 3) { score += 20; notes.push('+ Excellent R:R ≥ 3 (+20)'); }
+  else if (rr >= 2) { score += 15; notes.push('+ Good R:R ≥ 2 (+15)'); }
   else if (rr >= 1.5) { score += 5; notes.push('~ Acceptable R:R (+5)'); }
-  else { score -= 20; notes.push('✗ Poor R:R < 1.5 (-20)'); }
+  else { score -= 20; notes.push('- Poor R:R < 1.5 (-20)'); }
 
-  if (risk <= 1) { score += 10; notes.push('✓ Conservative risk ≤ 1% (+10)'); }
+  if (risk <= 1) { score += 10; notes.push('+ Conservative risk ≤ 1% (+10)'); }
   else if (risk <= 2) { score += 0; notes.push('~ Moderate risk 1-2%'); }
-  else { score -= 15; notes.push('✗ High risk > 2% (-15)'); }
+  else { score -= 15; notes.push('- High risk > 2% (-15)'); }
 
   const sessionScores = { london: 10, ny: 10, overlap: 15, asia: -5 };
   score += sessionScores[session] || 0;
