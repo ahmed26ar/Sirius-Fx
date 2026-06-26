@@ -1,5 +1,5 @@
 (function () {
-  var API_CHAT = 'https://yellow-block-03cc.6611zzrru.workers.dev';
+  var API_CHAT = window.SiriusConfig && window.SiriusConfig.chatAPI ? window.SiriusConfig.chatAPI : 'https://yellow-block-03cc.6611zzrru.workers.dev';
 
   function lang() { return typeof currentLang !== 'undefined' ? currentLang : 'ar'; }
 

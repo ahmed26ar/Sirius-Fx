@@ -8,6 +8,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo_new.png.png" type="image/png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000010">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .page-hero { text-align: center; padding: 60px 0 40px; }
@@ -135,6 +139,7 @@
     <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
   </div>
 
+  <script src="js/config.js"></script>
   <script>
     const html = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
@@ -150,7 +155,7 @@
     navToggle?.addEventListener('click', () => navLinks.classList.toggle('open'));
     navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
 
-    const AI_WORKER = 'https://yellow-block-03cc.6611zzrru.workers.dev';
+    const AI_WORKER = window.SiriusConfig && window.SiriusConfig.chatAPI ? window.SiriusConfig.chatAPI : 'https://yellow-block-03cc.6611zzrru.workers.dev';
 
     function askQuick(q) {
       document.getElementById('userInput').value = q;
@@ -205,5 +210,12 @@
       handleSend();
     });
   </script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(() => {});
+  });
+}
+</script>
 </body>
 </html>

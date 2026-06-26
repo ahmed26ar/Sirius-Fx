@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sirius Fx — لوحة التحكم</title>
   <link rel="icon" href="assets/logo_new_png.png" type="image/png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000010">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -200,7 +204,8 @@
     <div class="login-box">
       <img src="assets/logo_new_png.png" alt="Sirius Fx">
       <h2>لوحة التحكم</h2>
-      <p>أدخل كلمة المرور للدخول</p>
+      <p>أدخل البريد الإلكتروني وكلمة المرور</p>
+      <input type="email" id="emailInput" class="input-field" placeholder="البريد الإلكتروني" onkeydown="if(event.key==='Enter')document.getElementById('passInput').focus()">
       <input type="password" id="passInput" class="input-field" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')login()">
       <button class="btn-primary" onclick="login()">دخول 🔐</button>
       <div class="login-error" id="loginError"></div>
@@ -319,10 +324,11 @@
   <!-- Firebase -->
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getDatabase, ref, push, remove, update, onValue }
       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    // ضع هنا نفس بيانات مشروعك
     const firebaseConfig = {
       apiKey:            "AIzaSyAzw8QculXm6UVwWsll0Pmf5ssjlh94u7Q",
       authDomain:        "siriusfx-8d0a4.firebaseapp.com",
@@ -334,26 +340,41 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db  = getDatabase(app);
 
-    // ── كلمة المرور — غيّرها لما تريد ──
-    const ADMIN_PASSWORD = "sirius2026";
-
-    window.login = function(){
-      const val = document.getElementById('passInput').value;
-      if(val === ADMIN_PASSWORD){
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('dashboard').style.display   = 'block';
         loadSignals();
-      } else {
-        document.getElementById('loginError').textContent = '❌ كلمة المرور خاطئة';
       }
+    });
+
+    window.login = function(){
+      const email = document.getElementById('emailInput').value.trim();
+      const pass  = document.getElementById('passInput').value;
+      if (!email || !pass) {
+        document.getElementById('loginError').textContent = '❌ أدخل البريد وكلمة المرور';
+        return;
+      }
+      signInWithEmailAndPassword(auth, email, pass)
+        .then(() => {
+          document.getElementById('loginScreen').style.display = 'none';
+          document.getElementById('dashboard').style.display   = 'block';
+        })
+        .catch((err) => {
+          document.getElementById('loginError').textContent = '❌ ' + (err.code === 'auth/invalid-credential' ? 'بريد أو كلمة مرور خاطئة' : err.message);
+        });
     };
 
     window.logout = function(){
-      document.getElementById('loginScreen').style.display = 'flex';
-      document.getElementById('dashboard').style.display   = 'none';
-      document.getElementById('passInput').value = '';
+      signOut(auth).then(() => {
+        document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('dashboard').style.display   = 'none';
+        document.getElementById('emailInput').value = '';
+        document.getElementById('passInput').value = '';
+      });
     };
 
     // ── اتجاه الصفقة ──
@@ -480,5 +501,12 @@
     window.showToast = showToast;
   </script>
 
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(() => {});
+  });
+}
+</script>
 </body>
 </html>
