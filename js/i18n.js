@@ -12,6 +12,7 @@ const translations = {
     'nav.market': 'الأسعار',
     'nav.chart': 'الشارت',
     'nav.news': 'الأخبار',
+    'nav.alerts': 'التنبيهات',
     'nav.telegram': 'تيليجرام',
     'hero.badge': '★ النجم الذي يقودك في الأسواق',
     'hero.title1': 'Sirius',
@@ -139,6 +140,7 @@ const translations = {
     'nav.market': 'Market',
     'nav.chart': 'Chart',
     'nav.news': 'News',
+    'nav.alerts': 'Alerts',
     'nav.telegram': 'Telegram',
     'hero.badge': '★ The star that guides you in the markets',
     'hero.title1': 'Sirius',
@@ -274,7 +276,10 @@ function setLanguage(lang) {
     el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
   });
   const btn = document.getElementById('langToggle');
-  if (btn) btn.textContent = lang === 'ar' ? 'EN' : 'AR';
+  if (btn) {
+    var icon = btn.querySelector('.sirius-icon-wrap');
+    btn.innerHTML = (icon ? icon.outerHTML : '') + (lang === 'ar' ? ' EN' : ' AR');
+  }
   document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
 }
 

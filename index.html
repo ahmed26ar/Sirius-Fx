@@ -11,30 +11,6 @@
   <link rel="icon" href="assets/logo_new_png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style>
-    .risk-bar {
-      background: var(--card-bg);
-      border-top: 1px solid var(--border);
-      padding: 14px 24px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.8;
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .risk-bar .risk-icon {
-      font-size: 1.2rem;
-      color: var(--sky);
-      opacity: 0.7;
-    }
-    .risk-bar strong {
-      color: var(--sky);
-      font-weight: 600;
-    }
     .ticker-container {
       margin: 20px 0;
       border-radius: 12px;
@@ -59,15 +35,15 @@
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="active">الرئيسية</a></li>
-        <li><a href="ai-hub.html">مركز AI</a></li>
-        <li><a href="alerts.html">التنبيهات</a></li>
-        <li><a href="#tools">الأدوات</a></li>
-        <li><a href="#chart">الشارت</a></li>
+        <li><a href="index.html" class="active" data-i18n="nav.home">الرئيسية</a></li>
+        <li><a href="ai-hub.html" data-i18n="nav.ai">مركز AI</a></li>
+        <li><a href="alerts.html" data-i18n="nav.alerts">التنبيهات</a></li>
+        <li><a href="#tools" data-i18n="nav.tools">الأدوات</a></li>
+        <li><a href="#chart" data-i18n="nav.chart">الشارت</a></li>
       </ul>
       <div class="nav-controls">
-        <button class="ctrl-btn" id="langToggle">EN</button>
-        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm">تيليجرام</a>
+        <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">تيليجرام</a>
       </div>
     </div>
   </nav>
@@ -102,25 +78,25 @@
       </div>
       <div class="cards-grid">
         <article class="card">
-          <div class="card-icon">📡</div>
+          <div class="card-icon"><span data-icon="signals"></span></div>
           <h3 data-i18n="services.signals.title">Signals</h3>
           <p data-i18n="services.signals.desc">Desc</p>
           <a href="https://t.me/srfx0" target="_blank" class="card-link" data-i18n="services.signals.link">Link</a>
         </article>
         <article class="card">
-          <div class="card-icon">🎓</div>
+          <div class="card-icon"><span data-icon="courses"></span></div>
           <h3 data-i18n="services.courses.title">Courses</h3>
           <p data-i18n="services.courses.desc">Desc</p>
           <a href="#courses" class="card-link" data-i18n="services.courses.link">Link</a>
         </article>
         <article class="card">
-          <div class="card-icon">🤖</div>
+          <div class="card-icon"><span data-icon="ai"></span></div>
           <h3 data-i18n="services.ai.title">AI</h3>
           <p data-i18n="services.ai.desc">Desc</p>
           <a href="ai-hub.html" class="card-link" data-i18n="services.ai.link">Link</a>
         </article>
         <article class="card">
-          <div class="card-icon">🛠️</div>
+          <div class="card-icon"><span data-icon="tools"></span></div>
           <h3 data-i18n="services.tools.title">Tools</h3>
           <p data-i18n="services.tools.desc">Desc</p>
           <a href="#tools" class="card-link" data-i18n="services.tools.link">Link</a>
@@ -201,7 +177,7 @@
   <section id="calendar" class="section section-alt">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">📅 ECONOMIC CALENDAR</span>
+        <span class="section-tag"><span data-icon="calendar" data-icon-class="section-tag-icon"></span> ECONOMIC CALENDAR</span>
         <h2 class="section-title">التقويم <span style="color:var(--sky)">الاقتصادي</span></h2>
         <p class="section-desc">الأحداث الاقتصادية المؤثرة على الأسواق</p>
       </div>
@@ -432,7 +408,7 @@
     </div>
   </section>
 
-  <button type="button" class="chat-fab" id="chatFab" aria-label="Chat">💬</button>
+  <button type="button" class="chat-fab" id="chatFab" aria-label="Chat"><span data-icon="chat"></span></button>
 
   <footer class="footer">
     <div class="container">
@@ -442,7 +418,7 @@
 
   <!-- ===== RISK BAR ===== -->
   <div class="risk-bar">
-    <span class="risk-icon">⚠️</span>
+    <span class="risk-icon"><span data-icon="warning"></span></span>
     <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
   </div>
 
@@ -454,6 +430,7 @@
   <script src="js/market-chat.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/news.js"></script>
+  <script src="js/icon.js"></script>
   <script src="js/app.js"></script>
 
   <!-- ===== ECONOMIC CALENDAR ===== -->
@@ -533,9 +510,9 @@
     }
 
     function impactIcon(impact){
-      if(impact==='high')   return '<span class="imp-dot imp-high"  title="عالي">🔴</span>';
-      if(impact==='medium') return '<span class="imp-dot imp-med"   title="متوسط">🟡</span>';
-      return                       '<span class="imp-dot imp-low"   title="منخفض">🟢</span>';
+      if(impact==='high')   return '<span class="imp-dot imp-high"  title="عالي" style="color:#ef4444">●</span>';
+      if(impact==='medium') return '<span class="imp-dot imp-med"   title="متوسط" style="color:#f59e0b">●</span>';
+      return                       '<span class="imp-dot imp-low"   title="منخفض" style="color:#22c55e">●</span>';
     }
 
     function actualClass(actual, forecast){
@@ -563,14 +540,14 @@
         let dateRow = '';
         if(dateStr !== lastDate){
           lastDate = dateStr;
-          dateRow = `<tr class="cal-date-row"><td colspan="7">📆 ${dateStr}</td></tr>`;
+          dateRow = `        <tr class="cal-date-row"><td colspan="7"><span data-icon="calendar"></span> ${dateStr}</td></tr>`;
         }
 
         const past     = isPast(ev);
         const timeStr  = ev.time.toLocaleTimeString('ar', { hour:'2-digit', minute:'2-digit' });
         const actCls   = actualClass(ev.actual, ev.forecast);
         const rowCls   = past ? 'cal-row-past' : (i===events.findIndex(isNext) ? 'cal-row-next' : '');
-        const nextBadge= (!past && i===events.findIndex(isNext)) ? '<span class="next-badge">التالي ▶</span>' : '';
+        const nextBadge= (!past && i===events.findIndex(isNext)) ? '<span class="next-badge">التالي <span data-icon="lightning"></span></span>' : '';
 
         return `${dateRow}
         <tr class="cal-row ${rowCls}" data-impact="${ev.impact}">
@@ -627,7 +604,7 @@
     // ── زر التحديث ──
     document.getElementById('calRefresh').addEventListener('click', () => {
       document.getElementById('calBody').innerHTML =
-        '<tr><td colspan="7" class="cal-loading">🔄 جاري التحديث...</td></tr>';
+        '<tr><td colspan="7" class="cal-loading"><span data-icon="refresh"></span> جاري التحديث...</td></tr>';
       setTimeout(loadEvents, 600);
     });
 

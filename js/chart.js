@@ -129,7 +129,7 @@
     // Set default active interval H1
     var h1 = document.querySelector('.iv-btn[data-iv="60"]');
     if (h1) {
-      document.querySelectorAll('.iv-btn').forEach(function (b) { b.classList.remove('active', 'active-default'); });
+      document.querySelectorAll('.iv-btn').forEach(function (b) { b.classList.remove('active'); });
       h1.classList.add('active');
     }
   }

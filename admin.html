@@ -202,7 +202,7 @@
       <h2>لوحة التحكم</h2>
       <p>أدخل كلمة المرور للدخول</p>
       <input type="password" id="passInput" class="input-field" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')login()">
-      <button class="btn-primary" onclick="login()">دخول 🔐</button>
+      <button class="btn-primary" onclick="login()">دخول <span data-icon="lock"></span></button>
       <div class="login-error" id="loginError"></div>
     </div>
   </div>
@@ -215,7 +215,7 @@
         <img src="assets/logo_new_png.png" alt="">
         <span>Sirius <em>Fx</em></span>
       </div>
-      <span class="admin-badge">⚙️ ADMIN</span>
+      <span class="admin-badge"><span data-icon="admin"></span> ADMIN</span>
       <button class="btn-logout" onclick="logout()">تسجيل خروج</button>
     </nav>
 
@@ -223,7 +223,7 @@
 
       <!-- ===== فورم نشر إشارة ===== -->
       <div class="form-card">
-        <h3>📡 نشر إشارة جديدة</h3>
+        <h3><span data-icon="publish"></span> نشر إشارة جديدة</h3>
 
         <div class="form-grid">
           <!-- الزوج -->
@@ -278,14 +278,14 @@
         <div class="rr-preview" id="rrPreview">R:R — </div>
 
         <button class="btn-publish" id="publishBtn" onclick="publishSignal()">
-          📡 نشر الإشارة الآن
+          <span data-icon="publish"></span> نشر الإشارة الآن
         </button>
       </div>
 
       <!-- ===== جدول الإشارات ===== -->
       <div class="table-card">
         <div class="table-header">
-          <h3>📋 الإشارات المنشورة</h3>
+          <h3><span data-icon="signals"></span> الإشارات المنشورة</h3>
           <span class="table-count" id="tableCount">0 إشارة</span>
         </div>
         <div style="overflow-x:auto">
@@ -316,6 +316,7 @@
   <!-- Toast -->
   <div id="toast"></div>
 
+  <script src="js/icon.js"></script>
   <!-- Firebase -->
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -405,7 +406,7 @@
       } catch(e) {
         showToast('❌ خطأ في النشر: ' + e.message, 'error');
       }
-      btn.disabled = false; btn.textContent = '📡 نشر الإشارة الآن';
+      btn.disabled = false; btn.innerHTML = '<span data-icon="publish"></span> نشر الإشارة الآن';
     };
 
     // ── تحميل الإشارات ──

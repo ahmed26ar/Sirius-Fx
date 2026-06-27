@@ -282,7 +282,7 @@
 
   <!-- HEADER -->
   <div class="page-header">
-    <div class="page-tag">📡 Live Signals</div>
+    <div class="page-tag"><span data-icon="signals"></span> Live Signals</div>
     <h1 class="page-title">إشارات <span>التداول</span></h1>
     <p class="page-desc">الصفقات المنشورة مباشرة من فريق Sirius Fx</p>
   </div>
@@ -304,7 +304,7 @@
     <!-- بطاقات الإشارات -->
     <div class="signals-grid" id="signalsGrid">
       <div class="empty-state">
-        <div class="icon">📡</div>
+        <div class="icon"><span data-icon="signals"></span></div>
         <p>جاري تحميل الإشارات...</p>
       </div>
     </div>
@@ -313,6 +313,7 @@
 
   <footer>© 2026 Sirius Fx — للأغراض التعليمية فقط. التداول ينطوي على مخاطر.</footer>
 
+  <script src="js/icon.js"></script>
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -359,7 +360,7 @@
     function renderCards(signals){
       const grid = document.getElementById('signalsGrid');
       if(!signals || signals.length === 0){
-        grid.innerHTML = `<div class="empty-state"><div class="icon">📡</div><p>لا توجد إشارات حالياً، ترقب الإشارات القادمة!</p></div>`;
+        grid.innerHTML = `<div class="empty-state"><div class="icon"><span data-icon="signals"></span></div><p>لا توجد إشارات حالياً، ترقب الإشارات القادمة!</p></div>`;
         return;
       }
 
@@ -398,7 +399,7 @@
           <div class="status-row">
             <span class="status-badge ${status}">${statusLabel(status)}</span>
           </div>
-          ${s.comment ? `<div class="comment-text">💬 ${s.comment}</div>` : ''}
+          ${s.comment ? `<div class="comment-text"><span data-icon="chat"></span> ${s.comment}</div>` : ''}
         </div>`;
       }).join('');
     }
