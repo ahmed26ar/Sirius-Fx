@@ -14,7 +14,20 @@
 </head>
 <body>
 
+  <!-- ===== BACKGROUND LAYERS ===== -->
+  <div class="star-field-layer"></div>
+  <div class="floating-orbs-container"></div>
+
+  <!-- ===== LOADING SCREEN ===== -->
+  <div id="loader">
+    <img src="assets/logo_new_png.png" alt="" class="loader-logo">
+    <div class="loader-text">Sirius Fx</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+
   <!-- ===== SHOOTING STARS ===== -->
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
   <div class="shooting-star"></div>
   <div class="shooting-star"></div>
   <div class="shooting-star"></div>
@@ -38,26 +51,33 @@
         <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">تيليجرام</a>
       </div>
+      <div class="nav-progress" id="navProgress"></div>
     </div>
   </nav>
 
   <!-- ===== HERO ===== -->
   <section id="home" class="hero">
-    <div class="hero-bg"><div class="star-field"></div><div class="hero-glow"></div></div>
+    <div class="hero-bg">
+      <div class="hero-glow"></div>
+      <div class="hero-glow-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-particles" id="heroParticles"></div>
     <div class="container hero-content">
-      <h1 class="hero-title">Sirius <span class="accent">Fx</span></h1>
-      <p class="hero-subtitle" data-i18n="hero.subtitle">Subtitle</p>
-      <div class="hero-actions">
-        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="hero.cta">Join</a>
-        <a href="#chart" class="btn btn-outline btn-lg" data-i18n="hero.chartBtn">Live Chart</a>
-        <a href="#tools" class="btn btn-outline btn-lg" data-i18n="hero.tools">Tools</a>
+      <div class="hero-badge reveal"><span data-icon="lightning"></span> منصة تداول متكاملة</div>
+      <h1 class="hero-title reveal" style="transition-delay:0.1s"><span class="hero-title-gradient">Sirius Fx</span></h1>
+      <p class="hero-subtitle reveal" style="transition-delay:0.2s" data-i18n="hero.subtitle">منصتك المتكاملة للتداول في الأسواق المالية — إشارات، أدوات AI، تحليلات فورية</p>
+      <div class="hero-actions reveal" style="transition-delay:0.3s">
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="hero.cta">ابدأ الآن</a>
+        <a href="#chart" class="btn btn-outline btn-lg" data-i18n="hero.chartBtn">الشارت المباشر</a>
+        <a href="ai-hub.html" class="btn btn-outline btn-lg"><span data-icon="ai"></span> أدوات AI</a>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><span class="stat-num">500+</span><span class="stat-label" data-i18n="hero.stat1">Traders</span></div>
+      <div class="hero-stats reveal" style="transition-delay:0.4s">
+        <div class="stat"><span class="stat-num" data-count="500">0</span><span class="stat-label" data-i18n="hero.stat1">متداول</span></div>
         <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label" data-i18n="hero.stat2">Support</span></div>
+        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label" data-i18n="hero.stat2">دعم فني</span></div>
         <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">AI</span><span class="stat-label" data-i18n="hero.stat3">Tools</span></div>
+        <div class="stat"><span class="stat-num">AI</span><span class="stat-label" data-i18n="hero.stat3">أدوات ذكاء</span></div>
       </div>
     </div>
   </section>
@@ -65,30 +85,30 @@
   <!-- ===== SERVICES ===== -->
   <section id="services" class="section">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-tag" data-i18n="services.tag">Services</span>
         <h2 class="section-title" data-i18n="services.title">Solutions</h2>
       </div>
       <div class="cards-grid">
-        <article class="card">
+        <article class="card reveal" style="transition-delay:0.05s">
           <div class="card-icon"><span data-icon="signals"></span></div>
           <h3 data-i18n="services.signals.title">Signals</h3>
           <p data-i18n="services.signals.desc">Desc</p>
           <a href="https://t.me/srfx0" target="_blank" class="card-link" data-i18n="services.signals.link">Link</a>
         </article>
-        <article class="card">
+        <article class="card reveal" style="transition-delay:0.15s">
           <div class="card-icon"><span data-icon="courses"></span></div>
           <h3 data-i18n="services.courses.title">Courses</h3>
           <p data-i18n="services.courses.desc">Desc</p>
           <a href="#courses" class="card-link" data-i18n="services.courses.link">Link</a>
         </article>
-        <article class="card">
+        <article class="card reveal" style="transition-delay:0.25s">
           <div class="card-icon"><span data-icon="ai"></span></div>
           <h3 data-i18n="services.ai.title">AI</h3>
           <p data-i18n="services.ai.desc">Desc</p>
           <a href="ai-hub.html" class="card-link" data-i18n="services.ai.link">Link</a>
         </article>
-        <article class="card">
+        <article class="card reveal" style="transition-delay:0.35s">
           <div class="card-icon"><span data-icon="tools"></span></div>
           <h3 data-i18n="services.tools.title">Tools</h3>
           <p data-i18n="services.tools.desc">Desc</p>
@@ -291,7 +311,7 @@
         </div>
       </div>
       <div style="text-align: center; margin-top: 32px;">
-        <a href="ai-hub.html" class="btn btn-outline btn-lg">🚀 اكتشف جميع أدوات الذكاء الاصطناعي</a>
+        <a href="ai-hub.html" class="btn btn-outline btn-lg"><span data-icon="ai"></span> اكتشف جميع أدوات الذكاء الاصطناعي</a>
       </div>
     </div>
   </section>
@@ -376,7 +396,48 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2026 Sirius Fx. جميع الحقوق محفوظة.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/logo_new_png.png" alt="Sirius Fx" class="logo-img" width="44" height="44">
+            <span class="logo-text" dir="ltr">Sirius&nbsp;<span class="accent">Fx</span></span>
+          </a>
+          <p>منصتك المتكاملة للتداول في الأسواق المالية — إشارات احترافية، أدوات تحليل بالذكاء الاصطناعي، وتعليم مستمر.</p>
+        </div>
+        <div class="footer-col">
+          <h4>الروابط</h4>
+          <ul>
+            <li><a href="index.html"><span data-icon="home"></span> الرئيسية</a></li>
+            <li><a href="ai-hub.html"><span data-icon="ai"></span> مركز AI</a></li>
+            <li><a href="alerts.html"><span data-icon="alerts"></span> التنبيهات</a></li>
+            <li><a href="signals.html"><span data-icon="signals"></span> الإشارات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>الخدمات</h4>
+          <ul>
+            <li><a href="#chart"><span data-icon="chart"></span> الشارت المباشر</a></li>
+            <li><a href="#tools"><span data-icon="tools"></span> أدوات التداول</a></li>
+            <li><a href="#calendar"><span data-icon="calendar"></span> التقويم الاقتصادي</a></li>
+            <li><a href="#courses"><span data-icon="courses"></span> الكورسات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>تواصل</h4>
+          <ul>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="telegram"></span> تيليجرام</a></li>
+            <li><a href="mailto:siriusfx@example.com"><span data-icon="chat"></span> البريد الإلكتروني</a></li>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="chat"></span> الدعم الفني</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Sirius Fx. جميع الحقوق محفوظة.</span>
+        <div class="footer-social">
+          <a href="https://t.me/srfx0" target="_blank" rel="noopener" aria-label="Telegram"><span data-icon="telegram"></span></a>
+          <a href="#" aria-label="Twitter/X"><span data-icon="home"></span></a>
+        </div>
+      </div>
     </div>
   </footer>
 
@@ -396,6 +457,7 @@
   <script src="js/chart.js"></script>
   <script src="js/news.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/effects.js"></script>
 
   <!-- ===== ECONOMIC CALENDAR ===== -->
   <script>
