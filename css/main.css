@@ -1451,6 +1451,7 @@ body > * { position: relative; z-index: 1; }
 .rp-day-form input:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
 .rp-day-form input[name="pnl"] { width: 100px; }
 .rp-day-form input[name="notes"] { flex: 1; min-width: 120px; }
+.rp-plan-bar { display: flex; gap: 6px; align-items: center; margin-bottom: 14px; }
 @media (max-width: 700px) {
   .rp-stats-grid { grid-template-columns: repeat(2, 1fr); }
   .rp-row { flex-direction: column; align-items: stretch; }

@@ -225,28 +225,20 @@
     }
   }
 
+  /* ===== MOBILE DETECTION ===== */
+  function isMobile() {
+    return window.innerWidth < 768 || 'ontouchstart' in window;
+  }
+
   /* ===== INIT ALL ===== */
   function init() {
-    // Wait for DOM
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () {
+    var mobile = isMobile();
+    function run() {
+      if (!mobile) {
         initMouseGlow();
         initMagneticButtons();
         initCardTilt();
-        initRevealAnimations();
-        initScrollProgress();
-        initCountUp();
-        initRipple();
-        initLoader();
-        initTextEffects();
-        enhanceTicker();
-        initParallax();
-        createFloatingOrbs();
-      });
-    } else {
-      initMouseGlow();
-      initMagneticButtons();
-      initCardTilt();
+      }
       initRevealAnimations();
       initScrollProgress();
       initCountUp();
@@ -255,7 +247,12 @@
       initTextEffects();
       enhanceTicker();
       initParallax();
-      createFloatingOrbs();
+      if (!mobile) createFloatingOrbs();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run);
+    } else {
+      run();
     }
   }
 

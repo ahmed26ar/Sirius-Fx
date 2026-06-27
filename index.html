@@ -355,6 +355,14 @@
         <div class="ai-card" id="risk-planner">
           <h3>Risk Planner <span style="font-size:13px;color:var(--text-muted)">📋</span></h3>
           <p>خطط لأيام التداول و تحكم بالمخاطرة والاتساق — مخصص لحسابات الممولة والحقيقية</p>
+
+          <div class="rp-plan-bar">
+            <select id="rp-plan-select" style="flex:1;max-width:200px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);font-size:13px"></select>
+            <button type="button" id="rp-btn-new" class="btn btn-outline btn-sm">➕ New</button>
+            <button type="button" id="rp-btn-rename" class="btn btn-outline btn-sm">✏️</button>
+            <button type="button" id="rp-btn-del" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);">🗑️</button>
+          </div>
+
           <div class="rp-inputs">
             <div class="rp-row">
               <div class="rp-field"><label>Balance $</label><input type="number" id="rp-balance" value="10000"></div>
@@ -376,10 +384,16 @@
             <div class="rp-actions">
               <button type="button" id="rp-btn-config" class="btn btn-primary btn-sm">⚙️ Generate Plan</button>
               <button type="button" id="rp-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);">Reset</button>
+              <button type="button" id="rp-btn-csv" class="btn btn-outline btn-sm">📥 Export CSV</button>
             </div>
           </div>
+
           <div id="rp-stats"></div>
+
+          <canvas id="rp-chart" style="width:100%;height:180px;margin-bottom:12px;border-radius:8px;background:var(--bg)"></canvas>
+
           <div id="rp-table-wrap"><div class="rp-empty">⚙️ Configure your plan above to begin</div></div>
+
           <div class="rp-day-form" style="display:none" id="rp-day-form">
             <input type="hidden" id="rp-day-idx" value="-1">
             <input type="number" name="pnl" id="rp-day-pnl" placeholder="P&L $" step="1">
