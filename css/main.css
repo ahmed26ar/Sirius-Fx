@@ -917,20 +917,6 @@ body > * { position: relative; z-index: 1; }
 #sentiment-input { font-size: 13px; line-height: 1.6; }
 #sentiment-input:focus { outline: none; border-color: var(--sky) !important; box-shadow: 0 0 0 3px var(--sky-glow); }
 
-/* ===== Portfolio ===== */
-.portfolio-stats {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  font-family: var(--font-en);
-  font-size: 13px;
-  line-height: 1.8;
-  margin-bottom: 12px;
-}
-#portfolio-balance:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
-#portfolio-trades:focus { outline: none; border-color: var(--sky) !important; box-shadow: 0 0 0 3px var(--sky-glow); }
-
 /* ==================== COURSES ==================== */
 .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
 .course-card { padding: 32px; position: relative; }
@@ -1427,3 +1413,47 @@ body > * { position: relative; z-index: 1; }
 .bf-form-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
 .bf-form-row select, .bf-form-row input { padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text); font-family: inherit; font-size: 13px; }
 .bf-form-row select:focus, .bf-form-row input:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
+
+/* Risk Planner */
+.rp-inputs { margin-bottom: 16px; }
+.rp-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; align-items: flex-end; }
+.rp-field { display: flex; flex-direction: column; gap: 3px; }
+.rp-field label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.rp-field input, .rp-field select { padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--card-bg); color: var(--text); font-size: 14px; font-family: var(--font-en); width: 110px; }
+.rp-field input:focus, .rp-field select:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
+.rp-field--wide input { width: 140px; }
+.rp-cons { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.rp-cons label { font-size: 12px; color: var(--text-muted); }
+.rp-cons input[type="number"] { width: 60px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--card-bg); color: var(--text); font-size: 13px; }
+.rp-actions { display: flex; gap: 8px; margin: 10px 0 14px; }
+.rp-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.rp-stat { text-align: center; background: var(--bg); border-radius: 8px; padding: 10px 6px; border: 1px solid var(--border); }
+.rp-stat--good { border-left: 3px solid #22c55e; }
+.rp-stat--bad { border-left: 3px solid #ef4444; }
+.rp-stat-val { font-size: 1.15rem; font-weight: 800; font-family: var(--font-en); color: var(--text); }
+.rp-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.rp-table-scroll { overflow-x: auto; }
+.rp-table { width: 100%; border-collapse: collapse; font-family: var(--font-en); font-size: 13px; }
+.rp-table th { text-align: left; padding: 8px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+.rp-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text); }
+.rp-cell--pos { color: #22c55e !important; font-weight: 700; }
+.rp-cell--neg { color: #ef4444 !important; font-weight: 700; }
+.rp-cell--muted { color: var(--text-muted) !important; }
+.rp-badge { font-size: 11px; padding: 2px 8px; border-radius: 50px; font-weight: 600; white-space: nowrap; }
+.rp-badge--win { background: rgba(34,197,94,0.15); color: #22c55e; }
+.rp-badge--loss { background: rgba(239,68,68,0.15); color: #ef4444; }
+.rp-badge--partial { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.rp-edit-btn { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 13px; color: var(--text-muted); transition: all 0.2s; }
+.rp-edit-btn:hover { border-color: var(--sky); color: var(--sky); }
+.rp-empty { text-align: center; padding: 24px; color: var(--text-muted); font-size: 14px; }
+.rp-day-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: var(--bg); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); margin-top: 10px; }
+.rp-day-form input { padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--card-bg); color: var(--text); font-size: 13px; font-family: var(--font-en); }
+.rp-day-form input:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
+.rp-day-form input[name="pnl"] { width: 100px; }
+.rp-day-form input[name="notes"] { flex: 1; min-width: 120px; }
+@media (max-width: 700px) {
+  .rp-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .rp-row { flex-direction: column; align-items: stretch; }
+  .rp-field input, .rp-field select { width: 100%; }
+  .rp-field--wide input { width: 100%; }
+}

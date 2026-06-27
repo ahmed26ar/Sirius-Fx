@@ -315,52 +315,6 @@ function analyzeSentiment(text) {
   return callAI(prompt, lang);
 }
 
-/* ===== PORTFOLIO RISK ANALYZER ===== */
-function analyzePortfolio(data) {
-  var lang = typeof currentLang !== 'undefined' ? currentLang : 'ar';
-  var lines = data.trades.trim().split('\n').filter(Boolean);
-  var trades = lines.map(function (l) {
-    var p = l.split(/[,\s]+/).filter(Boolean);
-    return { pair: p[0] || '?', lots: parseFloat(p[1]) || 0, side: p[2] || '?', entry: parseFloat(p[3]) || 0, exit: parseFloat(p[4]) || 0, profit: parseFloat(p[5]) || 0 };
-  });
-  var balance = parseFloat(data.balance) || 10000;
-
-  var winTrades = trades.filter(function (t) { return t.profit > 0; });
-  var lossTrades = trades.filter(function (t) { return t.profit <= 0; });
-  var totalPL = trades.reduce(function (s, t) { return s + t.profit; }, 0);
-  var winRate = trades.length ? (winTrades.length / trades.length * 100).toFixed(1) : 0;
-  var avgWin = winTrades.length ? winTrades.reduce(function (s, t) { return s + t.profit; }, 0) / winTrades.length : 0;
-  var avgLoss = lossTrades.length ? Math.abs(lossTrades.reduce(function (s, t) { return s + t.profit; }, 0) / lossTrades.length) : 0;
-  var profitFactor = avgLoss > 0 ? (winTrades.reduce(function (s, t) { return s + t.profit; }, 0) / Math.abs(lossTrades.reduce(function (s, t) { return s + t.profit; }, 0))).toFixed(2) : '∞';
-  var maxDrawdown = 0, runningPL = 0;
-  trades.forEach(function (t) { runningPL += t.profit; if (runningPL < maxDrawdown) maxDrawdown = runningPL; });
-  var riskRatio = balance > 0 ? (Math.abs(totalPL) / balance * 100).toFixed(1) : 0;
-
-  var stats = 'Trades: ' + trades.length + ' | Win Rate: ' + winRate + '% | Total P&L: $' + totalPL.toFixed(2) + '\n'
-    + 'Avg Win: $' + avgWin.toFixed(2) + ' | Avg Loss: $' + avgLoss.toFixed(2) + ' | PF: ' + profitFactor + '\n'
-    + 'Max Drawdown: $' + maxDrawdown.toFixed(2) + ' | Risk Ratio: ' + riskRatio + '% of balance';
-
-  var prompt = lang === 'ar'
-    ? 'أنت محلل مخاطر مالية خبير. حلل بيانات المحفظة التالية وقدم تقييماً شاملاً:\n\n'
-    + stats + '\n\n'
-    + 'قدم:\n'
-    + '📊 تقييم المخاطر العام\n'
-    + '✅ نقاط القوة\n'
-    + '⚠️ نقاط الضعف\n'
-    + '💡 توصيات قابلة للتنفيذ لتحسين الأداء'
-    : 'You are a financial risk analyst. Analyze this portfolio data and provide a comprehensive assessment:\n\n'
-    + stats + '\n\n'
-    + 'Provide:\n'
-    + '📊 Overall Risk Assessment\n'
-    + '✅ Strengths\n'
-    + '⚠️ Weaknesses\n'
-    + '💡 Actionable Recommendations';
-
-  return callAI(prompt, lang).then(function (reply) {
-    return { html: '<div class="portfolio-stats">' + stats.replace(/\n/g, '<br>') + '</div><div class="summary-response" style="margin-top:12px">' + reply.replace(/\n/g, '<br>') + '</div>' };
-  });
-}
-
 function initAITools() {
   /* ===== SETUP ANALYZER ===== */
   document.getElementById('form-setup').addEventListener('submit', function(e) {
@@ -437,25 +391,6 @@ function initAITools() {
         sentimentResult.innerHTML = '<div class="result-bad">' + t('ai.summary.error') + '</div>';
       }).finally(function() {
         sentimentBtn.disabled = false;
-      });
-    });
-  }
-
-  /* ===== PORTFOLIO RISK ANALYZER ===== */
-  var portfolioBtn = document.getElementById('btn-portfolio');
-  var portfolioResult = document.getElementById('result-portfolio');
-  if (portfolioBtn && portfolioResult) {
-    portfolioBtn.addEventListener('click', function() {
-      var balance = document.getElementById('portfolio-balance').value;
-      var trades = document.getElementById('portfolio-trades').value;
-      portfolioResult.innerHTML = '<div class="result-warn">' + t('ai.portfolio.loading') + '</div>';
-      portfolioBtn.disabled = true;
-      analyzePortfolio({ balance: balance, trades: trades }).then(function(result) {
-        portfolioResult.innerHTML = result.html;
-      }).catch(function() {
-        portfolioResult.innerHTML = '<div class="result-bad">' + t('ai.summary.error') + '</div>';
-      }).finally(function() {
-        portfolioBtn.disabled = false;
       });
     });
   }

@@ -352,15 +352,40 @@
           <button type="button" id="btn-sentiment" class="btn btn-primary" data-i18n="ai.sentiment.btn">📊 Analyze Sentiment</button>
           <div class="ai-result" id="result-sentiment"></div>
         </div>
-        <div class="ai-card">
-          <h3 data-i18n="ai.portfolio.title">Portfolio Risk Analyzer</h3>
-          <p data-i18n="ai.portfolio.desc">Comprehensive risk analysis</p>
-          <label><span data-i18n="ai.portfolio.balance">Balance ($)</span>
-            <input type="number" id="portfolio-balance" value="10000" style="width:100%;margin-bottom:8px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)">
-          </label>
-          <textarea id="portfolio-trades" rows="4" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);resize:vertical" placeholder="EUR/USD,0.1,Buy,1.0850,1.0900,50&#10;GBP/USD,0.2,Sell,1.2650,1.2600,-30" data-i18n-placeholder="ai.portfolio.trades.placeholder"></textarea>
-          <button type="button" id="btn-portfolio" class="btn btn-primary" data-i18n="ai.portfolio.btn">📈 Analyze Portfolio</button>
-          <div class="ai-result" id="result-portfolio"></div>
+        <div class="ai-card" id="risk-planner">
+          <h3>Risk Planner <span style="font-size:13px;color:var(--text-muted)">📋</span></h3>
+          <p>خطط لأيام التداول و تحكم بالمخاطرة والاتساق — مخصص لحسابات الممولة والحقيقية</p>
+          <div class="rp-inputs">
+            <div class="rp-row">
+              <div class="rp-field"><label>Balance $</label><input type="number" id="rp-balance" value="10000"></div>
+              <div class="rp-field"><label>Daily Risk %</label><input type="number" id="rp-daily-risk" value="2" step="0.1"></div>
+              <div class="rp-field"><label>Max DD %</label><input type="number" id="rp-max-dd" value="6" step="0.1"></div>
+              <div class="rp-field rp-field--wide"><label>Target $</label><input type="number" id="rp-target" value="500"></div>
+              <div class="rp-field"><label>Days</label>
+                <select id="rp-period">
+                  <option value="10">10</option><option value="20">20</option><option value="30" selected>30</option>
+                  <option value="60">60</option><option value="90">90</option>
+                </select>
+              </div>
+            </div>
+            <div class="rp-cons">
+              <input type="checkbox" id="rp-cons-enable"> <label for="rp-cons-enable">Enable Consistency Rule</label>
+              <label>Max % per day:</label>
+              <input type="number" id="rp-cons-pct" value="30" step="1" style="width:60px">
+            </div>
+            <div class="rp-actions">
+              <button type="button" id="rp-btn-config" class="btn btn-primary btn-sm">⚙️ Generate Plan</button>
+              <button type="button" id="rp-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);">Reset</button>
+            </div>
+          </div>
+          <div id="rp-stats"></div>
+          <div id="rp-table-wrap"><div class="rp-empty">⚙️ Configure your plan above to begin</div></div>
+          <div class="rp-day-form" style="display:none" id="rp-day-form">
+            <input type="hidden" id="rp-day-idx" value="-1">
+            <input type="number" name="pnl" id="rp-day-pnl" placeholder="P&L $" step="1">
+            <input type="text" name="notes" id="rp-day-notes" placeholder="Notes">
+            <button type="button" id="rp-btn-save" class="btn btn-primary btn-sm">Save Day</button>
+          </div>
         </div>
       </div>
       <div style="text-align: center; margin-top: 32px;">
@@ -511,6 +536,7 @@
   <script src="js/news.js"></script>
   <script src="js/app.js"></script>
   <script src="js/behavioral-flags.js"></script>
+  <script src="js/risk-planner.js"></script>
   <script src="js/effects.js"></script>
 
   <script>
