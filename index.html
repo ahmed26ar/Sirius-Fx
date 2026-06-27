@@ -10,14 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo_new_png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
-  <style>
-    .ticker-container {
-      margin: 20px 0;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-  </style>
+  <style></style>
 </head>
 <body>
 
@@ -35,11 +28,11 @@
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="active" data-i18n="nav.home">الرئيسية</a></li>
-        <li><a href="ai-hub.html" data-i18n="nav.ai">مركز AI</a></li>
-        <li><a href="alerts.html" data-i18n="nav.alerts">التنبيهات</a></li>
-        <li><a href="#tools" data-i18n="nav.tools">الأدوات</a></li>
-        <li><a href="#chart" data-i18n="nav.chart">الشارت</a></li>
+        <li><a href="index.html" class="active" data-i18n="nav.home"><span data-icon="home"></span> الرئيسية</a></li>
+        <li><a href="ai-hub.html" data-i18n="nav.ai"><span data-icon="ai"></span> مركز AI</a></li>
+        <li><a href="alerts.html" data-i18n="nav.alerts"><span data-icon="alerts"></span> التنبيهات</a></li>
+        <li><a href="#tools" data-i18n="nav.tools"><span data-icon="tools"></span> الأدوات</a></li>
+        <li><a href="#chart" data-i18n="nav.chart"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
         <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
@@ -105,36 +98,7 @@
     </div>
   </section>
 
-  <!-- ===== LIVE MARKET TICKER ===== -->
-  <section id="market" class="section section-alt">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag" data-i18n="market.tag">LIVE MARKET</span>
-        <h2 class="section-title" data-i18n="market.title">أسعار السوق المباشرة</h2>
-      </div>
-      <div class="ticker-container">
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-          {
-            "symbols": [
-              { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
-              { "proName": "FOREXCOM:NSXUSD", "title": "US 100" },
-              { "proName": "FX_IDC:EURUSD", "title": "EUR/USD" },
-              { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
-              { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" }
-            ],
-            "showSymbolLogo": true,
-            "isTransparent": true,
-            "displayMode": "adaptive",
-            "colorTheme": "dark",
-            "locale": "ar"
-          }
-          </script>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- ===== TRADINGVIEW CHART ===== -->
   <section id="chart" class="section">
@@ -423,6 +387,7 @@
   </div>
 
   <script src="js/config.js"></script>
+  <script src="js/icon.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/trading-tools.js"></script>
@@ -430,7 +395,6 @@
   <script src="js/market-chat.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/news.js"></script>
-  <script src="js/icon.js"></script>
   <script src="js/app.js"></script>
 
   <!-- ===== ECONOMIC CALENDAR ===== -->

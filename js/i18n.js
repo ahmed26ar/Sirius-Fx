@@ -270,7 +270,13 @@ function setLanguage(lang) {
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (key) el.textContent = t(key);
+    if (key) {
+      var icons = el.querySelectorAll('.sirius-icon-wrap');
+      var iconHTML = '';
+      icons.forEach(function (ic) { iconHTML += ic.outerHTML; });
+      el.textContent = t(key);
+      if (iconHTML) el.innerHTML = iconHTML + ' ' + el.textContent;
+    }
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
