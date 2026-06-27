@@ -49,14 +49,14 @@
         var rect = card.getBoundingClientRect();
         var x = (e.clientX - rect.left) / rect.width - 0.5;
         var y = (e.clientY - rect.top) / rect.height - 0.5;
-        var tiltX = y * -10;
-        var tiltY = x * 10;
-        card.style.transform = 'perspective(1000px) rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg) translateY(-5px) scale(1.02)';
-        card.style.transition = 'transform 0.05s ease';
+        var tiltX = y * -4;
+        var tiltY = x * 4;
+        card.style.transform = 'perspective(1000px) rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg) translateY(-2px) scale(1.01)';
+        card.style.transition = 'transform 0.15s ease';
       });
       card.addEventListener('mouseleave', function () {
         card.style.transform = '';
-        card.style.transition = 'transform 0.5s ease';
+        card.style.transition = 'transform 0.4s ease';
       });
     });
   }
