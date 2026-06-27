@@ -270,6 +270,18 @@
         <span class="section-tag" data-i18n="ai.tag">AI</span>
         <h2 class="section-title" data-i18n="ai.title">AI Tools</h2>
       </div>
+      <!-- AI Market Summary Card (featured) -->
+      <div class="ai-card ai-card-summary">
+        <h3 data-i18n="ai.summary.title">AI Market Summary</h3>
+        <p data-i18n="ai.summary.desc">AI-powered market analysis</p>
+        <div class="summary-rates" id="summary-rates">
+          <small data-i18n="ai.summary.rates">Current Rates:</small>
+          <div class="summary-rates-list" id="summary-rates-list"><span class="text-muted">Loading rates...</span></div>
+        </div>
+        <button type="button" id="btn-summary" class="btn btn-primary btn-lg" data-i18n="ai.summary.btn">Generate Analysis</button>
+        <div class="ai-result" id="result-summary"></div>
+      </div>
+
       <div class="ai-grid">
         <div class="ai-card">
           <h3 data-i18n="ai.setup.title">Setup Analyzer</h3>
@@ -284,14 +296,27 @@
           <div class="ai-result" id="result-setup"></div>
         </div>
         <div class="ai-card">
-          <h3 data-i18n="ai.pattern.title">Pattern Detector</h3>
-          <p data-i18n="ai.pattern.desc">Candlestick patterns</p>
+          <h3 data-i18n="ai.pattern.pro.title">Advanced Pattern Detector</h3>
+          <p data-i18n="ai.pattern.pro.desc">Multi-candle patterns</p>
           <form id="form-pattern" class="tool-form">
-            <label>O<input type="number" id="pat-o" value="1.0850" step="0.00001"></label>
-            <label>H<input type="number" id="pat-h" value="1.0870" step="0.00001"></label>
-            <label>L<input type="number" id="pat-l" value="1.0820" step="0.00001"></label>
-            <label>C<input type="number" id="pat-c" value="1.0865" step="0.00001"></label>
-            <button type="submit" class="btn btn-primary" data-i18n="tools.calc">Detect</button>
+            <label><span data-i18n="ai.pattern.mode">Mode</span>
+              <select id="pattern-mode">
+                <option value="single" data-i18n="ai.pattern.single">Single Candle</option>
+                <option value="multi" data-i18n="ai.pattern.multi">Multi-Candle</option>
+              </select>
+            </label>
+            <div id="pat-single-inputs">
+              <label>O<input type="number" id="pat-o" value="1.0850" step="0.00001"></label>
+              <label>H<input type="number" id="pat-h" value="1.0870" step="0.00001"></label>
+              <label>L<input type="number" id="pat-l" value="1.0820" step="0.00001"></label>
+              <label>C<input type="number" id="pat-c" value="1.0865" step="0.00001"></label>
+            </div>
+            <div id="pat-multi-inputs" style="display:none;grid-column:1/-1">
+              <label><span data-i18n="ai.pattern.candles">Candle data</span>
+                <textarea id="pat-multi" rows="4" style="width:100%" placeholder="1.0850,1.0870,1.0820,1.0865&#10;1.0860,1.0880,1.0830,1.0875&#10;1.0875,1.0895,1.0840,1.0880"></textarea>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary" data-i18n="ai.pattern.pro.btn">Detect Patterns</button>
           </form>
           <div class="ai-result" id="result-pattern"></div>
         </div>
@@ -308,6 +333,50 @@
           <textarea id="momentum-input" rows="3" placeholder="1.0850, 1.0862, 1.0870, 1.0885"></textarea>
           <button type="button" id="btn-momentum" class="btn btn-primary" data-i18n="tools.calc">Analyze</button>
           <div class="ai-result" id="result-momentum"></div>
+        </div>
+        <div class="ai-card">
+          <h3 data-i18n="ai.trade.title">AI Trade Assistant</h3>
+          <p data-i18n="ai.trade.desc">AI-powered trade plan</p>
+          <form id="form-trade" class="tool-form">
+            <label><span data-i18n="ai.trade.pair">Pair</span>
+              <select id="trade-pair">
+                <option value="EUR/USD">EUR/USD</option><option value="GBP/USD">GBP/USD</option>
+                <option value="USD/JPY">USD/JPY</option><option value="XAU/USD">XAU/USD</option>
+                <option value="BTC/USD">BTC/USD</option><option value="USD/CAD">USD/CAD</option>
+                <option value="AUD/USD">AUD/USD</option><option value="US30">US30</option>
+              </select>
+            </label>
+            <label><span data-i18n="ai.trade.direction">Direction</span>
+              <select id="trade-direction">
+                <option value="Bullish" data-i18n="ai.trade.bullish">Bullish</option>
+                <option value="Bearish" data-i18n="ai.trade.bearish">Bearish</option>
+              </select>
+            </label>
+            <label><span data-i18n="ai.trade.entry">Entry</span><input type="number" id="trade-entry" value="1.0850" step="any"></label>
+            <label><span data-i18n="ai.trade.sl">SL</span><input type="number" id="trade-sl" value="1.0800" step="any"></label>
+            <label><span data-i18n="ai.trade.tp">TP</span><input type="number" id="trade-tp" value="1.0950" step="any"></label>
+            <label><span data-i18n="ai.trade.risk">Risk %</span><input type="number" id="trade-risk" value="1" step="0.1" min="0.1" max="100"></label>
+            <label style="grid-column:1/-1"><span data-i18n="ai.trade.notes">Notes</span><textarea id="trade-notes" rows="2" style="width:100%"></textarea></label>
+            <button type="submit" class="btn btn-primary" data-i18n="ai.trade.btn" style="grid-column:1/-1">🤖 Generate Trade Plan</button>
+          </form>
+          <div class="ai-result" id="result-trade"></div>
+        </div>
+        <div class="ai-card">
+          <h3 data-i18n="ai.sentiment.title">AI News Sentiment</h3>
+          <p data-i18n="ai.sentiment.desc">Paste news for sentiment analysis</p>
+          <textarea id="sentiment-input" rows="4" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);resize:vertical" placeholder="EUR/USD rose sharply today as the Fed signaled..." data-i18n-placeholder="ai.sentiment.placeholder"></textarea>
+          <button type="button" id="btn-sentiment" class="btn btn-primary" data-i18n="ai.sentiment.btn">📊 Analyze Sentiment</button>
+          <div class="ai-result" id="result-sentiment"></div>
+        </div>
+        <div class="ai-card">
+          <h3 data-i18n="ai.portfolio.title">Portfolio Risk Analyzer</h3>
+          <p data-i18n="ai.portfolio.desc">Comprehensive risk analysis</p>
+          <label><span data-i18n="ai.portfolio.balance">Balance ($)</span>
+            <input type="number" id="portfolio-balance" value="10000" style="width:100%;margin-bottom:8px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)">
+          </label>
+          <textarea id="portfolio-trades" rows="4" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);resize:vertical" placeholder="EUR/USD,0.1,Buy,1.0850,1.0900,50&#10;GBP/USD,0.2,Sell,1.2650,1.2600,-30" data-i18n-placeholder="ai.portfolio.trades.placeholder"></textarea>
+          <button type="button" id="btn-portfolio" class="btn btn-primary" data-i18n="ai.portfolio.btn">📈 Analyze Portfolio</button>
+          <div class="ai-result" id="result-portfolio"></div>
         </div>
       </div>
       <div style="text-align: center; margin-top: 32px;">
@@ -458,6 +527,25 @@
   <script src="js/news.js"></script>
   <script src="js/app.js"></script>
   <script src="js/effects.js"></script>
+
+  <script>
+  // عرض الأسعار الحية في بطاقة AI Market Summary
+  (function() {
+    function updateSummaryRates() {
+      var list = document.getElementById('summary-rates-list');
+      if (!list) return;
+      var rates = window.SiriusRates;
+      if (!rates) { list.innerHTML = '<span class="text-muted">جاري تحميل الأسعار...</span>'; return; }
+      var pairs = Object.keys(rates).filter(function(k) { return k !== 'timestamp' && rates[k] && rates[k].price; });
+      if (!pairs.length) { list.innerHTML = '<span class="text-muted">لا توجد أسعار متاحة</span>'; return; }
+      list.innerHTML = pairs.slice(0, 6).map(function(p) {
+        return '<span class="summary-rate-item"><strong>' + p + '</strong> ' + rates[p] + '</span>';
+      }).join('');
+    }
+    updateSummaryRates();
+    setInterval(updateSummaryRates, 10000);
+  })();
+  </script>
 
   <!-- ===== ECONOMIC CALENDAR ===== -->
   <script>
