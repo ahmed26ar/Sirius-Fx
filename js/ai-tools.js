@@ -1,81 +1,220 @@
+/* ===== Sirius Fx AI Tools — Professional Edition ===== */
+
+/* ---------- Setup Analyzer ---------- */
+
 function analyzeSetup(trend, rr, risk, session) {
-  let score = 50;
-  const notes = [];
+  var factors = [];
+  var score = 50;
 
-  if (trend === 'with') { score += 20; notes.push('✓ With-trend setup (+20)'); }
-  else if (trend === 'range') { score += 5; notes.push('~ Range-bound market (+5)'); }
-  else { score -= 15; notes.push('✗ Counter-trend trade (-15)'); }
+  function add(label, val, max, icon, detail) {
+    var pct = Math.min(100, Math.max(0, val / max * 100));
+    var cls = pct >= 70 ? 'good' : pct >= 40 ? 'warn' : 'bad';
+    factors.push({ label: label, pct: pct, cls: cls, icon: icon, detail: detail });
+  }
 
-  if (rr >= 3) { score += 20; notes.push('✓ Excellent R:R ≥ 3 (+20)'); }
-  else if (rr >= 2) { score += 15; notes.push('✓ Good R:R ≥ 2 (+15)'); }
-  else if (rr >= 1.5) { score += 5; notes.push('~ Acceptable R:R (+5)'); }
-  else { score -= 20; notes.push('✗ Poor R:R < 1.5 (-20)'); }
+  if (trend === 'with') { score += 20; add('Trend', 100, 100, '📈', 'With trend — bullish bias'); }
+  else if (trend === 'range') { score += 5; add('Trend', 40, 100, '📊', 'Range-bound — neutral'); }
+  else { score -= 15; add('Trend', 15, 100, '📉', 'Counter-trend — risky'); }
 
-  if (risk <= 1) { score += 10; notes.push('✓ Conservative risk ≤ 1% (+10)'); }
-  else if (risk <= 2) { score += 0; notes.push('~ Moderate risk 1-2%'); }
-  else { score -= 15; notes.push('✗ High risk > 2% (-15)'); }
+  if (rr >= 3) { score += 20; add('R:R', 100, 100, '🎯', rr + ':1 — excellent'); }
+  else if (rr >= 2) { score += 15; add('R:R', 75, 100, '🎯', rr + ':1 — good'); }
+  else if (rr >= 1.5) { score += 5; add('R:R', 45, 100, '🎯', rr + ':1 — acceptable'); }
+  else { score -= 20; add('R:R', 10, 100, '🎯', rr + ':1 — poor'); }
 
-  const sessionScores = { london: 10, ny: 10, overlap: 15, asia: -5 };
-  score += sessionScores[session] || 0;
-  notes.push('Session: ' + session + ' (' + (sessionScores[session] >= 0 ? '+' : '') + sessionScores[session] + ')');
+  if (risk <= 1) { score += 10; add('Risk', 90, 100, '🛡️', risk + '% — conservative'); }
+  else if (risk <= 2) { score += 0; add('Risk', 55, 100, '🛡️', risk + '% — moderate'); }
+  else { score -= 15; add('Risk', 10, 100, '🛡️', risk + '% — high risk'); }
+
+  var sessionLabels = { london: 'London', ny: 'New York', asia: 'Asia', overlap: 'London–NY Overlap' };
+  var sessionScores = { london: 10, ny: 10, overlap: 15, asia: -5 };
+  var sVal = sessionScores[session] || 0;
+  var sPct = 50 + sVal * 3;
+  sPct = Math.max(5, Math.min(100, sPct));
+  score += sVal;
+  add('Session', sPct, 100, '🕐', sessionLabels[session] + (sVal >= 0 ? ' — optimal' : ' — suboptimal'));
 
   score = Math.max(0, Math.min(100, score));
-  let grade, cls;
-  if (score >= 80) { grade = 'A+ Excellent'; cls = 'result-good'; }
-  else if (score >= 65) { grade = 'B Good'; cls = 'result-good'; }
-  else if (score >= 50) { grade = 'C Average'; cls = 'result-warn'; }
-  else { grade = 'D Weak'; cls = 'result-bad'; }
 
-  return { score, grade, cls, notes };
+  var grade, verdict, advice;
+  if (score >= 85) { grade = 'A+'; verdict = 'Exceptional Setup'; advice = 'High-confidence trade — manage position size and let it run.'; }
+  else if (score >= 75) { grade = 'A'; verdict = 'Strong Setup'; advice = 'Good alignment of factors — consider taking the trade with standard risk.'; }
+  else if (score >= 65) { grade = 'B'; verdict = 'Good Setup'; advice = 'Decent setup — tighten stop-loss and watch for confirmation.'; }
+  else if (score >= 50) { grade = 'C'; verdict = 'Average Setup'; advice = 'Mixed signals — reduce position size or wait for better conditions.'; }
+  else if (score >= 35) { grade = 'D'; verdict = 'Weak Setup'; advice = 'Multiple red flags — avoid or use very tight stop.'; }
+  else { grade = 'F'; verdict = 'Poor Setup'; advice = 'High-risk trade — strongly recommended to skip.'; }
+
+  return { score: score, grade: grade, verdict: verdict, advice: advice, factors: factors };
 }
 
-function detectPattern(o, h, l, c) {
-  const body = Math.abs(c - o);
-  const range = h - l;
-  const upperWick = h - Math.max(o, c);
-  const lowerWick = Math.min(o, c) - l;
-  const patterns = [];
-
-  if (range === 0) return ['Invalid candle data'];
-
-  if (body / range < 0.1) patterns.push('Doji — market indecision, potential reversal');
-  if (lowerWick > body * 2 && upperWick < body * 0.5 && c > o)
-    patterns.push('Hammer — bullish reversal signal');
-  if (upperWick > body * 2 && lowerWick < body * 0.5 && c < o)
-    patterns.push('Shooting Star — bearish reversal signal');
-  if (body / range > 0.7 && c > o) patterns.push('Strong Bullish Marubozu');
-  if (body / range > 0.7 && c < o) patterns.push('Strong Bearish Marubozu');
-  if (lowerWick > range * 0.6) patterns.push('Long lower shadow — buying pressure');
-  if (upperWick > range * 0.6) patterns.push('Long upper shadow — selling pressure');
-
-  return patterns.length ? patterns : ['No significant pattern detected'];
+function renderSetupResult(r) {
+  var scoreCls = r.score >= 65 ? 'good' : r.score >= 40 ? 'warn' : 'bad';
+  var html =
+    '<div class="sg-container">' +
+      '<div class="sg-label">Setup Score</div>' +
+      '<div class="sg-bar"><div class="sg-fill sg-fill--' + scoreCls + '" style="width:' + r.score + '%"></div></div>' +
+      '<div class="sg-score sg-score--' + scoreCls + '">' + r.score + '<span class="sg-total">/100</span></div>' +
+    '</div>' +
+    '<div class="sf-grid">';
+  r.factors.forEach(function(f) {
+    html +=
+      '<div class="sf-card sf-card--' + f.cls + '">' +
+        '<div class="sf-icon">' + f.icon + '</div>' +
+        '<div class="sf-label">' + f.label + '</div>' +
+        '<div class="sf-bar"><div class="sf-fill sf-fill--' + f.cls + '" style="width:' + f.pct + '%"></div></div>' +
+        '<div class="sf-detail">' + f.detail + '</div>' +
+      '</div>';
+  });
+  html += '</div>' +
+    '<div class="sv-box sv-box--' + scoreCls + '">' +
+      '<div class="sv-grade">' + r.grade + ' — ' + r.verdict + '</div>' +
+      '<div class="sv-advice">' + r.advice + '</div>' +
+    '</div>';
+  return html;
 }
+
+/* ---------- Journal Analytics ---------- */
 
 function analyzeJournal(text) {
-  const lines = text.trim().split('\n').filter(Boolean);
+  var lines = text.trim().split('\n').filter(Boolean);
   if (!lines.length) return null;
 
-  const trades = lines.map(function(line) {
-    const parts = line.split(/[,\s]+/);
-    return { profit: parseFloat(parts[0]), pips: parseFloat(parts[1] || 0) };
-  });
+  var trades = [];
+  var profits = [];
+  for (var i = 0; i < lines.length; i++) {
+    var parts = lines[i].split(/[,\s]+/);
+    var p = parseFloat(parts[0]);
+    trades.push(p);
+    if (!isNaN(p)) profits.push(p);
+  }
+  if (!profits.length) return null;
 
-  const wins = trades.filter(function(t) { return t.profit > 0; });
-  const losses = trades.filter(function(t) { return t.profit <= 0; });
-  const winRate = (wins.length / trades.length * 100).toFixed(1);
-  const totalProfit = trades.reduce(function(s, t) { return s + t.profit; }, 0);
-  const avgWin = wins.length ? wins.reduce(function(s, t) { return s + t.profit; }, 0) / wins.length : 0;
-  const avgLoss = losses.length ? Math.abs(losses.reduce(function(s, t) { return s + t.profit; }, 0) / losses.length) : 0;
-  const expectancy = (winRate / 100 * avgWin) - ((100 - winRate) / 100 * avgLoss);
-  const profitFactor = avgLoss > 0 ? (wins.reduce(function(s, t) { return s + t.profit; }, 0) / Math.abs(losses.reduce(function(s, t) { return s + t.profit; }, 0))).toFixed(2) : '∞';
+  var total = profits.reduce(function(a, b) { return a + b; }, 0);
+  var wins = profits.filter(function(p) { return p > 0; });
+  var losses = profits.filter(function(p) { return p <= 0; });
+  var winRate = (wins.length / profits.length * 100);
+  var avgWin = wins.length ? wins.reduce(function(a, b) { return a + b; }, 0) / wins.length : 0;
+  var avgLoss = losses.length ? Math.abs(losses.reduce(function(a, b) { return a + b; }, 0) / losses.length) : 0;
+  var expectancy = (winRate / 100 * avgWin) - ((100 - winRate) / 100 * avgLoss);
+  var pf = avgLoss > 0 ? (wins.reduce(function(a, b) { return a + b; }, 0) / Math.abs(losses.reduce(function(a, b) { return a + b; }, 0))) : (wins.length > 0 ? Infinity : 0);
 
-  let insight;
-  if (expectancy > 0 && parseFloat(winRate) >= 50) insight = 'Strong edge — maintain discipline';
-  else if (expectancy > 0) insight = 'Positive expectancy despite low win rate — let winners run';
-  else if (parseFloat(winRate) >= 60) insight = 'High win rate but negative expectancy — cut losses faster';
-  else insight = 'Negative expectancy — review strategy and risk management';
+  var consecWins = 0, consecLosses = 0, bestStreak = 0, worstStreak = 0;
+  var cur = 0;
+  for (var j = 0; j < profits.length; j++) {
+    if (profits[j] > 0) { cur = cur > 0 ? cur + 1 : 1; bestStreak = Math.max(bestStreak, cur); }
+    else { cur = cur < 0 ? cur - 1 : -1; worstStreak = Math.min(worstStreak, cur); }
+  }
+  consecWins = bestStreak;
+  consecLosses = Math.abs(worstStreak);
 
-  return { trades: trades.length, winRate, totalProfit: totalProfit.toFixed(2), avgWin: avgWin.toFixed(2), avgLoss: avgLoss.toFixed(2), expectancy: expectancy.toFixed(2), profitFactor, insight };
+  var returns = [];
+  for (var k = 0; k < profits.length; k++) {
+    var base = k > 0 ? Math.abs(profits[k-1]) : 100;
+    returns.push(profits[k] / base);
+  }
+  var avgRet = returns.length ? returns.reduce(function(a, b) { return a + b; }, 0) / returns.length : 0;
+  var variance = returns.length ? returns.reduce(function(s, r) { return s + Math.pow(r - avgRet, 2); }, 0) / returns.length : 0;
+  var sharpe = variance > 0 ? avgRet / Math.sqrt(variance) * Math.sqrt(profits.length) : 0;
+
+  var insight, insightCls;
+  if (expectancy > 0 && winRate >= 45 && pf >= 1.5) {
+    insight = '🔥 Profitable strategy — consistent edge with strong risk management. Keep executing!';
+    insightCls = 'good';
+  } else if (expectancy > 0 && winRate >= 45) {
+    insight = '✅ Positive expectancy — your strategy works. Focus on cutting losses to improve further.';
+    insightCls = 'good';
+  } else if (expectancy > 0) {
+    insight = '📈 Slightly profitable — your winners outpace losers. Work on increasing win rate.';
+    insightCls = 'warn';
+  } else if (winRate >= 60) {
+    insight = '⚠️ High win rate but negative expectancy — your losses are too large. Cut losers faster!';
+    insightCls = 'warn';
+  } else {
+    insight = '❌ Negative expectancy — review your strategy, risk per trade, and exit rules.';
+    insightCls = 'bad';
+  }
+
+  var score = Math.round((winRate * 0.3 + Math.min(100, expectancy * 20) * 0.35 + Math.min(100, pf * 25) * 0.35));
+  score = Math.max(0, Math.min(100, score));
+  var scoreCls = score >= 65 ? 'good' : score >= 40 ? 'warn' : 'bad';
+
+  return {
+    trades: profits.length, winRate: winRate.toFixed(1), total: total.toFixed(2),
+    avgWin: avgWin.toFixed(2), avgLoss: avgLoss.toFixed(2),
+    expectancy: expectancy.toFixed(2), pf: pf === Infinity ? '∞' : pf.toFixed(2),
+    consecWins: consecWins, consecLosses: consecLosses,
+    sharpe: sharpe.toFixed(2),
+    insight: insight, insightCls: insightCls,
+    score: score, scoreCls: scoreCls,
+    winCount: wins.length, lossCount: losses.length
+  };
+}
+
+function renderJournalResult(r) {
+  var winPct = parseFloat(r.winRate);
+  var wCls = winPct >= 55 ? 'good' : winPct >= 40 ? 'warn' : 'bad';
+  var eCls = parseFloat(r.expectancy) > 0 ? 'good' : 'bad';
+  var pfCls = r.pf === '∞' || parseFloat(r.pf) >= 1.5 ? 'good' : parseFloat(r.pf) >= 1 ? 'warn' : 'bad';
+
+  return '' +
+    '<div class="sg-container">' +
+      '<div class="sg-label">Performance Score</div>' +
+      '<div class="sg-bar"><div class="sg-fill sg-fill--' + r.scoreCls + '" style="width:' + r.score + '%"></div></div>' +
+      '<div class="sg-score sg-score--' + r.scoreCls + '">' + r.score + '<span class="sg-total">/100</span></div>' +
+    '</div>' +
+    '<div class="jm-hero">' +
+      '<div class="jm-hero-item">' +
+        '<div class="jm-hero-num">' + r.trades + '</div>' +
+        '<div class="jm-hero-label">Trades</div>' +
+      '</div>' +
+      '<div class="jm-hero-item">' +
+        '<div class="jm-hero-num jm-hero-num--' + wCls + '">' + r.winRate + '%</div>' +
+        '<div class="jm-hero-label">Win Rate</div>' +
+      '</div>' +
+      '<div class="jm-hero-item">' +
+        '<div class="jm-hero-num jm-hero-num--' + (parseFloat(r.total) >= 0 ? 'good' : 'bad') + '">$' + r.total + '</div>' +
+        '<div class="jm-hero-label">Total P/L</div>' +
+      '</div>' +
+      '<div class="jm-hero-item">' +
+        '<div class="jm-hero-num jm-hero-num--' + eCls + '">$' + r.expectancy + '</div>' +
+        '<div class="jm-hero-label">Expectancy</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="jm-winbar">' +
+      '<div class="jm-winbar-label">' + r.winCount + ' Wins / ' + r.lossCount + ' Losses</div>' +
+      '<div class="jm-winbar-track">' +
+        '<div class="jm-winbar-fill jm-winbar-fill--win" style="width:' + winPct + '%"></div>' +
+        '<div class="jm-winbar-fill jm-winbar-fill--loss" style="width:' + (100 - winPct) + '%"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="jm-metrics">' +
+      '<div class="jm-metric">' +
+        '<div class="jm-metric-val jm-metric-val--good">$' + r.avgWin + '</div>' +
+        '<div class="jm-metric-label">Avg Win</div>' +
+      '</div>' +
+      '<div class="jm-metric">' +
+        '<div class="jm-metric-val jm-metric-val--bad">$' + r.avgLoss + '</div>' +
+        '<div class="jm-metric-label">Avg Loss</div>' +
+      '</div>' +
+      '<div class="jm-metric">' +
+        '<div class="jm-metric-val jm-metric-val--' + pfCls + '">' + r.pf + '</div>' +
+        '<div class="jm-metric-label">Profit Factor</div>' +
+      '</div>' +
+      '<div class="jm-metric">' +
+        '<div class="jm-metric-val">' + r.sharpe + '</div>' +
+        '<div class="jm-metric-label">Sharpe Ratio</div>' +
+      '</div>' +
+      '<div class="jm-metric">' +
+        '<div class="jm-metric-val jm-metric-val--good">' + r.consecWins + '</div>' +
+        '<div class="jm-metric-label">Best Streak</div>' +
+      '</div>' +
+      '<div class="jm-metric">' +
+        '<div class="jm-metric-val jm-metric-val--bad">' + r.consecLosses + '</div>' +
+        '<div class="jm-metric-label">Worst Streak</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="sv-box sv-box--' + r.insightCls + '">' +
+      '<div class="sv-advice">' + r.insight + '</div>' +
+    '</div>';
 }
 
 /* ===== AI MARKET SUMMARY ===== */
@@ -222,143 +361,8 @@ function analyzePortfolio(data) {
   });
 }
 
-/* ===== MULTI-CANDLE PATTERN DETECTION ===== */
-function detectMultiCandle(data) {
-  var lines = data.trim().split('\n').filter(Boolean);
-  if (lines.length < 2) return { patterns: ['Enter at least 2 candles'], strength: 0 };
-
-  var candles = lines.map(function (line, i) {
-    var parts = line.split(/[,\s]+/).map(parseFloat).filter(function (n) { return !isNaN(n); });
-    if (parts.length < 4) return null;
-    return { o: parts[0], h: parts[1], l: parts[2], c: parts[3], idx: i };
-  }).filter(Boolean);
-
-  if (candles.length < 2) return { patterns: ['Invalid candle data — each line needs O,H,L,C'], strength: 0 };
-
-  var patterns = [];
-  var maxStrength = 0;
-
-  for (var i = 1; i < candles.length; i++) {
-    var prev = candles[i - 1], curr = candles[i];
-    var prevBull = prev.c > prev.o;
-    var currBull = curr.c > curr.o;
-    var prevBody = Math.abs(prev.c - prev.o);
-    var currBody = Math.abs(curr.c - curr.o);
-
-    // Bullish Engulfing
-    if (!prevBull && currBull && curr.o < prev.c && curr.c > prev.o) {
-      patterns.push('Candle ' + (i + 1) + ': ⬆ Bullish Engulfing — strong reversal signal');
-      maxStrength = Math.max(maxStrength, 85);
-    }
-    // Bearish Engulfing
-    if (prevBull && !currBull && curr.o > prev.c && curr.c < prev.o) {
-      patterns.push('Candle ' + (i + 1) + ': ⬇ Bearish Engulfing — strong reversal signal');
-      maxStrength = Math.max(maxStrength, 85);
-    }
-    // Bullish Harami
-    if (!prevBull && currBull && curr.o > prev.c && curr.c < prev.o) {
-      patterns.push('Candle ' + (i + 1) + ': Bullish Harami — potential trend reversal');
-      maxStrength = Math.max(maxStrength, 60);
-    }
-    // Bearish Harami
-    if (prevBull && !currBull && curr.o < prev.c && curr.c > prev.o) {
-      patterns.push('Candle ' + (i + 1) + ': Bearish Harami — potential trend reversal');
-      maxStrength = Math.max(maxStrength, 60);
-    }
-    // Piercing Line
-    if (!prevBull && currBull && curr.o < prev.o && curr.c > (prev.o + prev.c) / 2 && curr.c < prev.o) {
-      patterns.push('Candle ' + (i + 1) + ': Piercing Line — bullish reversal signal');
-      maxStrength = Math.max(maxStrength, 70);
-    }
-    // Dark Cloud Cover
-    if (prevBull && !currBull && curr.o > prev.o && curr.c < (prev.o + prev.c) / 2 && curr.c > prev.o) {
-      patterns.push('Candle ' + (i + 1) + ': Dark Cloud Cover — bearish reversal signal');
-      maxStrength = Math.max(maxStrength, 70);
-    }
-    // Tweezer Top
-    if (Math.abs(prev.h - curr.h) / ((prev.h + curr.h) / 2) < 0.001 && prevBull && !currBull) {
-      patterns.push('Candle ' + (i + 1) + ': Tweezer Top — bearish reversal at resistance');
-      maxStrength = Math.max(maxStrength, 75);
-    }
-    // Tweezer Bottom
-    if (Math.abs(prev.l - curr.l) / ((prev.l + curr.l) / 2) < 0.001 && !prevBull && currBull) {
-      patterns.push('Candle ' + (i + 1) + ': Tweezer Bottom — bullish reversal at support');
-      maxStrength = Math.max(maxStrength, 75);
-    }
-  }
-
-  // Three-candle patterns
-  if (candles.length >= 3) {
-    for (var i = 2; i < candles.length; i++) {
-      var c1 = candles[i - 2], c2 = candles[i - 1], c3 = candles[i];
-      var b1 = c1.c > c1.o, b2 = c2.c > c2.o, b3 = c3.c > c3.o;
-
-      // Morning Star
-      if (!b1 && Math.abs(c1.c - c1.o) / (c1.h - c1.l || 0.001) > 0.5 &&
-          Math.abs(c2.c - c2.o) / (c2.h - c2.l || 0.001) < 0.2 &&
-          b3 && Math.abs(c3.c - c3.o) / (c3.h - c3.l || 0.001) > 0.5) {
-        patterns.push('Candles ' + (i - 1) + '-' + (i + 1) + ': ⭐ Morning Star — strong bullish reversal');
-        maxStrength = Math.max(maxStrength, 90);
-      }
-      // Evening Star
-      if (b1 && Math.abs(c1.c - c1.o) / (c1.h - c1.l || 0.001) > 0.5 &&
-          Math.abs(c2.c - c2.o) / (c2.h - c2.l || 0.001) < 0.2 &&
-          !b3 && Math.abs(c3.c - c3.o) / (c3.h - c3.l || 0.001) > 0.5) {
-        patterns.push('Candles ' + (i - 1) + '-' + (i + 1) + ': ⭐ Evening Star — strong bearish reversal');
-        maxStrength = Math.max(maxStrength, 90);
-      }
-      // Three White Soldiers
-      if (b1 && b2 && b3 &&
-          c2.c > c1.c && c3.c > c2.c &&
-          c2.o > c1.o && c3.o > c2.o &&
-          Math.abs(c1.c - c1.o) / (c1.h - c1.l || 0.001) > 0.4 &&
-          Math.abs(c2.c - c2.o) / (c2.h - c2.l || 0.001) > 0.4 &&
-          Math.abs(c3.c - c3.o) / (c3.h - c3.l || 0.001) > 0.4) {
-        patterns.push('Candles ' + (i - 1) + '-' + (i + 1) + ': ⚔ Three White Soldiers — strong bullish momentum');
-        maxStrength = Math.max(maxStrength, 90);
-      }
-      // Three Black Crows
-      if (!b1 && !b2 && !b3 &&
-          c2.c < c1.c && c3.c < c2.c &&
-          c2.o < c1.o && c3.o < c2.o &&
-          Math.abs(c1.c - c1.o) / (c1.h - c1.l || 0.001) > 0.4 &&
-          Math.abs(c2.c - c2.o) / (c2.h - c2.l || 0.001) > 0.4 &&
-          Math.abs(c3.c - c3.o) / (c3.h - c3.l || 0.001) > 0.4) {
-        patterns.push('Candles ' + (i - 1) + '-' + (i + 1) + ': ⚔ Three Black Crows — strong bearish momentum');
-        maxStrength = Math.max(maxStrength, 90);
-      }
-    }
-  }
-
-  if (!patterns.length) patterns.push('No significant multi-candle pattern detected');
-
-  var strengthLabel = maxStrength >= 80 ? '🟢 Strong' : maxStrength >= 60 ? '🟡 Moderate' : '⚪ Weak';
-  return { patterns: patterns, strength: maxStrength, strengthLabel: strengthLabel };
-}
-
-function analyzeMomentum(text) {
-  const prices = text.split(/[,\s]+/).map(parseFloat).filter(function(n) { return !isNaN(n); });
-  if (prices.length < 3) return null;
-
-  const returns = [];
-  for (var i = 1; i < prices.length; i++) {
-    returns.push((prices[i] - prices[i - 1]) / prices[i - 1] * 100);
-  }
-
-  const avgReturn = returns.reduce(function(a, b) { return a + b; }, 0) / returns.length;
-  const variance = returns.reduce(function(s, r) { return s + Math.pow(r - avgReturn, 2); }, 0) / returns.length;
-  const volatility = Math.sqrt(variance);
-  const momentum = avgReturn > 0 ? 'Bullish' : avgReturn < 0 ? 'Bearish' : 'Neutral';
-  const strength = Math.abs(avgReturn) > volatility ? 'Strong' : 'Weak';
-  const regime = volatility > 0.05 ? 'High Volatility' : volatility > 0.02 ? 'Normal Volatility' : 'Low Volatility';
-
-  var rsi = 50 + avgReturn * 10;
-  rsi = Math.max(0, Math.min(100, rsi));
-
-  return { momentum, strength, regime, avgReturn: avgReturn.toFixed(4), volatility: volatility.toFixed(4), rsi: rsi.toFixed(1) };
-}
-
 function initAITools() {
+  /* ===== SETUP ANALYZER ===== */
   document.getElementById('form-setup').addEventListener('submit', function(e) {
     e.preventDefault();
     var r = analyzeSetup(
@@ -367,68 +371,14 @@ function initAITools() {
       parseFloat(document.getElementById('setup-risk').value),
       document.getElementById('setup-session').value
     );
-    document.getElementById('result-setup').innerHTML =
-      '<div class="result-highlight ' + r.cls + '">' + r.score + '/100 — ' + r.grade + '</div>' +
-      r.notes.map(function(n) { return '<div>' + n + '</div>'; }).join('');
+    document.getElementById('result-setup').innerHTML = renderSetupResult(r);
   });
 
-  /* ===== PATTERN DETECTOR (Single Candle) ===== */
-  document.getElementById('form-pattern').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var mode = document.getElementById('pattern-mode');
-    if (mode && mode.value === 'multi') {
-      var r = detectMultiCandle(document.getElementById('pat-multi').value);
-      var html = r.patterns.map(function(p) { return '<div class="' + (p.indexOf('No') === 0 ? 'result-warn' : 'result-good') + '">' + p + '</div>'; }).join('');
-      html += '<div style="margin-top:10px;font-size:13px;color:var(--text-muted)">قوة النمط: ' + r.strengthLabel + ' (' + r.strength + '/100)</div>';
-      document.getElementById('result-pattern').innerHTML = html;
-    } else {
-      var patterns = detectPattern(
-        parseFloat(document.getElementById('pat-o').value),
-        parseFloat(document.getElementById('pat-h').value),
-        parseFloat(document.getElementById('pat-l').value),
-        parseFloat(document.getElementById('pat-c').value)
-      );
-      document.getElementById('result-pattern').innerHTML = patterns.map(function(p) {
-        return '<div class="' + (p.indexOf('No') === 0 ? 'result-warn' : 'result-good') + '">' + p + '</div>';
-      }).join('');
-    }
-  });
-
-  /* ===== PATTERN MODE TOGGLE ===== */
-  var modeSel = document.getElementById('pattern-mode');
-  if (modeSel) {
-    modeSel.addEventListener('change', function() {
-      var single = document.getElementById('pat-single-inputs');
-      var multi = document.getElementById('pat-multi-inputs');
-      if (single && multi) {
-        single.style.display = this.value === 'single' ? '' : 'none';
-        multi.style.display = this.value === 'multi' ? '' : 'none';
-      }
-    });
-  }
-
+  /* ===== JOURNAL ANALYTICS ===== */
   document.getElementById('btn-journal').addEventListener('click', function() {
     var r = analyzeJournal(document.getElementById('journal-input').value);
     if (!r) return;
-    document.getElementById('result-journal').innerHTML =
-      '<div>Trades: <strong>' + r.trades + '</strong> | Win Rate: <strong class="result-good">' + r.winRate + '%</strong></div>' +
-      '<div>Total P/L: <strong>$' + r.totalProfit + '</strong> | Expectancy: <strong>$' + r.expectancy + '</strong></div>' +
-      '<div>Avg Win: $' + r.avgWin + ' | Avg Loss: $' + r.avgLoss + ' | PF: ' + r.profitFactor + '</div>' +
-      '<div class="result-warn" style="margin-top:8px">' + r.insight + '</div>';
-  });
-
-  document.getElementById('btn-momentum').addEventListener('click', function() {
-    var r = analyzeMomentum(document.getElementById('momentum-input').value);
-    if (!r) {
-      document.getElementById('result-momentum').innerHTML = '<span class="result-bad">Enter at least 3 prices</span>';
-      return;
-    }
-    var rsiCls = r.rsi > 70 ? 'result-bad' : r.rsi < 30 ? 'result-good' : 'result-warn';
-    document.getElementById('result-momentum').innerHTML =
-      '<div>Sentiment: <strong class="' + (r.momentum === 'Bullish' ? 'result-good' : r.momentum === 'Bearish' ? 'result-bad' : 'result-warn') + '">' + r.momentum + ' (' + r.strength + ')</strong></div>' +
-      '<div>Regime: <strong>' + r.regime + '</strong></div>' +
-      '<div>Avg Return: ' + r.avgReturn + '% | Volatility: ' + r.volatility + '%</div>' +
-      '<div>RSI Estimate: <strong class="' + rsiCls + '">' + r.rsi + '</strong></div>';
+    document.getElementById('result-journal').innerHTML = renderJournalResult(r);
   });
 
   /* ===== AI MARKET SUMMARY ===== */

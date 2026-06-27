@@ -59,7 +59,7 @@
     <div class="ai-analyzer-grid">
       <div class="analyzer-card featured">
         <h3>محلل الصفقة الذكي</h3>
-        <p>يقيم جودة إعداد صفقتك بناءً على الاتجاه، الزخم، التوقيت، وإدارة المخاطر</p>
+        <p>يقيم جودة إعداد صفقتك بناءً على الاتجاه، المخاطرة، ونسبة العائد</p>
         <form class="tool-form" id="form-setup">
           <label>الاتجاه<select id="setup-trend"><option value="with">مع الاتجاه</option><option value="against">عكس الاتجاه</option><option value="range">نطاق</option></select></label>
           <label>R:R <input type="number" id="setup-rr" value="2" step="0.1"></label>
@@ -71,32 +71,11 @@
       </div>
 
       <div class="analyzer-card">
-        <h3>كاشف أنماط الشموع</h3>
-        <p>يكتشف أنماط الشموع اليابانية (Hammer, Doji, Engulfing...)</p>
-        <form class="tool-form" id="form-pattern">
-          <label>الافتتاح <input type="number" id="pat-o" value="1.0850" step="0.00001"></label>
-          <label>الأعلى <input type="number" id="pat-h" value="1.0870" step="0.00001"></label>
-          <label>الأدنى <input type="number" id="pat-l" value="1.0820" step="0.00001"></label>
-          <label>الإغلاق <input type="number" id="pat-c" value="1.0865" step="0.00001"></label>
-          <button type="submit" class="btn btn-primary">اكتشاف</button>
-        </form>
-        <div class="tool-result" id="result-pattern"></div>
-      </div>
-
-      <div class="analyzer-card">
         <h3>تحليل اليوميات</h3>
-        <p>أدخل نتائج صفقاتك (ربح,نقاط) لكل سطر</p>
-        <textarea id="journal-input" rows="4" placeholder="50,30&#10;-20,15&#10;35,-10" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;resize:vertical"></textarea>
+        <p>أدخل نتائج صفقاتك (ربح) لكل سطر</p>
+        <textarea id="journal-input" rows="4" placeholder="50&#10;-20&#10;35" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;resize:vertical"></textarea>
         <button type="button" id="btn-journal" class="btn btn-primary">تحليل</button>
         <div class="tool-result" id="result-journal"></div>
-      </div>
-
-      <div class="analyzer-card">
-        <h3>محلل الزخم</h3>
-        <p>أدخل آخر 4 أسعار مفصولة بفاصلة</p>
-        <textarea id="momentum-input" rows="3" placeholder="1.0850, 1.0862, 1.0870, 1.0885" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;resize:vertical"></textarea>
-        <button type="button" id="btn-momentum" class="btn btn-primary">تحليل</button>
-        <div class="tool-result" id="result-momentum"></div>
       </div>
     </div>
   </main>
