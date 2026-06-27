@@ -172,22 +172,11 @@
     }, 4000);
   }
 
-  /* ===== 10. TEXT SPLIT ANIMATION ===== */
+  /* ===== 10. TEXT ENTRANCE ANIMATION (CSS-only) ===== */
   function initTextEffects() {
-    document.querySelectorAll('.hero-title-gradient').forEach(function (el) {
-      // Wrap each word in a span for staggered animation
-      var words = el.textContent.split(' ');
-      el.innerHTML = words.map(function (w) {
-        return '<span class="hero-word" style="display:inline-block;opacity:0;transform:translateY(30px)">' + w + '</span>';
-      }).join('&nbsp;');
-      var wordEls = el.querySelectorAll('.hero-word');
-      wordEls.forEach(function (w, i) {
-        setTimeout(function () {
-          w.style.cssText = 'display:inline-block;opacity:1;transform:translateY(0);transition:all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-          w.style.transitionDelay = i * 0.1 + 's';
-        }, 500 + i * 100);
-      });
-    });
+    var el = document.querySelector('.hero-title');
+    if (!el) return;
+    el.style.opacity = '1';
   }
 
   /* ===== 11. LIVE TICKER ENHANCEMENT ===== */
