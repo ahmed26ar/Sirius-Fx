@@ -1395,3 +1395,35 @@ body > * { position: relative; z-index: 1; }
   .jm-hero { grid-template-columns: repeat(2, 1fr); }
   .jm-metrics { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Behavioral Flags */
+.bf-header { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.bf-score-wrap, .bf-header-mid, .bf-header-right { text-align: center; background: var(--bg); border-radius: 10px; padding: 12px 8px; border: 1px solid var(--border); }
+.bf-score-num { font-size: 1.6rem; font-weight: 800; font-family: var(--font-en); }
+.bf-score--good { color: #22c55e; }
+.bf-score--warn { color: #f59e0b; }
+.bf-score--bad { color: #ef4444; }
+.bf-score-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.bf-flags-count { color: var(--sky); }
+.bf-flags { margin-bottom: 12px; max-height: 280px; overflow-y: auto; }
+.bf-empty { text-align: center; padding: 16px; color: var(--text-muted); font-size: 13px; }
+.bf-flag { padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 1px solid; }
+.bf-flag--critical { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); }
+.bf-flag--high { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.25); }
+.bf-flag--medium { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.2); }
+.bf-flag-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.bf-flag-label { font-weight: 700; font-size: 14px; }
+.bf-flag--critical .bf-flag-label { color: #ef4444; }
+.bf-flag--high .bf-flag-label { color: #f59e0b; }
+.bf-flag--medium .bf-flag-label { color: #60a5fa; }
+.bf-flag-sev { font-size: 10px; text-transform: uppercase; padding: 2px 8px; border-radius: 50px; font-weight: 700; }
+.bf-flag--critical .bf-flag-sev { background: rgba(239,68,68,0.2); color: #ef4444; }
+.bf-flag--high .bf-flag-sev { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.bf-flag--medium .bf-flag-sev { background: rgba(59,130,246,0.2); color: #60a5fa; }
+.bf-flag-detail { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-family: var(--font-en); }
+.bf-flag-tip { font-size: 12px; color: var(--text-muted); background: rgba(0,212,255,0.05); padding: 6px 8px; border-radius: 6px; border-left: 2px solid var(--sky); }
+.bf-actions { display: flex; gap: 8px; }
+.bf-inputs { margin-top: 12px; background: var(--bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border); }
+.bf-form-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.bf-form-row select, .bf-form-row input { padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text); font-family: inherit; font-size: 13px; }
+.bf-form-row select:focus, .bf-form-row input:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
