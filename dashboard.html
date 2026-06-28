@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sirius Fx - Dashboard">
+  <title>Sirius Fx | Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo_new_png.png" type="image/png">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    :root {
+      --sidebar-w: 260px;
+      --topbar-h: 64px;
+      --dash-bg: #000008;
+      --sidebar-bg: rgba(5, 10, 25, 0.95);
+    }
+    [data-theme="light"] {
+      --dash-bg: #f0f4f8;
+      --sidebar-bg: rgba(255, 255, 255, 0.92);
+    }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--dash-bg); font-family: var(--font-ar); }
+
+    .dash-layout { display: flex; height: 100vh; }
+
+    /* ─── SIDEBAR ─── */
+    .dash-sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      border-inline-end: 1px solid var(--border);
+      backdrop-filter: blur(24px) saturate(200%);
+      display: flex; flex-direction: column;
+      z-index: 100; position: relative;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dash-sidebar::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.04), transparent 60%);
+      pointer-events: none;
+    }
+    .sidebar-brand {
+      padding: 20px 20px 16px; display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid var(--border); position: relative; z-index: 1;
+    }
+    .sidebar-brand .logo-img {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid rgba(0,212,255,0.35);
+      box-shadow: 0 0 14px rgba(0,212,255,0.45);
+    }
+    .sidebar-brand .logo-text {
+      font-size: 1.25rem; font-weight: 800; font-family: 'Inter', sans-serif;
+      color: var(--text); letter-spacing: 1px;
+    }
+    .sidebar-brand .logo-text .accent { color: var(--sky); }
+    .sidebar-brand .sidebar-close {
+      display: none; margin-inline-start: auto; background: none; border: none;
+      color: var(--text-muted); font-size: 1.5rem; cursor: pointer;
+    }
+
+    .sidebar-nav { padding: 12px 10px; flex: 1; overflow-y: auto; position: relative; z-index: 1; }
+    .sidebar-nav::-webkit-scrollbar { width: 3px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: var(--sky-dim); border-radius: 2px; }
+    .sidebar-section { margin-bottom: 20px; }
+    .sidebar-section-title {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--text-muted); padding: 0 14px; margin-bottom: 6px; opacity: 0.6;
+    }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+      border-radius: 10px; color: var(--text-muted); text-decoration: none;
+      font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.25s ease;
+      position: relative; border: none; background: none; width: 100%; text-align: start; font-family: inherit;
+    }
+    .sidebar-link .sirius-icon { width: 1.2rem; height: 1.2rem; flex-shrink: 0; }
+    .sidebar-link:hover { color: var(--text); background: rgba(0,212,255,0.06); }
+    .sidebar-link.active {
+      color: var(--sky); background: rgba(0,212,255,0.1);
+      box-shadow: inset 3px 0 0 var(--sky);
+    }
+    [dir="ltr"] .sidebar-link.active { box-shadow: inset -3px 0 0 var(--sky); }
+    .sidebar-link .badge {
+      margin-inline-start: auto; font-size: 10px; padding: 2px 8px;
+      border-radius: 50px; background: rgba(0,212,255,0.15); color: var(--sky); font-weight: 700;
+    }
+    .sidebar-link .badge-danger { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    .sidebar-footer {
+      padding: 12px 10px; border-top: 1px solid var(--border); position: relative; z-index: 1;
+    }
+    .sidebar-user {
+      display: flex; align-items: center; gap: 10px; padding: 8px 14px;
+      border-radius: 10px; cursor: pointer; transition: background 0.2s;
+    }
+    .sidebar-user:hover { background: rgba(0,212,255,0.05); }
+    .sidebar-user-avatar {
+      width: 36px; height: 36px; border-radius: 50%; 
+      background: linear-gradient(135deg, var(--sky), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px; color: #000; flex-shrink: 0;
+      font-family: var(--font-en);
+    }
+    .sidebar-user-info { flex: 1; min-width: 0; }
+    .sidebar-user-name { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-user-role { font-size: 10px; color: var(--text-muted); }
+    .sidebar-user-logout {
+      background: none; border: none; color: var(--text-muted); cursor: pointer;
+      padding: 4px; border-radius: 6px; transition: color 0.2s; font-size: 16px;
+    }
+    .sidebar-user-logout:hover { color: var(--error); }
+
+    /* ─── MAIN CONTENT ─── */
+    .dash-main {
+      flex: 1; display: flex; flex-direction: column; min-width: 0;
+      background: var(--dash-bg); position: relative;
+    }
+    .dash-main::before {
+      content: ''; position: fixed; inset: 0; z-index: -1;
+      background:
+        radial-gradient(ellipse 60% 40% at 0% 20%, rgba(0,212,255,0.03), transparent 60%),
+        radial-gradient(ellipse 40% 50% at 100% 80%, rgba(124,58,237,0.03), transparent 50%);
+      pointer-events: none;
+    }
+
+    /* ─── TOPBAR ─── */
+    .dash-topbar {
+      height: var(--topbar-h); min-height: var(--topbar-h);
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 24px; border-bottom: 1px solid var(--border);
+      background: rgba(0,0,8,0.6); backdrop-filter: blur(20px);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .dash-topbar .sidebar-toggle {
+      display: none; background: none; border: none; color: var(--text);
+      font-size: 1.4rem; cursor: pointer; padding: 4px;
+    }
+    .dash-topbar-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .dash-topbar-title span { color: var(--sky); }
+    .dash-topbar-spacer { flex: 1; }
+
+    .dash-topbar-controls { display: flex; align-items: center; gap: 8px; }
+    .dash-topbar-btn {
+      width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border);
+      background: transparent; color: var(--text-muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; position: relative; font-size: 1rem;
+    }
+    .dash-topbar-btn:hover { border-color: var(--sky); color: var(--sky); }
+    .dash-topbar-btn .notif-dot {
+      position: absolute; top: 6px; inset-inline-end: 6px;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--error);
+      box-shadow: 0 0 6px var(--error);
+    }
+    .dash-topbar-user {
+      display: flex; align-items: center; gap: 8px;
+      padding: 4px 12px 4px 4px; border-radius: 10px;
+      border: 1px solid var(--border); cursor: pointer; transition: all 0.2s;
+    }
+    [dir="rtl"] .dash-topbar-user { padding: 4px 4px 4px 12px; }
+    .dash-topbar-user:hover { border-color: var(--sky); }
+    .dash-topbar-user .user-avatar-sm {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sky), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 12px; color: #000; font-family: var(--font-en);
+    }
+    .dash-topbar-user .user-name-sm { font-size: 13px; font-weight: 600; color: var(--text); }
+
+    /* ─── CONTENT BODY ─── */
+    .dash-body {
+      flex: 1; overflow-y: auto; padding: 24px;
+    }
+    .dash-body::-webkit-scrollbar { width: 4px; }
+    .dash-body::-webkit-scrollbar-thumb { background: var(--sky-dim); border-radius: 2px; }
+
+    .dash-tab { display: none; }
+    .dash-tab.active { display: block; }
+
+    /* ─── WELCOME ─── */
+    .welcome-section {
+      margin-bottom: 32px; position: relative;
+    }
+    .welcome-section h1 {
+      font-size: 1.6rem; font-weight: 800; margin-bottom: 4px;
+      background: linear-gradient(135deg, var(--text), var(--sky));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .welcome-section p { color: var(--text-muted); font-size: 14px; }
+
+    /* ─── STATS GRID ─── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px; margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px; position: relative; overflow: hidden;
+      backdrop-filter: blur(20px); transition: all 0.3s ease;
+    }
+    .stat-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; inset-inline-start: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(180deg, var(--sky), transparent);
+      border-radius: 0 3px 3px 0;
+    }
+    [dir="ltr"] .stat-card::before { inset-inline-start: auto; inset-inline-end: 0; border-radius: 3px 0 0 3px; }
+    .stat-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .stat-card-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .stat-card-icon--blue { background: rgba(0,212,255,0.12); color: var(--sky); }
+    .stat-card-icon--green { background: rgba(34,197,94,0.12); color: #22c55e; }
+    .stat-card-icon--purple { background: rgba(124,58,237,0.12); color: #a78bfa; }
+    .stat-card-icon--gold { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .stat-card-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+    .stat-card-value { font-size: 1.8rem; font-weight: 800; font-family: var(--font-en); color: var(--text); }
+    .stat-card-value .currency { font-size: 1rem; color: var(--text-muted); font-weight: 600; }
+    .stat-card-change {
+      font-size: 11px; font-weight: 700; margin-top: 4px;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .stat-card-change.up { color: #22c55e; }
+    .stat-card-change.down { color: #ef4444; }
+
+    /* ─── CARDS GRID ─── */
+    .dash-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .dash-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    @media (max-width: 1000px) { .dash-grid-2, .dash-grid-3 { grid-template-columns: 1fr; } }
+
+    .dash-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      backdrop-filter: blur(20px); transition: all 0.3s ease;
+    }
+    .dash-card:hover { border-color: var(--border-hover); }
+    .dash-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+    }
+    .dash-card-header h3 { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .dash-card-header .dash-card-action {
+      font-size: 12px; color: var(--sky); cursor: pointer; font-weight: 600;
+      background: none; border: none; font-family: inherit; transition: opacity 0.2s;
+    }
+    .dash-card-header .dash-card-action:hover { opacity: 0.7; }
+    .dash-card-body { padding: 16px 20px; }
+
+    /* ─── SIGNALS TABLE ─── */
+    .signals-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .signals-table th {
+      text-align: start; padding: 10px 8px; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .signals-table td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .signals-table tr:hover td { background: rgba(0,212,255,0.02); }
+    .signal-pair { font-weight: 700; font-family: var(--font-en); color: var(--text); }
+    .signal-direction { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 50px; }
+    .signal-direction.buy { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .signal-direction.sell { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .signal-result { font-weight: 700; font-family: var(--font-en); }
+    .signal-result.win { color: #22c55e; }
+    .signal-result.loss { color: #ef4444; }
+    .signal-result.pending { color: var(--sky); }
+
+    /* ─── WATCHLIST ─── */
+    .watchlist-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .watchlist-item:last-child { border-bottom: none; }
+    .wl-sym { font-weight: 700; font-family: var(--font-en); font-size: 13px; min-width: 70px; }
+    .wl-price { font-family: var(--font-en); font-weight: 600; font-size: 14px; flex: 1; text-align: center; }
+    .wl-change { font-family: var(--font-en); font-size: 12px; font-weight: 700; min-width: 70px; text-align: end; }
+    .wl-change.up { color: #22c55e; }
+    .wl-change.down { color: #ef4444; }
+    .wl-remove { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 4px; }
+    .wl-remove:hover { color: var(--error); }
+    .wl-add-form { display: flex; gap: 8px; margin-top: 12px; }
+    .wl-add-form select {
+      flex: 1; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg); color: var(--text); font-family: inherit; font-size: 13px;
+    }
+    .wl-add-form select:focus { outline: none; border-color: var(--sky); }
+
+    /* ─── SIGNAL ITEM ─── */
+    .signal-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px; border-radius: 12px;
+      background: var(--bg); border: 1px solid var(--border);
+      margin-bottom: 10px; transition: all 0.2s;
+    }
+    .signal-item:hover { border-color: var(--border-hover); }
+    .signal-item-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .signal-item-content { flex: 1; min-width: 0; }
+    .signal-item-title { font-weight: 700; font-size: 13px; color: var(--text); }
+    .signal-item-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .signal-item-time { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+    .signal-item .btn { padding: 6px 14px; font-size: 12px; }
+    .signal-item-tag {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 50px;
+      background: rgba(0,212,255,0.12); color: var(--sky);
+    }
+
+    /* ─── PROMOTION CARD ─── */
+    .promo-card {
+      border-radius: 14px; overflow: hidden; position: relative;
+      border: 1px solid var(--border); margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+    .promo-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .promo-banner {
+      height: 100px; position: relative; overflow: hidden;
+    }
+    .promo-banner-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--sky), var(--purple));
+      opacity: 0.15;
+    }
+    .promo-banner-content {
+      position: relative; z-index: 1; padding: 20px;
+      display: flex; align-items: center; gap: 16px; height: 100%;
+    }
+    .promo-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(0,212,255,0.15); display: flex; align-items: center;
+      justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+      border: 1px solid rgba(0,212,255,0.2);
+    }
+    .promo-info h4 { font-size: 15px; font-weight: 700; color: var(--text); }
+    .promo-info p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .promo-body { padding: 16px 20px; }
+    .promo-body p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+    .promo-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+
+    /* ─── AI QUICK TOOLS ─── */
+    .ai-quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 600px) { .ai-quick-grid { grid-template-columns: 1fr; } }
+    .ai-quick-btn {
+      padding: 16px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); cursor: pointer;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      transition: all 0.25s ease;
+    }
+    .ai-quick-btn:hover { border-color: var(--sky); background: rgba(0,212,255,0.06); transform: translateY(-2px); }
+    .ai-quick-btn .ai-q-icon { font-size: 1.5rem; }
+
+    /* ─── JOURNAL ─── */
+    .journal-form textarea {
+      width: 100%; padding: 10px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--bg); color: var(--text);
+      font-family: var(--font-en); font-size: 13px; resize: vertical; margin-bottom: 10px;
+    }
+    .journal-form textarea:focus { outline: none; border-color: var(--sky); }
+
+    /* ─── PROFILE ─── */
+    .profile-header {
+      display: flex; align-items: center; gap: 20px; padding: 20px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
+      margin-bottom: 20px;
+    }
+    .profile-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sky), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 800; color: #000; flex-shrink: 0;
+      font-family: var(--font-en);
+    }
+    .profile-info h2 { font-size: 1.3rem; font-weight: 800; }
+    .profile-info p { font-size: 13px; color: var(--text-muted); }
+    .profile-form { max-width: 480px; }
+    .profile-form .auth-field { margin-bottom: 16px; }
+    .profile-form .auth-field label { font-size: 12px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px; }
+    .profile-form .auth-field input {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg); color: var(--text); font-family: inherit; font-size: 14px;
+    }
+    .profile-form .auth-field input:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state {
+      text-align: center; padding: 40px 20px; color: var(--text-muted);
+    }
+    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.5; }
+    .empty-state p { font-size: 14px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .dash-sidebar {
+        position: fixed; top: 0; bottom: 0; z-index: 200;
+        transform: translateX(100%);
+      }
+      [dir="ltr"] .dash-sidebar { transform: translateX(-100%); }
+      .dash-sidebar.open { transform: translateX(0); }
+      .sidebar-brand .sidebar-close { display: block; }
+      .dash-topbar .sidebar-toggle { display: block; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-body { padding: 16px; }
+      :root { --sidebar-w: 280px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .dash-topbar { padding: 0 12px; }
+    }
+
+    /* ─── MODAL OVERRIDE ─── */
+    .dash-modal-overlay {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center;
+    }
+    .dash-modal-overlay.open { display: flex; }
+    .dash-modal {
+      background: var(--bg-alt); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px; max-width: 500px; width: 90%;
+      max-height: 80vh; overflow-y: auto; position: relative;
+    }
+    .dash-modal-close {
+      position: absolute; top: 12px; inset-inline-end: 16px;
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.5rem; cursor: pointer;
+    }
+    .dash-modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; }
+
+    /* Loading shimmer */
+    .dash-skeleton {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; height: 80px; margin-bottom: 10px;
+      animation: dashShimmer 1.5s infinite;
+    }
+    @keyframes dashShimmer {
+      0%,100% { opacity: 0.4; } 50% { opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+  <div class="dash-layout">
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="dash-sidebar" id="dashSidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo_new_png.png" alt="Sirius Fx" class="logo-img">
+        <span class="logo-text" dir="ltr">Sirius&nbsp;<span class="accent">Fx</span></span>
+        <button class="sidebar-close" id="sidebarClose">&times;</button>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Main</div>
+          <button class="sidebar-link active" data-tab="overview">
+            <span data-icon="home"></span> Overview
+          </button>
+          <button class="sidebar-link" data-tab="signals">
+            <span data-icon="signals"></span> Signals <span class="badge" id="signalCount">0</span>
+          </button>
+          <button class="sidebar-link" data-tab="watchlist">
+            <span data-icon="forex"></span> Watchlist
+          </button>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Tools</div>
+          <button class="sidebar-link" data-tab="ai">
+            <span data-icon="ai"></span> AI Tools
+          </button>
+          <button class="sidebar-link" data-tab="journal">
+            <span data-icon="journal"></span> Trade Journal
+          </button>
+          <button class="sidebar-link" data-tab="planner">
+            <span data-icon="calendar"></span> Risk Planner
+          </button>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Offers</div>
+          <button class="sidebar-link" data-tab="promotions">
+            <span data-icon="lightning"></span> Promotions
+            <span class="badge badge-danger">NEW</span>
+          </button>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Account</div>
+          <button class="sidebar-link" data-tab="profile">
+            <span data-icon="admin"></span> Profile
+          </button>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user" id="sidebarUser">
+          <div class="sidebar-user-avatar" id="sidebarAvatar">U</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebarUserName">User</div>
+            <div class="sidebar-user-role">Trader</div>
+          </div>
+          <button class="sidebar-user-logout" id="sidebarLogout" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <div class="dash-main">
+      <!-- Topbar -->
+      <header class="dash-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="dash-topbar-title">Sirius <span>Fx</span></div>
+        <div class="dash-topbar-spacer"></div>
+        <div class="dash-topbar-controls">
+          <button class="dash-topbar-btn" id="dashThemeToggle" title="Theme"><span data-icon="moon"></span></button>
+          <button class="dash-topbar-btn" id="dashNotifBtn" title="Notifications">
+            <span data-icon="alerts"></span>
+            <span class="notif-dot" id="notifDot" style="display:none"></span>
+          </button>
+          <div class="dash-topbar-user" id="topbarUser">
+            <span class="user-name-sm" id="topbarUserName">User</span>
+            <div class="user-avatar-sm" id="topbarAvatar">U</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Body -->
+      <div class="dash-body" id="dashBody">
+        <!-- Loading State -->
+        <div id="dashLoading" style="padding:40px;text-align:center">
+          <div class="dash-skeleton"></div>
+          <div class="dash-skeleton"></div>
+          <div class="dash-skeleton"></div>
+        </div>
+
+        <!-- ===== TAB: OVERVIEW ===== -->
+        <div class="dash-tab active" id="tab-overview">
+          <div class="welcome-section">
+            <h1 id="welcomeMsg">Welcome back</h1>
+            <p>Here's your market overview for today</p>
+          </div>
+          <div class="stats-grid" id="overviewStats">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon stat-card-icon--blue"><span data-icon="signals"></span></div>
+                <div class="stat-card-label">Active Signals</div>
+              </div>
+              <div class="stat-card-value" id="statSignals">12</div>
+              <div class="stat-card-change up">▲ 3 this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon stat-card-icon--green"><span data-icon="chart"></span></div>
+                <div class="stat-card-label">Win Rate</div>
+              </div>
+              <div class="stat-card-value" id="statWinRate">78<span class="currency">%</span></div>
+              <div class="stat-card-change up">▲ 5% vs last month</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon stat-card-icon--purple"><span data-icon="ai"></span></div>
+                <div class="stat-card-label">AI Analyses</div>
+              </div>
+              <div class="stat-card-value" id="statAI">47</div>
+              <div class="stat-card-change up">▲ 12 this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon stat-card-icon--gold"><span data-icon="lightning"></span></div>
+                <div class="stat-card-label">Active Promotions</div>
+              </div>
+              <div class="stat-card-value" id="statPromo">3</div>
+              <div class="stat-card-change">Featured offers</div>
+            </div>
+          </div>
+          <div class="dash-grid-2">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h3><span data-icon="signals"></span> Latest Signals</h3>
+                <button class="dash-card-action" onclick="switchTab('signals')">View All →</button>
+              </div>
+              <div class="dash-card-body" id="overviewSignals">
+                <div class="empty-state"><div class="empty-icon">📡</div><p>Loading signals...</p></div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h3><span data-icon="lightning"></span> Quick AI</h3>
+                <button class="dash-card-action" onclick="switchTab('ai')">All Tools →</button>
+              </div>
+              <div class="dash-card-body">
+                <div class="ai-quick-grid">
+                  <button class="ai-quick-btn" onclick="quickAISummary()">
+                    <span class="ai-q-icon">📊</span> Market Summary
+                  </button>
+                  <button class="ai-quick-btn" onclick="switchTab('ai')">
+                    <span class="ai-q-icon">🎯</span> Setup Analyzer
+                  </button>
+                  <button class="ai-quick-btn" onclick="switchTab('ai')">
+                    <span class="ai-q-icon">📰</span> News Sentiment
+                  </button>
+                  <button class="ai-quick-btn" onclick="switchTab('ai')">
+                    <span class="ai-q-icon">📋</span> Trade Plan
+                  </button>
+                </div>
+                <div class="ai-result" id="quickAIResult" style="margin-top:10px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: SIGNALS ===== -->
+        <div class="dash-tab" id="tab-signals">
+          <div class="welcome-section">
+            <h1>Trading Signals</h1>
+            <p>Real-time trade signals and analysis</p>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3><span data-icon="signals"></span> Signal History</h3>
+              <button class="dash-card-action" onclick="refreshSignals()">🔄 Refresh</button>
+            </div>
+            <div class="dash-card-body" style="overflow-x:auto">
+              <table class="signals-table">
+                <thead>
+                  <tr>
+                    <th>Pair</th>
+                    <th>Direction</th>
+                    <th>Entry</th>
+                    <th>SL</th>
+                    <th>TP</th>
+                    <th>Result</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="signalsTableBody">
+                  <tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted)">Loading signals...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: WATCHLIST ===== -->
+        <div class="dash-tab" id="tab-watchlist">
+          <div class="welcome-section">
+            <h1>Watchlist</h1>
+            <p>Track your favorite pairs in real-time</p>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3><span data-icon="forex"></span> Live Prices</h3>
+              <button class="dash-card-action" onclick="refreshWatchlist()">🔄 Refresh</button>
+            </div>
+            <div class="dash-card-body" id="watchlistBody">
+              <div class="empty-state"><div class="empty-icon">💱</div><p>Loading...</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: AI TOOLS ===== -->
+        <div class="dash-tab" id="tab-ai">
+          <div class="welcome-section">
+            <h1>AI Trading Tools</h1>
+            <p>Powered by Gemini AI — advanced market analysis</p>
+          </div>
+          <div class="dash-grid-2">
+            <div class="dash-card">
+              <div class="dash-card-header"><h3>📊 Market Summary</h3></div>
+              <div class="dash-card-body">
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Get AI-powered analysis of current market conditions</p>
+                <button type="button" id="dashBtnSummary" class="btn btn-primary btn-lg" style="width:100%">Generate Analysis</button>
+                <div class="ai-result" id="dashResultSummary" style="margin-top:12px"></div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-header"><h3>🎯 Setup Analyzer</h3></div>
+              <div class="dash-card-body">
+                <form id="dashFormSetup" class="tool-form">
+                  <label>Trend <select id="dashSetupTrend"><option value="with">With trend</option><option value="against">Against</option><option value="range">Range</option></select></label>
+                  <label>R:R <input type="number" id="dashSetupRR" value="2" step="0.1"></label>
+                  <label>Risk % <input type="number" id="dashSetupRisk" value="1" step="0.1"></label>
+                  <label>Session <select id="dashSetupSession"><option value="london">London</option><option value="ny">New York</option><option value="asia">Asia</option><option value="overlap">Overlap</option></select></label>
+                  <button type="submit" class="btn btn-primary">Analyze</button>
+                </form>
+                <div class="ai-result" id="dashResultSetup" style="margin-top:12px"></div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-header"><h3>📰 News Sentiment</h3></div>
+              <div class="dash-card-body">
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Analyze market sentiment from news text</p>
+                <textarea id="dashSentimentInput" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;resize:vertical;margin-bottom:10px" placeholder="Paste news text..."></textarea>
+                <button type="button" id="dashBtnSentiment" class="btn btn-primary">Analyze Sentiment</button>
+                <div class="ai-result" id="dashResultSentiment" style="margin-top:12px"></div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-header"><h3>📋 Trade Assistant</h3></div>
+              <div class="dash-card-body">
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Get a complete AI trade plan</p>
+                <button type="button" class="btn btn-outline" onclick="window.open('ai-hub.html','_blank')" style="width:100%">Open AI Hub →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: JOURNAL ===== -->
+        <div class="dash-tab" id="tab-journal">
+          <div class="welcome-section">
+            <h1>Trade Journal</h1>
+            <p>Log and analyze your trading performance</p>
+          </div>
+          <div class="dash-grid-2">
+            <div class="dash-card">
+              <div class="dash-card-header"><h3>📝 New Entry</h3></div>
+              <div class="dash-card-body">
+                <div class="journal-form">
+                  <textarea id="journalInput" rows="5" placeholder="EUR/USD,0.1,Buy,1.0850,1.0900,50&#10;GBP/USD,0.2,Sell,1.2650,1.2600,-30"></textarea>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+                    <input type="text" id="journalPair" placeholder="Pair" style="flex:1;min-width:80px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);font-size:13px">
+                    <input type="number" id="journalProfit" placeholder="P&L $" step="1" style="width:100px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);font-size:13px">
+                    <select id="journalDirection" style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13px">
+                      <option value="Buy">Buy</option><option value="Sell">Sell</option>
+                    </select>
+                  </div>
+                  <div style="display:flex;gap:8px">
+                    <button type="button" id="dashBtnJournal" class="btn btn-primary">Add Trade</button>
+                    <button type="button" id="dashBtnJournalAnalyze" class="btn btn-outline">📊 Analyze All</button>
+                    <button type="button" id="dashBtnJournalClear" class="btn btn-outline" style="color:var(--error);border-color:rgba(239,68,68,0.3)">Clear</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card-header"><h3>📊 Analytics</h3></div>
+              <div class="dash-card-body" id="journalResult">
+                <div class="empty-state"><div class="empty-icon">📓</div><p>Add trades to see analytics</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: PLANNER ===== -->
+        <div class="dash-tab" id="tab-planner">
+          <div class="welcome-section">
+            <h1>Risk Planner</h1>
+            <p>Plan and track your trading days</p>
+          </div>
+          <div class="dash-card" id="dashRiskPlanner">
+            <div class="dash-card-header"><h3>📋 Risk Plan</h3></div>
+            <div class="dash-card-body" id="dashRPContent">
+              <div class="empty-state"><div class="empty-icon">⚙️</div><p>Configure your plan below</p></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: PROMOTIONS ===== -->
+        <div class="dash-tab" id="tab-promotions">
+          <div class="welcome-section">
+            <h1>Promotions & Offers</h1>
+            <p>Exclusive deals and trading opportunities</p>
+          </div>
+          <div class="dash-grid-2" id="promoGrid">
+            <div class="promo-card">
+              <div class="promo-banner">
+                <div class="promo-banner-bg"></div>
+                <div class="promo-banner-content">
+                  <div class="promo-icon">🚀</div>
+                  <div class="promo-info">
+                    <h4>Premium Signals Package</h4>
+                    <p>Get 50+ signals per month with 85%+ accuracy</p>
+                  </div>
+                </div>
+              </div>
+              <div class="promo-body">
+                <p>Subscribe to our premium signals and receive real-time trade alerts with detailed analysis, entry points, stop-loss levels, and take-profit targets. Includes 24/7 support from our trading team.</p>
+              </div>
+              <div class="promo-footer">
+                <a href="https://t.me/srfx0" target="_blank" class="btn btn-primary btn-sm">Subscribe Now</a>
+                <span style="font-size:12px;color:var(--text-muted);align-self:center">Starting from $49/mo</span>
+              </div>
+            </div>
+            <div class="promo-card">
+              <div class="promo-banner">
+                <div class="promo-banner-bg"></div>
+                <div class="promo-banner-content">
+                  <div class="promo-icon">🎓</div>
+                  <div class="promo-info">
+                    <h4>Advanced Trading Course</h4>
+                    <p>Master technical analysis and risk management</p>
+                  </div>
+                </div>
+              </div>
+              <div class="promo-body">
+                <p>Comprehensive training program covering technical analysis, price action, risk management, and psychology. Includes live sessions, recorded materials, and one-on-one mentoring.</p>
+              </div>
+              <div class="promo-footer">
+                <a href="https://t.me/srfx0" target="_blank" class="btn btn-primary btn-sm">Enroll Now</a>
+                <span style="font-size:12px;color:var(--text-muted);align-self:center">Limited seats available</span>
+              </div>
+            </div>
+            <div class="promo-card">
+              <div class="promo-banner">
+                <div class="promo-banner-bg"></div>
+                <div class="promo-banner-content">
+                  <div class="promo-icon">🤖</div>
+                  <div class="promo-info">
+                    <h4>AI Trading Bot Access</h4>
+                    <p>Automate your trading with AI-powered signals</p>
+                  </div>
+                </div>
+              </div>
+              <div class="promo-body">
+                <p>Get early access to our AI trading bot that analyzes multiple timeframes and market conditions to generate high-probability setups. Fully automated signal delivery via Telegram.</p>
+              </div>
+              <div class="promo-footer">
+                <a href="https://t.me/srfx0" target="_blank" class="btn btn-primary btn-sm">Get Early Access</a>
+                <span style="font-size:12px;color:var(--text-muted);align-self:center">Beta: Free for first 100</span>
+              </div>
+            </div>
+            <div class="promo-card">
+              <div class="promo-banner">
+                <div class="promo-banner-bg"></div>
+                <div class="promo-banner-content">
+                  <div class="promo-icon">🏆</div>
+                  <div class="promo-info">
+                    <h4>Funded Account Challenge</h4>
+                    <p>Prove your skills and get funded up to $200K</p>
+                  </div>
+                </div>
+              </div>
+              <div class="promo-body">
+                <p>Participate in our funded trader challenge. Pass the evaluation and trade with company capital. Keep up to 80% of profits. Multiple account sizes available from $10K to $200K.</p>
+              </div>
+              <div class="promo-footer">
+                <a href="https://t.me/srfx0" target="_blank" class="btn btn-primary btn-sm">Join Challenge</a>
+                <span style="font-size:12px;color:var(--text-muted);align-self:center">$49 evaluation fee</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB: PROFILE ===== -->
+        <div class="dash-tab" id="tab-profile">
+          <div class="welcome-section">
+            <h1>Profile Settings</h1>
+            <p>Manage your account and preferences</p>
+          </div>
+          <div class="dash-grid-2">
+            <div>
+              <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">U</div>
+                <div class="profile-info">
+                  <h2 id="profileName">User</h2>
+                  <p id="profileEmail">user@email.com</p>
+                </div>
+              </div>
+              <div class="dash-card">
+                <div class="dash-card-header"><h3>Edit Profile</h3></div>
+                <div class="dash-card-body">
+                  <div class="profile-form">
+                    <div class="auth-field">
+                      <label>Full Name</label>
+                      <input type="text" id="editName" placeholder="Your name">
+                    </div>
+                    <div class="auth-field">
+                      <label>Email</label>
+                      <input type="email" id="editEmail" disabled style="opacity:0.6">
+                    </div>
+                    <div style="display:flex;gap:8px">
+                      <button type="button" id="dashBtnSaveProfile" class="btn btn-primary">Save Changes</button>
+                    </div>
+                    <div class="auth-error" id="profileError" style="margin-top:8px"></div>
+                    <div class="result-good" id="profileSuccess" style="margin-top:8px;display:none">✅ Profile updated</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="dash-card">
+                <div class="dash-card-header"><h3>Change Password</h3></div>
+                <div class="dash-card-body">
+                  <div class="profile-form">
+                    <div class="auth-field">
+                      <label>Current Password</label>
+                      <input type="password" id="editCurPwd" placeholder="••••••">
+                    </div>
+                    <div class="auth-field">
+                      <label>New Password</label>
+                      <input type="password" id="editNewPwd" placeholder="••••••" minlength="6">
+                    </div>
+                    <button type="button" id="dashBtnChangePwd" class="btn btn-primary">Change Password</button>
+                    <div class="auth-error" id="pwdError" style="margin-top:8px"></div>
+                    <div class="result-good" id="pwdSuccess" style="margin-top:8px;display:none">✅ Password changed</div>
+                  </div>
+                </div>
+              </div>
+              <div class="dash-card" style="margin-top:16px">
+                <div class="dash-card-header"><h3>Preferences</h3></div>
+                <div class="dash-card-body">
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer">
+                      <input type="checkbox" id="prefNotifications" checked> Enable notifications
+                    </label>
+                    <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer">
+                      <input type="checkbox" id="prefDarkMode" checked> Dark mode
+                    </label>
+                  </div>
+                  <button type="button" id="dashBtnSavePrefs" class="btn btn-outline btn-sm" style="margin-top:12px">Save Preferences</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Panel -->
+  <div class="dash-modal-overlay" id="notifPanel">
+    <div class="dash-modal">
+      <button class="dash-modal-close" onclick="closeNotif()">&times;</button>
+      <h3>🔔 Notifications</h3>
+      <div id="notifList">
+        <div class="empty-state"><div class="empty-icon">🔔</div><p>No notifications yet</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/icon.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/ticker.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

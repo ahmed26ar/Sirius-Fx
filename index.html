@@ -48,8 +48,22 @@
         <li><a href="#chart" data-i18n="nav.chart"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
+        <button class="ctrl-btn" id="themeToggle" aria-label="Theme"><span data-icon="moon"></span></button>
         <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">تيليجرام</a>
+        <button class="btn btn-outline btn-sm" id="loginBtn" onclick="SiriusAuth.showAuthModal('login')" data-i18n="nav.login">دخول</button>
+        <button class="btn btn-primary btn-sm" id="registerBtn" onclick="SiriusAuth.showAuthModal('register')" data-i18n="nav.register">حساب</button>
+        <div class="user-menu" id="userMenu" style="display:none">
+          <button class="ctrl-btn user-menu-btn" id="userMenuToggle">
+            <span class="user-avatar" id="userAvatar">U</span>
+            <span class="user-name" id="userName">User</span>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="dashboard.html"><span data-icon="home"></span> dashboard</a>
+            <a href="dashboard.html?tab=profile"><span data-icon="admin"></span> profile</a>
+            <a href="#" id="logoutBtn"><span data-icon="logout"></span> logout</a>
+          </div>
+        </div>
       </div>
       <div class="nav-progress" id="navProgress"></div>
     </div>
@@ -540,6 +554,7 @@
   </div>
 
   <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/icon.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/theme.js"></script>
