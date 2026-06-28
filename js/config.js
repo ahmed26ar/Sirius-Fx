@@ -1,4 +1,4 @@
 window.SiriusConfig = {
-  apiBase: 'http://localhost:3000',
+  apiBase: 'https://siriusfx.6611zzrru.workers.dev',
   chatEndpoint: '/chat'
 };
