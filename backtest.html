@@ -3,17 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sirius Fx — Strategy Backtester & Trade Journal">
-  <title>باك تيستينغ | Sirius Fx</title>
+  <meta name="description" content="Sirius Fx — Chart-Based Strategy Backtester with Bar Replay">
+  <title>باك تيستينغ على الشارت | Sirius Fx</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo_new_png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style>
-    .page-hero { text-align: center; padding: 50px 0 30px; }
-    .page-hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; background: linear-gradient(135deg, var(--text) 0%, var(--sky) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
-    .page-hero .page-sub { color: var(--text-muted); font-size: 15px; max-width: 560px; margin: 0 auto; }
+    /* ===== PAGE HERO ===== */
+    .page-hero { text-align: center; padding: 50px 0 20px; }
+    .page-hero h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 800; background: linear-gradient(135deg, var(--text) 0%, var(--sky) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .page-hero .page-sub { color: var(--text-muted); font-size: 14px; max-width: 560px; margin: 0 auto; }
+
+    /* ===== CHART + SIDEBAR LAYOUT ===== */
+    .tester-layout { display: grid; grid-template-columns: 1fr 320px; gap: 20px; padding-bottom: 60px; }
+    @media(max-width:900px){ .tester-layout { grid-template-columns: 1fr; } }
+
+    /* ===== CHART CARD ===== */
+    .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; backdrop-filter: blur(16px); }
+    .chart-card .chart-container { width: 100%; height: 420px; border-radius: 10px; overflow: hidden; }
+    .chart-card .chart-container > * { width: 100% !important; height: 100% !important; }
+    #testerChart { width: 100%; height: 100%; }
+
+    /* ===== BAR REPLAY CONTROLS ===== */
+    .replay-bar { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 12px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--border); }
+    .replay-bar input[type="range"] { flex: 1; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(0,212,255,0.15); border-radius: 2px; outline: none; cursor: pointer; }
+    .replay-bar input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--sky); border: 2px solid rgba(0,0,0,0.3); cursor: pointer; transition: transform .2s; }
+    .replay-bar input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    .replay-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; font-family: inherit; flex-shrink: 0; }
+    .replay-btn:hover { background: rgba(0,212,255,0.1); border-color: var(--sky); }
+    .replay-btn.play { width: 40px; height: 40px; font-size: 16px; background: rgba(0,212,255,0.12); border-color: var(--sky); }
+    .replay-info { display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; white-space: nowrap; flex-shrink: 0; }
+    .replay-info .bar-num { color: var(--sky); font-weight: 600; }
+    .replay-speed { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+    .replay-speed select { padding: 3px 6px; border-radius: 5px; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); font-size: 11px; font-family: inherit; cursor: pointer; }
+    .replay-speed select:focus { outline: none; border-color: var(--sky); }
+    @media(max-width:600px){
+      .replay-info .date-lbl { display: none; }
+      .replay-bar { gap: 6px; padding: 8px; flex-wrap: wrap; }
+    }
+
+    /* ===== SIDEBAR ===== */
+    .tester-sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+    /* ===== TRADE FORM ===== */
+    .trade-form-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; backdrop-filter: blur(16px); }
+    .trade-form-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .tf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .tf-field { display: flex; flex-direction: column; gap: 4px; }
+    .tf-field label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .tf-field input, .tf-field select { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); font-size: 13px; font-family: 'JetBrains Mono', monospace; transition: border-color .2s; }
+    .tf-field input:focus, .tf-field select:focus { outline: none; border-color: var(--sky); }
+    .tf-field select { font-family: inherit; }
+    .tf-full { grid-column: 1/-1; }
+    .tf-actions { display: flex; gap: 8px; margin-top: 4px; }
+    .tf-actions .btn { flex: 1; font-size: 12px; padding: 9px 12px; }
+    .bt-form-feedback { font-size: 12px; padding: 8px 12px; border-radius: 8px; margin-top: 10px; display: none; }
+    .bt-form-feedback.pos { display: block; background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+    .bt-form-feedback.err { display: block; background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+
+    /* ===== METRICS ===== */
+    .metrics-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; backdrop-filter: blur(16px); }
+    .metrics-card h4 { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .bt-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .bt-metric { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px; }
+    .bt-metric-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-bottom: 4px; }
+    .bt-metric-val { font-size: 16px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .bt-metric-val.pos { color: #22c55e; }
+    .bt-metric-val.neg { color: #ef4444; }
+
+    /* ===== TRADE TABLE ===== */
+    .table-section { margin-top: 20px; }
+    .table-section .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .table-section .section-header h4 { font-size: 13px; font-weight: 700; color: var(--text); }
+    .table-section .section-header span { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .bt-trade-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .bt-trade-table th { text-align: left; padding: 10px 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+    .bt-trade-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-family: 'JetBrains Mono', monospace; }
+    .bt-trade-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .bt-trade-table .pos { color: #22c55e; }
+    .bt-trade-table .neg { color: #ef4444; }
+    .bt-trade-table .long { color: #22c55e; }
+    .bt-trade-table .short { color: #ef4444; }
+    .bt-trade-table .bt-empty { text-align: center; padding: 40px; color: var(--text-muted); font-family: inherit; font-size: 13px; }
+    .btn-icon { background: transparent; border: 1px solid rgba(239,68,68,0.2); color: var(--text-muted); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; transition: all .2s; }
+    .btn-icon:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.4); color: #ef4444; }
+
+    /* ===== EQUITY CURVE ===== */
+    .equity-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-top: 16px; backdrop-filter: blur(16px); }
+    .equity-card h4 { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .equity-card canvas { width: 100%; height: 120px; border-radius: 8px; }
+
+    /* ===== TOOLBAR ===== */
+    .bt-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .bt-toolbar .btn { font-size: 12px; padding: 7px 14px; }
+    .bt-summary { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-left: auto; }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:600px){
+      .tester-layout { grid-template-columns: 1fr; }
+      .chart-card .chart-container { height: 280px; }
+      .replay-info { font-size: 10px; gap: 8px; }
+      .bt-metrics { grid-template-columns: 1fr 1fr; }
+      .bt-trade-table { font-size: 10px; }
+      .bt-trade-table th, .bt-trade-table td { padding: 6px 8px; }
+    }
   </style>
 </head>
 <body>
@@ -54,138 +149,128 @@
   <!-- ===== HERO ===== -->
   <div class="page-hero">
     <h1><span data-icon="chart"></span> Strategy Backtester</h1>
-    <p class="page-sub">سجل صفقاتك السابقة وحلل أداء استراتيجيتك — إحصائيات دقيقة، رسوم بيانية، وتقارير شاملة</p>
+    <p class="page-sub">اختبر استراتيجيتك على الشارت — حرك شريط الزمن، أضف صفقات، وشاهد النتائج فوراً</p>
   </div>
 
   <!-- ===== MAIN ===== -->
-  <main class="container" style="padding-bottom:80px">
+  <main class="container" style="padding-bottom:60px">
 
     <div class="bt-toolbar">
-      <button class="btn btn-outline btn-sm" id="bt-demo"><span data-icon="lightning"></span> تحميل بيانات تجريبية</button>
-      <button class="btn btn-outline btn-sm" id="bt-import"><span data-icon="publish"></span> استيراد CSV</button>
-      <button class="btn btn-outline btn-sm" id="bt-export"><span data-icon="news"></span> تصدير CSV</button>
-      <button class="btn btn-outline btn-sm" id="bt-clear" style="color:var(--error);border-color:rgba(239,68,68,0.3)"><span data-icon="delete"></span> مسح الكل</button>
+      <button class="btn btn-outline btn-sm" id="btClear"><span data-icon="delete"></span> مسح الكل</button>
       <span class="bt-summary" id="btTradeSummary">0 trades · $0 net P&L</span>
     </div>
 
-    <div class="bt-layout">
+    <div class="tester-layout">
 
-      <!-- ===== LEFT: FORM ===== -->
-      <div class="bt-form-card card">
-        <h3 id="bt-form-title">➕ Add Trade</h3>
-        <p>أدخل بيانات الصفقة لحساب الأرباح وتحليل الأداء</p>
-        <form id="bt-form">
-          <div class="bt-form-row single">
-            <div class="bt-field">
-              <label>التاريخ</label>
-              <input type="date" id="bt-date">
+      <!-- ===== LEFT: CHART ===== -->
+      <div>
+        <div class="chart-card">
+          <div class="chart-container" id="testerChart"></div>
+          <!-- Bar Replay Controls -->
+          <div class="replay-bar">
+            <button class="replay-btn" id="btGoStart" title="البداية">⏮</button>
+            <button class="replay-btn" id="btStepBack" title="خطوة للخلف">◀</button>
+            <button class="replay-btn play" id="btPlayBtn" title="تشغيل/إيقاف">▶</button>
+            <button class="replay-btn" id="btStepFwd" title="خطوة للأمام">▶</button>
+            <button class="replay-btn" id="btGoEnd" title="النهاية">⏭</button>
+            <input type="range" id="btSlider" min="0" value="0">
+            <div class="replay-info">
+              <span class="bar-num" id="btReplayBar">#0 / 499</span>
+              <span class="date-lbl" id="btReplayDate">—</span>
             </div>
-          </div>
-          <div class="bt-form-row">
-            <div class="bt-field">
-              <label>زوج العملة</label>
-              <select id="bt-pair"></select>
-            </div>
-            <div class="bt-field">
-              <label>الاتجاه</label>
-              <select id="bt-direction">
-                <option value="Buy">Buy (شراء)</option>
-                <option value="Sell">Sell (بيع)</option>
+            <div class="replay-speed">
+              <select id="btSpeed">
+                <option value="400">1x</option>
+                <option value="200" selected>2x</option>
+                <option value="100">4x</option>
+                <option value="50">8x</option>
               </select>
             </div>
-          </div>
-          <div class="bt-form-row">
-            <div class="bt-field">
-              <label>سعر الدخول</label>
-              <input type="number" id="bt-entry" step="any" placeholder="1.0850">
-            </div>
-            <div class="bt-field">
-              <label>سعر الخروج</label>
-              <input type="number" id="bt-exit" step="any" placeholder="1.0920">
-            </div>
-          </div>
-          <div class="bt-form-row">
-            <div class="bt-field">
-              <label>حجم اللوت</label>
-              <input type="number" id="bt-lots" step="0.01" value="0.1" placeholder="0.1">
-            </div>
-            <div class="bt-field">
-              <label>ملاحظات</label>
-              <input type="text" id="bt-notes" placeholder="optional notes">
-            </div>
-          </div>
-          <div class="bt-form-actions">
-            <button type="submit" class="btn btn-primary">➕ إضافة صفقة</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- ===== RIGHT: METRICS + TABLES ===== -->
-      <div class="bt-right">
-
-        <!-- Metrics -->
-        <div class="bt-metrics" id="btMetrics">
-          <div class="bt-metric" style="grid-column:1/-1;padding:32px">
-            <div class="bt-metric-label">أضف صفقاتك لبدء التحليل</div>
           </div>
         </div>
 
         <!-- Trade Table -->
-        <div class="bt-trade-table-wrap">
-          <table class="bt-trade-table">
-            <thead>
-              <tr>
-                <th>Pair</th>
-                <th>Dir</th>
-                <th>Entry</th>
-                <th>Exit</th>
-                <th>Lot</th>
-                <th>P&L</th>
-                <th>Date</th>
-                <th>Notes</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="btTradeBody">
-              <tr><td colspan="9" class="bt-empty"><div class="bt-empty-icon">📊</div>No trades yet — add your first trade to begin backtesting</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Charts -->
-        <div class="bt-charts">
-          <div class="bt-chart-card">
-            <h4>📈 Equity Curve</h4>
-            <canvas id="btEquityChart" style="height:200px"></canvas>
+        <div class="table-section">
+          <div class="section-header">
+            <h4>قائمة الصفقات</h4>
+            <span id="btTradeCount">0 trades</span>
           </div>
-          <div class="bt-chart-card">
-            <h4>📉 Drawdown Curve</h4>
-            <canvas id="btDDChart" style="height:200px"></canvas>
+          <div style="overflow-x:auto">
+            <table class="bt-trade-table">
+              <thead>
+                <tr>
+                  <th>Pair</th>
+                  <th>Dir</th>
+                  <th>Entry</th>
+                  <th>Exit</th>
+                  <th>Lot</th>
+                  <th>P&L</th>
+                  <th>Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="btTradeBody">
+                <tr><td colspan="8" class="bt-empty">لا توجد صفقات — استخدم النموذج على اليمين لإضافة صفقة</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <!-- Monthly + Detailed -->
-        <div class="bt-charts">
-          <div class="bt-chart-card">
-            <h4>📊 Monthly Returns</h4>
-            <canvas id="btMonthlyChart" style="height:200px"></canvas>
-            <div class="bt-monthly-grid" id="btMonthlyGrid"></div>
+        <!-- Equity Curve -->
+        <div class="equity-card">
+          <h4>📈 منحنى رأس المال</h4>
+          <canvas id="btEquityCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- ===== RIGHT: SIDEBAR ===== -->
+      <div class="tester-sidebar">
+
+        <!-- Trade Form -->
+        <div class="trade-form-card">
+          <h3>➕ إضافة صفقة</h3>
+          <div class="tf-row">
+            <div class="tf-field">
+              <label>الاتجاه</label>
+              <select id="btDir">
+                <option value="Long">Long (شراء)</option>
+                <option value="Short">Short (بيع)</option>
+              </select>
+            </div>
+            <div class="tf-field">
+              <label>اللوت</label>
+              <input type="number" id="btLots" step="0.01" value="0.1" min="0.01">
+            </div>
           </div>
-          <div class="bt-chart-card">
-            <h4>📋 Detailed Statistics</h4>
-            <div class="bt-detailed-stats" id="btStatsDetail"></div>
+          <div class="tf-row">
+            <div class="tf-field">
+              <label>SL (pips)</label>
+              <input type="number" id="btSl" step="1" value="20" min="0" placeholder="20">
+            </div>
+            <div class="tf-field">
+              <label>TP (pips)</label>
+              <input type="number" id="btTp" step="1" value="40" min="0" placeholder="40">
+            </div>
           </div>
+          <div class="tf-actions">
+            <button class="btn btn-primary" id="btAddBtn">➕ إضافة</button>
+          </div>
+          <div class="bt-form-feedback" id="btFormFeedback"></div>
         </div>
 
-        <!-- Pair Distribution -->
-        <div class="bt-chart-card">
-          <h4>🎯 Performance by Pair</h4>
-          <div class="bt-pair-dist" id="btPairDist"></div>
+        <!-- Metrics -->
+        <div class="metrics-card">
+          <h4>📊 الأداء</h4>
+          <div class="bt-metrics" id="btMetrics">
+            <div class="bt-metric" style="grid-column:1/-1;padding:20px">
+              <div class="bt-metric-label">حرك الشريط أو أضف صفقة لبدء التحليل</div>
+            </div>
+          </div>
         </div>
 
       </div>
-    </div>
 
+    </div>
   </main>
 
   <!-- ===== FOOTER ===== -->
@@ -239,6 +324,8 @@
     <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. الباك تيستينغ لا يضمن الأداء المستقبلي.</span>
   </div>
 
+  <!-- Lightweight Charts CDN -->
+  <script src="https://unpkg.com/lightweight-charts@4.0.1/dist/lightweight-charts.standalone.production.js"></script>
   <script src="js/config.js"></script>
   <script src="js/icon.js"></script>
   <script src="js/i18n.js"></script>
@@ -251,6 +338,12 @@
     });
     document.querySelectorAll('#navLinks a').forEach(function (a) {
       a.addEventListener('click', function () { document.getElementById('navLinks')?.classList.remove('open'); });
+    });
+    // Trigger resize on Lightweight Charts after load
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        window.dispatchEvent(new Event('resize'));
+      }, 500);
     });
   </script>
 </body>
