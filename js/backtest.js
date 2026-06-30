@@ -13,8 +13,6 @@
   var playTimer = null;
   var chart = null;
   var candlestickSeries = null;
-  var equityLine = null;
-  var replayLine = null;
 
   /* ===== CONSTANTS ===== */
   var PIP_VALUES = {
@@ -48,18 +46,21 @@
     var dt = new Date('2024-01-01T00:00:00Z');
     var vol = 1000;
     for (var i = 0; i < NUM_BARS; i++) {
-      var drift = 0.00002;
+      var trend = 0;
+      if (i > 100 && i < 150) trend = 0.0005;
+      if (i > 200 && i < 230) trend = -0.0008;
+      if (i > 300 && i < 340) trend = 0.0012;
+      if (i > 400 && i < 420) trend = -0.0010;
       var noise = (Math.random() - 0.5) * 0.002;
-      var change = drift + noise;
+      var change = trend + noise;
       var open = price;
       var close = price + change;
-      var hi = Math.max(open, close) + Math.random() * 0.001;
-      var lo = Math.min(open, close) - Math.random() * 0.001;
-      // Add occasional trends & volatility clusters
-      if (i > 100 && i < 150) { close += 0.0005; hi += 0.0005; }
-      if (i > 200 && i < 230) { close -= 0.0008; lo -= 0.0008; }
-      if (i > 300 && i < 340) { close += 0.0012; hi += 0.0012; }
-      if (i > 400 && i < 420) { close -= 0.0010; lo -= 0.0010; }
+      var hi = Math.max(open, close) + Math.random() * 0.0008;
+      var lo = Math.min(open, close) - Math.random() * 0.0008;
+      if (hi < close) hi = close + 0.0001;
+      if (lo > close) lo = close - 0.0001;
+      if (hi < open) hi = open + 0.0001;
+      if (lo > open) lo = open - 0.0001;
       price = close;
       if (i % 5 === 0) vol = 800 + Math.random() * 1200;
       else vol = vol * (0.8 + Math.random() * 0.4);
@@ -74,23 +75,28 @@
   function initChart() {
     var container = $('testerChart');
     if (!container) return;
+    if (typeof LightweightCharts === 'undefined') {
+      container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted)">تعذر تحميل مكتبة الشارت — تحقق من اتصال الإنترنت</div>';
+      return;
+    }
     container.innerHTML = '';
+    var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     chart = LightweightCharts.createChart(container, {
       layout: {
-        background: { color: 'transparent' },
-        textColor: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#94a3b8',
+        background: { color: isDark ? '#0d0d1a' : '#ffffff' },
+        textColor: isDark ? '#94a3b8' : '#475569',
       },
       grid: {
-        vertLines: { color: 'rgba(255,255,255,0.04)' },
-        horzLines: { color: 'rgba(255,255,255,0.04)' },
+        vertLines: { color: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' },
+        horzLines: { color: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' },
       },
       crosshair: {
         mode: LightweightCharts.CrosshairMode.Normal,
-        vertLine: { color: 'rgba(0,212,255,0.4)', width: 1, style: LightweightCharts.LineStyle.Dashed },
-        horzLine: { color: 'rgba(0,212,255,0.4)', width: 1, style: LightweightCharts.LineStyle.Dashed },
+        vertLine: { color: 'rgba(0,212,255,0.4)', width: 1, style: LightweightCharts.LineStyle.Dashed, labelBackgroundColor: '#0d0d1a' },
+        horzLine: { color: 'rgba(0,212,255,0.4)', width: 1, style: LightweightCharts.LineStyle.Dashed, labelBackgroundColor: '#0d0d1a' },
       },
-      rightPriceScale: { borderColor: 'rgba(255,255,255,0.08)' },
-      timeScale: { borderColor: 'rgba(255,255,255,0.08)', timeVisible: false, fixLeftEdge: true, fixRightEdge: true },
+      rightPriceScale: { borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' },
+      timeScale: { borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)', timeVisible: true, secondsVisible: false, fixLeftEdge: true, fixRightEdge: true },
       autoSize: true,
     });
 
@@ -104,28 +110,14 @@
       priceFormat: { type: 'price', precision: 5, minMove: 0.00001 },
     });
 
-    // Bar replay position line
-    replayLine = chart.addLineSeries({
-      color: 'rgba(0,212,255,0.7)',
-      lineWidth: 2,
-      lineStyle: LightweightCharts.LineStyle.Dashed,
-      lastValueVisible: false,
-      priceLineVisible: false,
-    });
-
-    // Set data (all bars visible, replay line marks position)
     candlestickSeries.setData(barData);
     candlestickSeries.applyOptions({ baseLineVisible: false });
 
-    // Click to add trade
-    chart.subscribeCrosshairMove(function (param) {
-      if (!param.time || !param.point) return;
-      // Find nearest bar index
-      var idx = findBarIndex(param.time);
-      if (idx >= 0) $('btReplayBar').textContent = '#' + idx;
-    });
+    // Show last 80 bars by default (nicer zoom)
+    var from = barData.length > 80 ? barData[barData.length - 80].time : barData[0].time;
+    chart.timeScale().setVisibleRange({ from: from, to: barData[barData.length - 1].time });
 
-    // Double-click to add trade at current replay position
+    // Click on chart = jump to that bar
     chart.subscribeClick(function (param) {
       if (!param.time || !param.point) return;
       var idx = findBarIndex(param.time);
@@ -136,19 +128,27 @@
 
     // Theme changes
     document.addEventListener('themechange', function () {
-      if (chart) {
-        chart.applyOptions({
-          layout: {
-            textColor: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#94a3b8',
-          },
-        });
-      }
+      if (!chart) return;
+      var dark = document.documentElement.getAttribute('data-theme') !== 'light';
+      chart.applyOptions({
+        layout: {
+          background: { color: dark ? '#0d0d1a' : '#ffffff' },
+          textColor: dark ? '#94a3b8' : '#475569',
+        },
+        grid: {
+          vertLines: { color: dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' },
+          horzLines: { color: dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' },
+        },
+        rightPriceScale: { borderColor: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' },
+        timeScale: { borderColor: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)', timeVisible: true, secondsVisible: false },
+      });
     });
   }
 
   function findBarIndex(time) {
+    var t = typeof time === 'number' ? Math.floor(time) : time;
     for (var i = 0; i < barData.length; i++) {
-      if (barData[i].time === time || (typeof time === 'number' && barData[i].time === Math.floor(time))) return i;
+      if (barData[i].time === t) return i;
     }
     return -1;
   }
@@ -158,12 +158,7 @@
     if (idx < 0) idx = 0;
     if (idx >= barData.length) idx = barData.length - 1;
     currentIndex = idx;
-    // Update replay vertical line
     var bar = barData[idx];
-    replayLine.setData([
-      { time: bar.time, value: bar.low - (bar.high - bar.low) * 0.2 },
-      { time: bar.time, value: bar.high + (bar.high - bar.low) * 0.2 },
-    ]);
     // Update slider
     var slider = $('btSlider');
     if (slider) { slider.value = idx; }
@@ -263,7 +258,7 @@
     for (var i = 0; i < trades.length; i++) {
       var t = trades[i];
       if (t.status !== 'open') continue;
-      if (t.entryBar >= currentIndex) continue; // not yet entered
+      if (t.entryBar >= currentIndex) continue;
       var pipVal = (PIP_VALUES[t.pair] || 10) * t.lots;
 
       // Check if SL/TP hit between entryBar+1 and currentIndex
@@ -362,9 +357,7 @@
   }
 
   function calcStats() {
-    var closedTrades = trades.filter(function (t) { return t.status === 'closed' || (t.status === 'open' && currentIndex > t.entryBar); });
-    // For open trades past entry, compute unrealized P&L
-    var allForPnl = trades.filter(function (t) { return t.entryBar < currentIndex; });
+    var allForPnl = trades.filter(function (t) { return t.entryBar <= currentIndex; });
     if (allForPnl.length === 0) return null;
 
     var wins = 0, losses = 0;
@@ -375,17 +368,8 @@
 
     for (var i = 0; i < allForPnl.length; i++) {
       var t = allForPnl[i];
-      var pnl;
-      if (t.status === 'closed' && t.pnl !== null) {
-        pnl = t.pnl;
-      } else if (t.status === 'open' && currentIndex > t.entryBar) {
-        // Unrealized P&L at current bar close
-        var curBar = barData[currentIndex];
-        var direction = t.direction;
-        pnl = direction === 'Long'
-          ? (curBar.close - t.entryPrice) / 0.0001 * (PIP_VALUES[t.pair] || 10) * t.lots
-          : (t.entryPrice - curBar.close) / 0.0001 * (PIP_VALUES[t.pair] || 10) * t.lots;
-      } else { continue; }
+      var pnl = tradePnl(t);
+      if (pnl === null) continue;
 
       totalPnl += pnl;
       if (pnl > 0) { wins++; grossProfit += pnl; }
@@ -413,14 +397,8 @@
     var maxDDpct = 0;
     for (var j = 0; j < allForPnl.length; j++) {
       var tp = allForPnl[j];
-      var p;
-      if (tp.status === 'closed' && tp.pnl !== null) { p = tp.pnl; }
-      else if (tp.status === 'open' && currentIndex > tp.entryBar) {
-        var cb = barData[currentIndex];
-        p = tp.direction === 'Long'
-          ? (cb.close - tp.entryPrice) / 0.0001 * (PIP_VALUES[tp.pair] || 10) * tp.lots
-          : (tp.entryPrice - cb.close) / 0.0001 * (PIP_VALUES[tp.pair] || 10) * tp.lots;
-      } else { continue; }
+      var p = tradePnl(tp);
+      if (p === null) continue;
       equity += p;
       if (equity > peak) peak = equity;
       var dd = peak - equity;
@@ -447,6 +425,19 @@
     };
   }
 
+  function tradePnl(t) {
+    if (t.pnl !== null) return t.pnl;
+    if (t.status === 'open' && currentIndex >= t.entryBar) {
+      var cb = barData[currentIndex];
+      if (!cb) return null;
+      var pipVal = (PIP_VALUES[t.pair] || 10) * t.lots;
+      return t.direction === 'Long'
+        ? (cb.close - t.entryPrice) / 0.0001 * pipVal
+        : (t.entryPrice - cb.close) / 0.0001 * pipVal;
+    }
+    return null;
+  }
+
   function renderTradeTable() {
     var tbody = $('btTradeBody');
     if (!tbody) return;
@@ -459,8 +450,9 @@
       var t = trades[i];
       var bar = barData[t.entryBar];
       var entryDate = bar ? new Date(bar.time * 1000).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) : '—';
-      var pnlStr = t.pnl !== null ? (t.pnl >= 0 ? '+' : '') + '$' + t.pnl.toFixed(0) : (t.status === 'open' && currentIndex > t.entryBar ? '🔄' : '⏳');
-      var pnlClass = t.pnl !== null ? (t.pnl >= 0 ? 'pos' : 'neg') : '';
+      var pnl = tradePnl(t);
+      var pnlStr = pnl !== null ? (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(0) : '—';
+      var pnlClass = pnl !== null ? (pnl >= 0 ? 'pos' : 'neg') : '';
       html += '<tr>' +
         '<td>' + t.pair + '</td>' +
         '<td class="' + t.direction.toLowerCase() + '">' + t.direction + '</td>' +
@@ -478,6 +470,17 @@
   function updateChartMarkers() {
     if (!candlestickSeries) return;
     var markers = [];
+    var cb = barData[currentIndex];
+    if (cb) {
+      markers.push({
+        time: cb.time,
+        position: 'inBar',
+        color: '#00d4ff',
+        shape: 'circle',
+        text: '◀',
+        size: 2,
+      });
+    }
     for (var i = 0; i < trades.length; i++) {
       var t = trades[i];
       if (t.entryBar > currentIndex) continue;
@@ -517,7 +520,7 @@
     ctx.scale(DPR, DPR);
     var W = rect.width, H = rect.height;
 
-    var activeTrades = trades.filter(function (t) { return t.entryBar < currentIndex; });
+    var activeTrades = trades.filter(function (t) { return t.entryBar <= currentIndex; });
     if (activeTrades.length < 2) {
       ctx.fillStyle = 'rgba(148,163,184,0.3)';
       ctx.font = '12px Inter, sans-serif';
@@ -531,14 +534,8 @@
     var maxEq = -Infinity, minEq = Infinity;
     for (var i = 0; i < activeTrades.length; i++) {
       var t = activeTrades[i];
-      var pnl;
-      if (t.status === 'closed' && t.pnl !== null) { pnl = t.pnl; }
-      else if (t.status === 'open' && currentIndex > t.entryBar) {
-        var cb = barData[currentIndex];
-        pnl = t.direction === 'Long'
-          ? (cb.close - t.entryPrice) / 0.0001 * (PIP_VALUES[t.pair] || 10) * t.lots
-          : (t.entryPrice - cb.close) / 0.0001 * (PIP_VALUES[t.pair] || 10) * t.lots;
-      } else { continue; }
+      var pnl = tradePnl(t);
+      if (pnl === null) continue;
       running += pnl;
       eq.push(running);
       if (running > maxEq) maxEq = running;
@@ -602,7 +599,7 @@
     var stats = calcStats();
     var count = trades.length;
     var pnl = stats ? stats.netPnl : 0;
-    el.textContent = count + ' trades · ' + (pnl >= 0 ? '+' : '') + '$' + (pnl ? pnl.toFixed(0) : '0') + ' net P&L';
+    el.textContent = count + ' trades · ' + (pnl >= 0 ? '+' : '') + '$' + (pnl ? Math.round(pnl) : '0') + ' net P&L';
   }
 
   function renderFormFeedback(msg, cls) {
