@@ -1500,6 +1500,10 @@ body > * { position: relative; z-index: 1; }
 .strip-item--down .strip-price { color: #ef4444; }
 .strip-item--up .strip-change { color: #22c55e; }
 .strip-item--down .strip-change { color: #ef4444; }
+.strip-flash--up { animation: flashGreen 0.4s ease; }
+.strip-flash--down { animation: flashRed 0.4s ease; }
+@keyframes flashGreen { 0% { background: rgba(34,197,94,0.2); } 100% { background: transparent; } }
+@keyframes flashRed { 0% { background: rgba(239,68,68,0.2); } 100% { background: transparent; } }
 .strip-sym { color: var(--text-muted); font-weight: 600; min-width: 60px; }
 .strip-price { font-weight: 700; min-width: 70px; text-align: right; }
 .strip-change { font-size: 11px; min-width: 55px; }

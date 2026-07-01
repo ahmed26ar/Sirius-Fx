@@ -627,7 +627,7 @@
 
     if (!marketStrip) return;
 
-    function renderStrip(rates, change) {
+    function renderStrip(rates, change, flash) {
       var symbols = ['EUR/USD', 'GBP/USD', 'USD/JPY', 'XAU/USD', 'BTC/USD', 'USD/CAD', 'AUD/USD', 'USD/CHF'];
       if (!rates || Object.keys(rates).length === 0) {
         marketStrip.innerHTML = '<span class="market-strip-loading">جاري تحميل الأسعار...</span>';
@@ -639,7 +639,8 @@
         if (price === undefined) return '';
         var cls = ch > 0 ? 'up' : ch < 0 ? 'down' : '';
         var arrow = ch > 0 ? '▲' : ch < 0 ? '▼' : '—';
-        return '<span class="strip-item strip-item--' + cls + '">' +
+        var f = flash && flash[sym] ? ' strip-flash--' + flash[sym] : '';
+        return '<span class="strip-item strip-item--' + cls + f + '">' +
           '<span class="strip-sym">' + sym + '</span>' +
           '<span class="strip-price">' + price.toFixed(sym.indexOf('JPY') > -1 ? 3 : sym.indexOf('XAU') > -1 ? 2 : sym.indexOf('BTC') > -1 ? 0 : 5) + '</span>' +
           '<span class="strip-change">' + arrow + ' ' + (ch !== undefined ? ch.toFixed(2) : '0.00') + '%</span>' +
@@ -702,8 +703,8 @@
       mdGrid.innerHTML = html;
     }
 
-    window.SiriusMarket.subscribe(function(rates, change) {
-      renderStrip(rates, change);
+    window.SiriusMarket.subscribe(function(rates, change, flash) {
+      renderStrip(rates, change, flash);
       renderDashboard(rates, change);
     });
 
@@ -732,21 +733,23 @@
   </script>
 
   <script>
-  // عرض الأسعار الحية في بطاقة AI Market Summary
+  // عرض الأسعار الحية في بطاقة AI Market Summary (من market-dashboard)
   (function() {
     function updateSummaryRates() {
       var list = document.getElementById('summary-rates-list');
       if (!list) return;
-      var rates = window.SiriusRates;
-      if (!rates) { list.innerHTML = '<span class="text-muted">جاري تحميل الأسعار...</span>'; return; }
-      var pairs = Object.keys(rates).filter(function(k) { return k !== 'timestamp' && rates[k] && rates[k].price; });
-      if (!pairs.length) { list.innerHTML = '<span class="text-muted">لا توجد أسعار متاحة</span>'; return; }
-      list.innerHTML = pairs.slice(0, 6).map(function(p) {
-        return '<span class="summary-rate-item"><strong>' + p + '</strong> ' + rates[p] + '</span>';
-      }).join('');
+      var mkt = window.SiriusMarket;
+      if (!mkt) return;
+      var rates = mkt.getRates();
+      var keys = ['EUR/USD','GBP/USD','USD/JPY','XAU/USD','BTC/USD','USD/CAD'];
+      var items = keys.filter(function(k) { return rates[k] !== undefined; }).map(function(k) {
+        var d = k.indexOf('JPY') > -1 ? 3 : k.indexOf('XAU') > -1 ? 2 : k.indexOf('BTC') > -1 ? 0 : 5;
+        return '<span class="summary-rate-item"><strong>' + k + '</strong> ' + rates[k].toFixed(d) + '</span>';
+      });
+      list.innerHTML = items.length ? items.join('') : '<span class="text-muted">جاري التحميل...</span>';
     }
     updateSummaryRates();
-    setInterval(updateSummaryRates, 10000);
+    setInterval(updateSummaryRates, 3000);
   })();
   </script>
 
