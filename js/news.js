@@ -9,12 +9,12 @@
     {
       name: 'ForexLive',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.forexlive.com%2Ffeed%2F&api_key=public&count=8',
-      logo: '📰'
+      logo: ''
     },
     {
       name: 'Investing.com',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.investing.com%2Frss%2Fnews_25.rss&api_key=public&count=6',
-      logo: '📊'
+      logo: ''
     }
   ];
 
@@ -29,9 +29,9 @@
   ];
 
   function impactLabel(impact) {
-    if (impact === 'high') return '<span class="news-impact high" title="High Impact">🔴</span>';
-    if (impact === 'medium') return '<span class="news-impact medium" title="Medium Impact">🟡</span>';
-    return '<span class="news-impact low" title="Low Impact">🟢</span>';
+    if (impact === 'high') return '<span class="imp-dot imp-high" title="High Impact" style="color:#ef4444">●</span>';
+    if (impact === 'medium') return '<span class="imp-dot imp-med" title="Medium Impact" style="color:#f59e0b">●</span>';
+    return '<span class="imp-dot imp-low" title="Low Impact" style="color:#22c55e">●</span>';
   }
 
   function timeAgo(dateStr) {
@@ -153,7 +153,7 @@
     var container = document.getElementById('tvCalendarWidget');
     if (!container) return;
 
-    var theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    var theme = 'dark';
     var lang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
 
     // TradingView Economic Calendar Widget

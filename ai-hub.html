@@ -53,7 +53,6 @@
         <li><a href="index.html#chart"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
-        <button class="ctrl-btn" id="themeToggle" aria-label="Theme"><span data-icon="moon"></span></button>
         <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">تيليجرام</a>
       </div>
@@ -169,11 +168,8 @@
   <script src="js/config.js"></script>
   <script src="js/icon.js"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/theme.js"></script>
   <script src="js/effects.js"></script>
   <script>
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     navToggle?.addEventListener('click', () => navLinks.classList.toggle('open'));

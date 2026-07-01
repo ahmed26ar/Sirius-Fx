@@ -9,7 +9,7 @@
   var scriptLoaded = false;
 
   function getTheme() {
-    return document.documentElement.getAttribute('data-theme') === 'light' ? 'Light' : 'Dark';
+    return 'Dark';
   }
 
   function loadTVScript(callback) {

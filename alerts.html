@@ -20,11 +20,6 @@
       --font-ar: 'Cairo', sans-serif; --font-en: 'Inter', sans-serif;
       --radius: 14px; --radius-sm: 10px; --t: 0.28s ease;
     }
-    [data-theme="light"] {
-      --bg: #f0f4f8; --bg-input: #ffffff; --text: #0a0a0f; --text-muted: #64748b;
-      --card-bg: rgba(255,255,255,0.85); --card-bg-hover: rgba(255,255,255,1);
-      --border: rgba(0,153,204,0.2); --border-hover: rgba(0,153,204,0.5); --nav-bg: rgba(255,255,255,0.92);
-    }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{
@@ -181,7 +176,6 @@
         <li><a href="index.html#chart"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
-        <button class="ctrl-btn" id="themeToggle"><span data-icon="moon"></span></button>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm">تيليجرام</a>
       </div>
     </div>
@@ -266,7 +260,6 @@
   </div>
 
   <script src="js/config.js"></script>
-  <script src="js/theme.js"></script>
   <script src="js/icon.js"></script>
   <script src="js/effects.js"></script>
   <script>
@@ -283,7 +276,6 @@
     let alerts = JSON.parse(localStorage.getItem('siriusFxAlertsV2') || '[]');
     const priceCache = {};
 
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
     document.getElementById('navToggle')?.addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
 
     function checkNotificationPermission() {
