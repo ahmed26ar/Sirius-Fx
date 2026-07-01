@@ -234,7 +234,7 @@
     if (plan.consEnabled && dailyPnls.length > 0) {
       var totalAbs = dailyPnls.reduce(function(a, b) { return a + b; }, 0);
       var maxPct = totalAbs > 0 ? (maxDayPnl / totalAbs) * 100 : 0;
-      consistencyMsg = maxPct.toFixed(1) + '% (' + (maxPct <= plan.consPct ? '✅' : '❌') + ')';
+      consistencyMsg = maxPct.toFixed(1) + '% (' + (maxPct <= plan.consPct ? (window.SiriusIcon('check') || '✓') : (window.SiriusIcon('cross') || '✗')) + ')';
     }
 
     el.innerHTML =
@@ -263,7 +263,7 @@
     if (!container) return;
 
     if (!plan.days || plan.days.length === 0) {
-      container.innerHTML = '<div class="rp-empty">⚙️ Configure your plan above to begin</div>';
+      container.innerHTML = '<div class="rp-empty">' + (window.SiriusIcon('gear') || '⚙') + ' Configure your plan above to begin</div>';
       document.getElementById('rp-day-form').style.display = 'none';
       return;
     }
@@ -276,10 +276,10 @@
       var limit = plan.dailyLossLimit.toFixed(0);
       var tgt = plan.dailyTarget.toFixed(0);
       var pnlStr = day.pnl !== null ? '$' + day.pnl.toFixed(0) : '—';
-      var badge = day.status === 'win' ? '<span class="rp-badge rp-badge--win">✅</span>'
-        : day.status === 'loss' ? '<span class="rp-badge rp-badge--loss">❌</span>'
-        : (day.status === 'partial' && day.pnl !== null && day.pnl >= 0) ? '<span class="rp-badge rp-badge--partial">⚠️</span>'
-        : day.status === 'partial' ? '<span class="rp-badge rp-badge--loss">❌</span>'
+      var badge = day.status === 'win' ? '<span class="rp-badge rp-badge--win">' + (window.SiriusIcon('check') || '✓') + '</span>'
+        : day.status === 'loss' ? '<span class="rp-badge rp-badge--loss">' + (window.SiriusIcon('cross') || '✗') + '</span>'
+        : (day.status === 'partial' && day.pnl !== null && day.pnl >= 0) ? '<span class="rp-badge rp-badge--partial">' + (window.SiriusIcon('warning') || '⚠') + '</span>'
+        : day.status === 'partial' ? '<span class="rp-badge rp-badge--loss">' + (window.SiriusIcon('cross') || '✗') + '</span>'
         : '—';
 
       html += '<tr>' +

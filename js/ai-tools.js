@@ -12,18 +12,18 @@ function analyzeSetup(trend, rr, risk, session) {
     factors.push({ label: label, pct: pct, cls: cls, icon: icon, detail: detail });
   }
 
-  if (trend === 'with') { score += 20; add('Trend', 100, 100, '📈', 'With trend — bullish bias'); }
-  else if (trend === 'range') { score += 5; add('Trend', 40, 100, '📊', 'Range-bound — neutral'); }
-  else { score -= 15; add('Trend', 15, 100, '📉', 'Counter-trend — risky'); }
+  if (trend === 'with') { score += 20; add('Trend', 100, 100, 'trending-up', 'With trend — bullish bias'); }
+  else if (trend === 'range') { score += 5; add('Trend', 40, 100, 'chart', 'Range-bound — neutral'); }
+  else { score -= 15; add('Trend', 15, 100, 'trending-down', 'Counter-trend — risky'); }
 
-  if (rr >= 3) { score += 20; add('R:R', 100, 100, '🎯', rr + ':1 — excellent'); }
-  else if (rr >= 2) { score += 15; add('R:R', 75, 100, '🎯', rr + ':1 — good'); }
-  else if (rr >= 1.5) { score += 5; add('R:R', 45, 100, '🎯', rr + ':1 — acceptable'); }
-  else { score -= 20; add('R:R', 10, 100, '🎯', rr + ':1 — poor'); }
+  if (rr >= 3) { score += 20; add('R:R', 100, 100, 'target', rr + ':1 — excellent'); }
+  else if (rr >= 2) { score += 15; add('R:R', 75, 100, 'target', rr + ':1 — good'); }
+  else if (rr >= 1.5) { score += 5; add('R:R', 45, 100, 'target', rr + ':1 — acceptable'); }
+  else { score -= 20; add('R:R', 10, 100, 'target', rr + ':1 — poor'); }
 
-  if (risk <= 1) { score += 10; add('Risk', 90, 100, '🛡️', risk + '% — conservative'); }
-  else if (risk <= 2) { score += 0; add('Risk', 55, 100, '🛡️', risk + '% — moderate'); }
-  else { score -= 15; add('Risk', 10, 100, '🛡️', risk + '% — high risk'); }
+  if (risk <= 1) { score += 10; add('Risk', 90, 100, 'shield', risk + '% — conservative'); }
+  else if (risk <= 2) { score += 0; add('Risk', 55, 100, 'shield', risk + '% — moderate'); }
+  else { score -= 15; add('Risk', 10, 100, 'shield', risk + '% — high risk'); }
 
   var sessionLabels = { london: 'London', ny: 'New York', asia: 'Asia', overlap: 'London–NY Overlap' };
   var sessionScores = { london: 10, ny: 10, overlap: 15, asia: -5 };
@@ -31,7 +31,7 @@ function analyzeSetup(trend, rr, risk, session) {
   var sPct = 50 + sVal * 3;
   sPct = Math.max(5, Math.min(100, sPct));
   score += sVal;
-  add('Session', sPct, 100, '🕐', sessionLabels[session] + (sVal >= 0 ? ' — optimal' : ' — suboptimal'));
+  add('Session', sPct, 100, 'clock', sessionLabels[session] + (sVal >= 0 ? ' — optimal' : ' — suboptimal'));
 
   score = Math.max(0, Math.min(100, score));
 
@@ -58,7 +58,7 @@ function renderSetupResult(r) {
   r.factors.forEach(function(f) {
     html +=
       '<div class="sf-card sf-card--' + f.cls + '">' +
-        '<div class="sf-icon">' + f.icon + '</div>' +
+        '<div class="sf-icon">' + (window.SiriusIcon(f.icon) || f.icon) + '</div>' +
         '<div class="sf-label">' + f.label + '</div>' +
         '<div class="sf-bar"><div class="sf-fill sf-fill--' + f.cls + '" style="width:' + f.pct + '%"></div></div>' +
         '<div class="sf-detail">' + f.detail + '</div>' +
@@ -117,19 +117,19 @@ function analyzeJournal(text) {
 
   var insight, insightCls;
   if (expectancy > 0 && winRate >= 45 && pf >= 1.5) {
-    insight = '🔥 Profitable strategy — consistent edge with strong risk management. Keep executing!';
+    insight = 'Profitable strategy — consistent edge with strong risk management. Keep executing!';
     insightCls = 'good';
   } else if (expectancy > 0 && winRate >= 45) {
-    insight = '✅ Positive expectancy — your strategy works. Focus on cutting losses to improve further.';
+    insight = 'Positive expectancy — your strategy works. Focus on cutting losses to improve further.';
     insightCls = 'good';
   } else if (expectancy > 0) {
-    insight = '📈 Slightly profitable — your winners outpace losers. Work on increasing win rate.';
+    insight = 'Slightly profitable — your winners outpace losers. Work on increasing win rate.';
     insightCls = 'warn';
   } else if (winRate >= 60) {
-    insight = '⚠️ High win rate but negative expectancy — your losses are too large. Cut losers faster!';
+    insight = 'High win rate but negative expectancy — your losses are too large. Cut losers faster!';
     insightCls = 'warn';
   } else {
-    insight = '❌ Negative expectancy — review your strategy, risk per trade, and exit rules.';
+    insight = 'Negative expectancy — review your strategy, risk per trade, and exit rules.';
     insightCls = 'bad';
   }
 
@@ -253,7 +253,7 @@ function callAI(prompt, lang) {
     if (!res.ok) throw new Error('API error');
     return res.json();
   }).then(function (data) {
-    return data.reply || (lang === 'ar' ? '⚠️ لم أستطع الإجابة حالياً.' : '⚠️ Could not respond right now.');
+    return data.reply || (lang === 'ar' ? 'لم أستطع الإجابة حالياً.' : 'Could not respond right now.');
   });
 }
 

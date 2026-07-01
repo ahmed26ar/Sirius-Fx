@@ -41,9 +41,9 @@
           flags.push({
             type: 'revenge',
             severity: severity,
-            label: '🚩 Revenge Trade',
+            label: window.SiriusIcon('flag') + ' Revenge Trade',
             detail: 'Trade entered ' + Math.round(gap) + ' min after a -$' + Math.abs(sorted[i].profit) + ' loss',
-            tip: 'Walk away after a loss — your edge disappears when emotions run high.'
+            tip: window.SiriusIcon('lightbulb') + ' Walk away after a loss — your edge disappears when emotions run high.'
           });
           break;
         }
@@ -59,9 +59,9 @@
         flags.push({
           type: 'overconfidence',
           severity: 'high',
-          label: '🚩 Overconfidence',
+          label: window.SiriusIcon('flag') + ' Overconfidence',
           detail: 'Increased position size by ' + Math.round((sorted[j].size / sorted[j - 1].size - 1) * 100) + '% after ' + streak + ' consecutive wins',
-          tip: 'Winning streaks inflate ego — stick to your standard size no matter what.'
+          tip: window.SiriusIcon('lightbulb') + ' Winning streaks inflate ego — stick to your standard size no matter what.'
         });
         break;
       }
@@ -73,9 +73,9 @@
         flags.push({
           type: 'chase',
           severity: 'critical',
-          label: '🚩 Chasing Losses',
+          label: window.SiriusIcon('flag') + ' Chasing Losses',
           detail: 'Increased size by ' + Math.round((sorted[k].size / sorted[k - 1].size - 1) * 100) + '% right after a -$' + Math.abs(sorted[k - 1].profit) + ' loss',
-          tip: 'Doubling down after a loss is the fastest path to blowing your account.'
+          tip: window.SiriusIcon('lightbulb') + ' Doubling down after a loss is the fastest path to blowing your account.'
         });
         break;
       }
@@ -97,11 +97,11 @@
       flags.push({
         type: 'drift',
         severity: 'medium',
-        label: '🚩 Strategy Drift',
+        label: window.SiriusIcon('flag') + ' Strategy Drift',
         detail: (pairRatio < 0.15 ? ('Trading ' + lastPair + ' — unusual pair') : '') +
                 (pairRatio < 0.15 && sessionRatio < 0.15 ? ' | ' : '') +
                 (sessionRatio < 0.15 ? ('Trading ' + lastSession + ' — unusual session') : ''),
-        tip: 'Stick to what works. Your edge comes from specific pairs and sessions.'
+        tip: window.SiriusIcon('lightbulb') + ' Stick to what works. Your edge comes from specific pairs and sessions.'
       });
     }
 
@@ -115,9 +115,9 @@
       flags.push({
         type: 'fatigue',
         severity: todayCount >= 8 ? 'critical' : 'high',
-        label: '🚩 Overtrading',
+        label: window.SiriusIcon('flag') + ' Overtrading',
         detail: todayCount + ' trades today — quality drops after the 3rd trade',
-        tip: 'Your best trades are the first 2-3. After that, probability turns against you.'
+        tip: window.SiriusIcon('lightbulb') + ' Your best trades are the first 2-3. After that, probability turns against you.'
       });
     }
 
@@ -163,7 +163,7 @@
 
     if (elFlags) {
       if (!flags.length) {
-        elFlags.innerHTML = '<div class="bf-empty">✅ No behavioral flags — good discipline</div>';
+        elFlags.innerHTML = '<div class="bf-empty">' + window.SiriusIcon('check') + ' No behavioral flags — good discipline</div>';
       } else {
         elFlags.innerHTML = flags.map(function (f) {
           var sevCls = f.severity === 'critical' ? 'bf-flag--critical' : f.severity === 'high' ? 'bf-flag--high' : 'bf-flag--medium';
@@ -173,7 +173,7 @@
               '<span class="bf-flag-sev">' + f.severity + '</span>' +
             '</div>' +
             '<div class="bf-flag-detail">' + f.detail + '</div>' +
-            '<div class="bf-flag-tip">💡 ' + f.tip + '</div>' +
+            '<div class="bf-flag-tip">' + window.SiriusIcon('lightbulb') + ' ' + f.tip + '</div>' +
           '</div>';
         }).join('');
       }
@@ -227,7 +227,7 @@
             '<span style="font-weight:700;' + cls + '">' + (t.profit >= 0 ? '+' : '') + t.profit + '</span>' +
           '</div>';
         }).join('')
-      : '<div style="text-align:center;padding:20px;color:var(--text-muted)">No trades yet</div>';
+      : '<div style="text-align:center;padding:20px;color:var(--text-muted)">' + window.SiriusIcon('clipboard') + ' No trades yet</div>';
 
     var existing = document.getElementById('bf-history-modal');
     if (existing) existing.remove();
@@ -239,7 +239,7 @@
       '<div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto">' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">' +
           '<h3 style="font-size:1.3rem">Trade History</h3>' +
-          '<button id="bf-close-modal" style="background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer">✕</button>' +
+          '<button id="bf-close-modal" style="background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer">' + window.SiriusIcon('cross') + '</button>' +
         '</div>' +
         html +
       '</div>';

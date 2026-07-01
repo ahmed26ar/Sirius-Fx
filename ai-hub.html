@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مركز الذكاء الاصطناعي | Sirius Fx</title>
+  <meta name="description" content="Sirius Fx - أدوات الذكاء الاصطناعي المتقدمة للتداول: تحليل الصفقات، كشف الأنماط، وإدارة المخاطر">
+  <meta name="keywords" content="AI trading, فوركس, ذكاء اصطناعي تداول, trading patterns, risk management">
+  <title data-i18n="ai.hub.title">مركز الذكاء الاصطناعي | Sirius Fx</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="assets/logo_new_png.png" type="image/png">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="assets/logo_new_png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .page-hero { text-align: center; padding: 60px 0 40px; }
@@ -50,25 +53,27 @@
         <li><a href="index.html#chart"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
-        <button class="ctrl-btn" id="themeToggle"><span data-icon="moon"></span></button>
-        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm">تيليجرام</a>
+        <button class="ctrl-btn" id="themeToggle" aria-label="Theme"><span data-icon="moon"></span></button>
+        <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">تيليجرام</a>
       </div>
+      <div class="nav-progress" id="navProgress"></div>
     </div>
   </nav>
 
   <!-- ===== MAIN CONTENT ===== -->
   <main class="container">
-    <div class="page-hero">
-      <h1><span data-icon="ai"></span> مركز الذكاء الاصطناعي</h1>
-      <p style="color:var(--text-muted);max-width:600px;margin:0 auto;font-size:15px">
-        أدوات متقدمة مدعومة بالذكاء الاصطناعي لتحليل الصفقات، وكشف الأنماط، وإدارة المخاطر. طور تداولك بقرارات مبنية على البيانات.
-      </p>
-    </div>
+      <div class="page-hero">
+        <h1><span data-icon="brain"></span> <span data-i18n="ai.hub.title">مركز الذكاء الاصطناعي</span></h1>
+        <p style="color:var(--text-muted);max-width:600px;margin:0 auto;font-size:15px" data-i18n="ai.hub.desc">
+          أدوات متقدمة مدعومة بالذكاء الاصطناعي لتحليل الصفقات، وكشف الأنماط، وإدارة المخاطر.
+        </p>
+      </div>
 
     <div class="ai-tools-grid">
       <div class="ai-tool-card featured">
         <div class="tool-icon"><span data-icon="ai"></span></div>
-        <h3>🧠 ملخص السوق الذكي</h3>
+        <h3><span data-icon="brain"></span> ملخص السوق الذكي</h3>
         <p>تحليل ذكي وشامل للأسواق مدعوم بـ AI. يحلل الأسعار الحالية لأزواج العملات والذهب والبتكوين ويقدم نظرة عامة مع مستويات الدعم والمقاومة وفرص التداول.</p>
         <a href="index.html#ai" class="btn btn-primary"><span data-icon="search"></span> جرب التحليل الذكي</a>
       </div>
@@ -80,7 +85,7 @@
       </div>
       <div class="ai-tool-card">
         <div class="tool-icon"><span data-icon="candlestick"></span></div>
-        <h3>🕯️ كاشف الأنماط المتقدمة</h3>
+        <h3><span data-icon="candlestick"></span> كاشف الأنماط المتقدمة</h3>
         <p>يدعم الآن الأنماط المتعددة للشموع — Engulfing, Morning Star, Evening Star, Three White Soldiers, Harami والمزيد. اكتشف الإشارات القوية!</p>
         <a href="ai-analyzer.html" class="btn btn-outline"><span data-icon="candlestick"></span> جرب الأداة</a>
       </div>
@@ -98,19 +103,19 @@
       </div>
       <div class="ai-tool-card">
         <div class="tool-icon"><span data-icon="chat"></span></div>
-        <h3>🤖 مساعد التداول الذكي</h3>
+        <h3><span data-icon="ai"></span> مساعد التداول الذكي</h3>
         <p>أدخل بيانات صفقتك — الزوج، الاتجاه، الدخول، وقف الخسارة — واحصل على خطة تداول كاملة من AI مع تحليل المخاطرة والتوصيات.</p>
         <a href="index.html#ai" class="btn btn-outline"><span data-icon="chat"></span> جرب المساعد</a>
       </div>
       <div class="ai-tool-card">
         <div class="tool-icon"><span data-icon="news"></span></div>
-        <h3>📊 تحليل معنويات الأخبار</h3>
+        <h3><span data-icon="news"></span> تحليل معنويات الأخبار</h3>
         <p>الصق أي خبر مالي واحصل على تحليل دقيق للمشاعر (Sentiment) مع درجة التأثير على الأسواق والأزواج المتأثرة.</p>
         <a href="index.html#ai" class="btn btn-outline"><span data-icon="news"></span> حلل الأخبار</a>
       </div>
       <div class="ai-tool-card">
         <div class="tool-icon"><span data-icon="chart"></span></div>
-        <h3>📈 محلل المحفظة والمخاطر</h3>
+        <h3><span data-icon="chart"></span> محلل المحفظة والمخاطر</h3>
         <p>أدخل صفقاتك السابقة واحصل على تحليل متكامل للمخاطر مع إحصائيات دقيقة وتوصيات ذكية لتحسين أدائك.</p>
         <a href="index.html#ai" class="btn btn-outline"><span data-icon="chart"></span> حلل المحفظة</a>
       </div>
@@ -162,8 +167,9 @@
   </div>
 
   <script src="js/config.js"></script>
-  <script src="js/i18n.js"></script>
   <script src="js/icon.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/theme.js"></script>
   <script src="js/effects.js"></script>
   <script>
     document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);

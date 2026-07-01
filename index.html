@@ -3,12 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sirius Fx - Trading signals, courses, and AI tools">
-  <title>Sirius Fx</title>
+  <meta name="description" content="Sirius Fx - منصة تداول فوركس متكاملة: إشارات تداول دقيقة، كورسات احترافية، أدوات ذكاء اصطناعي، تحليلات فورية، وتقويم اقتصادي">
+  <meta name="keywords" content="فوركس, تداول, إشارات فوركس, ذكاء اصطناعي, تداول العملات, forex, trading signals, AI trading, Sirius Fx">
+  <meta name="author" content="Sirius Fx">
+  <meta property="og:title" content="Sirius Fx - منصة تداول فوركس المتكاملة">
+  <meta property="og:description" content="إشارات تداول دقيقة، كورسات متقدمة، وأدوات ذكاء اصطناعي للمتداولين المحترفين">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sirius Fx - منصة تداول فوركس">
+  <meta name="twitter:description" content="إشارات تداول، كورسات، وأدوات AI للمتداولين المحترفين">
+  <title>Sirius Fx - منصة تداول فوركس المتكاملة</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="assets/logo_new_png.png" type="image/png">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="assets/logo_new_png.png" type="image/png">
   <link rel="stylesheet" href="css/main.css">
   <style></style>
 </head>
@@ -66,7 +75,7 @@
     </div>
     <div class="hero-particles" id="heroParticles"></div>
     <div class="container hero-content">
-      <div class="hero-badge reveal"><span data-icon="lightning"></span> منصة تداول متكاملة</div>
+      <div class="hero-badge reveal" data-i18n="hero.badge"><span data-icon="star"></span> منصة تداول متكاملة</div>
       <h1 class="hero-title reveal" style="transition-delay:0.1s"><span class="hero-title-gradient">Sirius Fx</span></h1>
       <p class="hero-subtitle reveal" style="transition-delay:0.2s" data-i18n="hero.subtitle">منصتك المتكاملة للتداول في الأسواق المالية — إشارات، أدوات AI، تحليلات فورية</p>
       <div class="hero-actions reveal" style="transition-delay:0.3s">
@@ -280,7 +289,7 @@
           <small data-i18n="ai.summary.rates">Current Rates:</small>
           <div class="summary-rates-list" id="summary-rates-list"><span class="text-muted">Loading rates...</span></div>
         </div>
-        <button type="button" id="btn-summary" class="btn btn-primary btn-lg" data-i18n="ai.summary.btn">Generate Analysis</button>
+        <button type="button" id="btn-summary" class="btn btn-primary btn-lg" data-i18n="ai.summary.btn"><span data-icon="lightning"></span> Generate Analysis</button>
         <div class="ai-result" id="result-summary"></div>
       </div>
 
@@ -305,7 +314,7 @@
           <div class="ai-result" id="result-journal"></div>
         </div>
         <div class="ai-card">
-          <h3>Behavioral Flag <span style="font-size:14px;color:var(--text-muted)">🔄</span></h3>
+          <h3>Behavioral Flag <span style="font-size:14px;color:var(--text-muted)"><span data-icon="flag"></span></span></h3>
           <p>يسجل صفقاتك ويكشف لك الأنماط السلوكية الخطيرة: الانتقام، الثقة الزائدة، الانحراف عن الخطّة</p>
           <div class="bf-header">
             <div class="bf-score-wrap">
@@ -322,12 +331,12 @@
             </div>
           </div>
           <div class="bf-flags" id="bf-flags-list">
-            <div class="bf-empty">🏁 No flags yet — add trades to start tracking</div>
+            <div class="bf-empty"><span data-icon="flag"></span> No flags yet — add trades to start tracking</div>
           </div>
           <div class="bf-actions">
-            <button type="button" id="bf-btn-add" class="btn btn-primary btn-sm">+ Add Trade</button>
-            <button type="button" id="bf-btn-history" class="btn btn-outline btn-sm">📋 History</button>
-            <button type="button" id="bf-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);">Reset</button>
+            <button type="button" id="bf-btn-add" class="btn btn-primary btn-sm"><span data-icon="plus"></span> Add Trade</button>
+            <button type="button" id="bf-btn-history" class="btn btn-outline btn-sm"><span data-icon="clipboard"></span> History</button>
+            <button type="button" id="bf-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="refresh"></span> Reset</button>
           </div>
           <div class="bf-inputs" id="bf-inputs" style="display:none">
             <div class="bf-form-row">
@@ -342,8 +351,8 @@
               <input type="number" id="bf-size" placeholder="Lot" step="0.01" value="0.1" style="width:80px">
             </div>
             <div class="bf-form-row">
-              <button type="button" id="bf-btn-save" class="btn btn-primary btn-sm">Save</button>
-              <button type="button" id="bf-btn-cancel" class="btn btn-outline btn-sm">Cancel</button>
+              <button type="button" id="bf-btn-save" class="btn btn-primary btn-sm"><span data-icon="check"></span> Save</button>
+              <button type="button" id="bf-btn-cancel" class="btn btn-outline btn-sm"><span data-icon="cross"></span> Cancel</button>
             </div>
           </div>
         </div>
@@ -351,18 +360,18 @@
           <h3 data-i18n="ai.sentiment.title">AI News Sentiment</h3>
           <p data-i18n="ai.sentiment.desc">Paste news for sentiment analysis</p>
           <textarea id="sentiment-input" rows="4" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);resize:vertical" placeholder="EUR/USD rose sharply today as the Fed signaled..." data-i18n-placeholder="ai.sentiment.placeholder"></textarea>
-          <button type="button" id="btn-sentiment" class="btn btn-primary" data-i18n="ai.sentiment.btn">📊 Analyze Sentiment</button>
+          <button type="button" id="btn-sentiment" class="btn btn-primary" data-i18n="ai.sentiment.btn"><span data-icon="trending-up"></span> Analyze Sentiment</button>
           <div class="ai-result" id="result-sentiment"></div>
         </div>
         <div class="ai-card" id="risk-planner">
-          <h3>Risk Planner <span style="font-size:13px;color:var(--text-muted)">📋</span></h3>
+          <h3>Risk Planner <span style="font-size:13px;color:var(--text-muted)"><span data-icon="clipboard"></span></span></h3>
           <p>خطط لأيام التداول و تحكم بالمخاطرة والاتساق — مخصص لحسابات الممولة والحقيقية</p>
 
           <div class="rp-plan-bar">
             <select id="rp-plan-select" style="flex:1;max-width:200px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);font-size:13px"></select>
-            <button type="button" id="rp-btn-new" class="btn btn-outline btn-sm">➕ New</button>
-            <button type="button" id="rp-btn-rename" class="btn btn-outline btn-sm">✏️</button>
-            <button type="button" id="rp-btn-del" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);">🗑️</button>
+            <button type="button" id="rp-btn-new" class="btn btn-outline btn-sm"><span data-icon="plus"></span> New</button>
+            <button type="button" id="rp-btn-rename" class="btn btn-outline btn-sm"><span data-icon="edit"></span></button>
+            <button type="button" id="rp-btn-del" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="delete"></span></button>
           </div>
 
           <div class="rp-inputs">
@@ -384,9 +393,9 @@
               <input type="number" id="rp-cons-pct" value="30" step="1" style="width:60px">
             </div>
             <div class="rp-actions">
-              <button type="button" id="rp-btn-config" class="btn btn-primary btn-sm">⚙️ Generate Plan</button>
-              <button type="button" id="rp-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);">Reset</button>
-              <button type="button" id="rp-btn-csv" class="btn btn-outline btn-sm">📥 Export CSV</button>
+              <button type="button" id="rp-btn-config" class="btn btn-primary btn-sm"><span data-icon="gear"></span> Generate Plan</button>
+              <button type="button" id="rp-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="refresh"></span> Reset</button>
+              <button type="button" id="rp-btn-csv" class="btn btn-outline btn-sm"><span data-icon="download"></span> Export CSV</button>
             </div>
           </div>
 
@@ -394,13 +403,13 @@
 
           <canvas id="rp-chart" style="width:100%;height:180px;margin-bottom:12px;border-radius:8px;background:var(--bg)"></canvas>
 
-          <div id="rp-table-wrap"><div class="rp-empty">⚙️ Configure your plan above to begin</div></div>
+          <div id="rp-table-wrap"><div class="rp-empty"><span data-icon="gear"></span> Configure your plan above to begin</div></div>
 
           <div class="rp-day-form" style="display:none" id="rp-day-form">
             <input type="hidden" id="rp-day-idx" value="-1">
             <input type="number" name="pnl" id="rp-day-pnl" placeholder="P&L $" step="1">
             <input type="text" name="notes" id="rp-day-notes" placeholder="Notes">
-            <button type="button" id="rp-btn-save" class="btn btn-primary btn-sm">Save Day</button>
+            <button type="button" id="rp-btn-save" class="btn btn-primary btn-sm"><span data-icon="check"></span> Save Day</button>
           </div>
         </div>
       </div>
