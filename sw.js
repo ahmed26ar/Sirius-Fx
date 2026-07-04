@@ -7,6 +7,7 @@ var urlsToCache = [
   '/ai-analyzer.html',
   '/admin.html',
   '/signals.html',
+  '/chart.html',
   '/css/main.css',
   '/js/config.js',
   '/js/icon.js',

@@ -53,7 +53,7 @@
         <li><a href="ai-hub.html" data-i18n="nav.ai"><span data-icon="ai"></span> مركز AI</a></li>
         <li><a href="alerts.html" data-i18n="nav.alerts"><span data-icon="alerts"></span> التنبيهات</a></li>
         <li><a href="#tools" data-i18n="nav.tools"><span data-icon="tools"></span> الأدوات</a></li>
-        <li><a href="#chart" data-i18n="nav.chart"><span data-icon="chart"></span> الشارت</a></li>
+        <li><a href="chart.html" data-i18n="nav.chart"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
         <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
@@ -78,7 +78,7 @@
       <p class="hero-subtitle reveal" style="transition-delay:0.2s" data-i18n="hero.subtitle">منصتك المتكاملة للتداول في الأسواق المالية — إشارات، أدوات AI، تحليلات فورية</p>
       <div class="hero-actions reveal" style="transition-delay:0.3s">
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="hero.cta">ابدأ الآن</a>
-        <a href="#chart" class="btn btn-outline btn-lg" data-i18n="hero.chartBtn">الشارت المباشر</a>
+        <a href="chart.html" class="btn btn-outline btn-lg" data-i18n="hero.chartBtn">الشارت المباشر</a>
         <a href="ai-hub.html" class="btn btn-outline btn-lg"><span data-icon="ai"></span> أدوات AI</a>
         <button class="btn btn-outline btn-lg" id="pwaInstall" style="display:none"><span data-icon="download"></span> تثبيت التطبيق</button>
       </div>
@@ -129,43 +129,6 @@
   </section>
 
 
-
-  <!-- ===== TRADINGVIEW CHART ===== -->
-  <section id="chart" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag" data-i18n="chart.tag">LIVE CHART</span>
-        <h2 class="section-title" data-i18n="chart.title">الرسم البياني المباشر</h2>
-      </div>
-      <div class="chart-controls">
-        <div class="chart-symbol-row">
-          <button class="sym-btn active" data-sym="FX:EURUSD">EUR/USD</button>
-          <button class="sym-btn" data-sym="FX:GBPUSD">GBP/USD</button>
-          <button class="sym-btn" data-sym="FX:USDJPY">USD/JPY</button>
-          <button class="sym-btn" data-sym="OANDA:XAUUSD">XAU/USD</button>
-          <button class="sym-btn" data-sym="BINANCE:BTCUSDT">BTC/USD</button>
-          <button class="sym-btn" data-sym="FX:USDCAD">USD/CAD</button>
-          <button class="sym-btn" data-sym="FX:AUDUSD">AUD/USD</button>
-          <button class="sym-btn" data-sym="US30USD">US30</button>
-        </div>
-        <div class="chart-interval-row">
-          <button class="iv-btn active" data-iv="1">M1</button>
-          <button class="iv-btn" data-iv="5">M5</button>
-          <button class="iv-btn" data-iv="15">M15</button>
-          <button class="iv-btn active-default" data-iv="60">H1</button>
-          <button class="iv-btn" data-iv="240">H4</button>
-          <button class="iv-btn" data-iv="D">D1</button>
-          <button class="iv-btn" data-iv="W">W1</button>
-        </div>
-      </div>
-      <div class="chart-wrapper" id="chartWrapper">
-        <div id="tradingview-widget-container" class="tv-container">
-          <div id="tradingview_chart"></div>
-        </div>
-      </div>
-      <div class="tv-mini-strip" id="tvMiniStrip"></div>
-    </div>
-  </section>
 
   <!-- ===== ECONOMIC CALENDAR ===== -->
   <section id="calendar" class="section section-alt">
@@ -517,7 +480,7 @@
         <div class="footer-col">
           <h4>الخدمات</h4>
           <ul>
-            <li><a href="#chart"><span data-icon="chart"></span> الشارت المباشر</a></li>
+            <li><a href="chart.html"><span data-icon="chart"></span> الشارت المباشر</a></li>
             <li><a href="#tools"><span data-icon="tools"></span> أدوات التداول</a></li>
             <li><a href="#calendar"><span data-icon="calendar"></span> التقويم الاقتصادي</a></li>
             <li><a href="#courses"><span data-icon="courses"></span> الكورسات</a></li>
@@ -554,7 +517,6 @@
   <script src="js/trading-tools.js"></script>
   <script src="js/ai-tools.js"></script>
   <script src="js/market-chat.js"></script>
-  <script src="js/chart.js"></script>
   <script src="js/news.js"></script>
   <script src="js/behavioral-flags.js"></script>
   <script src="js/risk-planner.js"></script>

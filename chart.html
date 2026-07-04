@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sirius - الرسم البياني المباشر: شارت تفاعلي متكامل مع TradingView لأزواج العملات والذهب والمؤشرات">
+  <meta name="keywords" content="تداول, فوركس, شارت مباشر, TradingView, EUR/USD, XAU/USD, BTC/USD, رسم بياني">
+  <meta name="author" content="Sirius">
+  <meta property="og:title" content="Sirius - الرسم البياني المباشر">
+  <meta property="og:description" content="شارت تداول تفاعلي مباشر مع TradingView — أزواج عملات، ذهب، كريبتو">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sirius - الرسم البياني المباشر">
+  <meta name="twitter:description" content="شارت تداول تفاعلي مباشر">
+  <title>Sirius — الرسم البياني المباشر</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="assets/logo_new_png.png" type="image/png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .chart-page { padding-top: 20px; }
+    .chart-page .section-header { margin-bottom: 32px; }
+    @media (max-width: 768px) {
+      .chart-page .chart-controls { gap: 8px; }
+      .chart-page .sym-btn,
+      .chart-page .iv-btn { font-size: 11px; padding: 5px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="star-field-layer"></div>
+  <div class="floating-orbs-container"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-text" dir="ltr">Sirius</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" data-i18n="nav.home"><span data-icon="home"></span> الرئيسية</a></li>
+        <li><a href="ai-hub.html" data-i18n="nav.ai"><span data-icon="ai"></span> مركز AI</a></li>
+        <li><a href="alerts.html" data-i18n="nav.alerts"><span data-icon="alerts"></span> التنبيهات</a></li>
+        <li><a href="chart.html" class="active" data-i18n="nav.chart"><span data-icon="chart"></span> الشارت</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">تيليجرام</a>
+      </div>
+      <div class="nav-progress" id="navProgress"></div>
+    </div>
+  </nav>
+
+  <!-- ===== TRADINGVIEW CHART ===== -->
+  <main class="chart-page">
+    <section id="chart" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag" data-i18n="chart.tag">LIVE CHART</span>
+          <h2 class="section-title" data-i18n="chart.title">الرسم البياني المباشر</h2>
+        </div>
+        <div class="chart-controls">
+          <div class="chart-symbol-row">
+            <button class="sym-btn active" data-sym="FX:EURUSD">EUR/USD</button>
+            <button class="sym-btn" data-sym="FX:GBPUSD">GBP/USD</button>
+            <button class="sym-btn" data-sym="FX:USDJPY">USD/JPY</button>
+            <button class="sym-btn" data-sym="OANDA:XAUUSD">XAU/USD</button>
+            <button class="sym-btn" data-sym="BINANCE:BTCUSDT">BTC/USD</button>
+            <button class="sym-btn" data-sym="FX:USDCAD">USD/CAD</button>
+            <button class="sym-btn" data-sym="FX:AUDUSD">AUD/USD</button>
+            <button class="sym-btn" data-sym="US30USD">US30</button>
+          </div>
+          <div class="chart-interval-row">
+            <button class="iv-btn active" data-iv="1">M1</button>
+            <button class="iv-btn" data-iv="5">M5</button>
+            <button class="iv-btn" data-iv="15">M15</button>
+            <button class="iv-btn active-default" data-iv="60">H1</button>
+            <button class="iv-btn" data-iv="240">H4</button>
+            <button class="iv-btn" data-iv="D">D1</button>
+            <button class="iv-btn" data-iv="W">W1</button>
+          </div>
+        </div>
+        <div class="chart-wrapper" id="chartWrapper">
+          <div id="tradingview-widget-container" class="tv-container">
+            <div id="tradingview_chart"></div>
+          </div>
+        </div>
+        <div class="tv-mini-strip" id="tvMiniStrip"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-text" dir="ltr">Sirius</span>
+          </a>
+          <p>منصتك المتكاملة للتداول في الأسواق المالية — إشارات احترافية، أدوات تحليل بالذكاء الاصطناعي، وتعليم مستمر.</p>
+        </div>
+        <div class="footer-col">
+          <h4>الروابط</h4>
+          <ul>
+            <li><a href="index.html"><span data-icon="home"></span> الرئيسية</a></li>
+            <li><a href="ai-hub.html"><span data-icon="ai"></span> مركز AI</a></li>
+            <li><a href="alerts.html"><span data-icon="alerts"></span> التنبيهات</a></li>
+            <li><a href="signals.html"><span data-icon="signals"></span> الإشارات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>الخدمات</h4>
+          <ul>
+            <li><a href="chart.html"><span data-icon="chart"></span> الشارت المباشر</a></li>
+            <li><a href="index.html#tools"><span data-icon="tools"></span> أدوات التداول</a></li>
+            <li><a href="index.html#calendar"><span data-icon="calendar"></span> التقويم الاقتصادي</a></li>
+            <li><a href="index.html#courses"><span data-icon="courses"></span> الكورسات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>تواصل</h4>
+          <ul>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="telegram"></span> تيليجرام</a></li>
+            <li><a href="mailto:siriusfx@example.com"><span data-icon="chat"></span> البريد الإلكتروني</a></li>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="chat"></span> الدعم الفني</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Sirius. جميع الحقوق محفوظة.</span>
+        <div class="footer-social">
+          <a href="https://t.me/srfx0" target="_blank" rel="noopener" aria-label="Telegram"><span data-icon="telegram"></span></a>
+          <a href="#" aria-label="Twitter/X"><span data-icon="home"></span></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== RISK BAR ===== -->
+  <div class="risk-bar">
+    <span class="risk-icon"><span data-icon="warning"></span></span>
+    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/icon.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/effects.js"></script>
+
+  <!-- Nav toggle -->
+  <script>
+  (function() {
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', function() { links.classList.toggle('open'); });
+      links.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() { links.classList.remove('open'); });
+      });
+    }
+  })();
+  </script>
+
+</body>
+</html>
