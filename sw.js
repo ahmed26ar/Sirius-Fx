@@ -8,6 +8,8 @@ var urlsToCache = [
   '/admin.html',
   '/signals.html',
   '/chart.html',
+  '/tools.html',
+  '/calendar.html',
   '/css/main.css',
   '/js/config.js',
   '/js/icon.js',

@@ -3,36 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sirius - الرسم البياني المباشر: شارت تفاعلي متكامل مع TradingView لأزواج العملات والذهب والمؤشرات">
-  <meta name="keywords" content="تداول, فوركس, شارت مباشر, TradingView, EUR/USD, XAU/USD, BTC/USD, رسم بياني">
-  <meta name="author" content="Sirius">
-  <meta property="og:title" content="Sirius - الرسم البياني المباشر">
-  <meta property="og:description" content="شارت تداول تفاعلي مباشر مع TradingView — أزواج عملات، ذهب، كريبتو">
-  <meta property="og:type" content="website">
+  <meta name="description" content="Sirius - أدوات التداول المتقدمة: حاسبة حجم الصفقة، قيمة النقطة، فيبوناتشي، الهامش، ونسبة المخاطرة للعائد">
   <meta property="og:image" content="assets/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sirius - الرسم البياني المباشر">
-  <meta name="twitter:description" content="شارت تداول تفاعلي مباشر">
-  <title>Sirius — الرسم البياني المباشر</title>
+  <title>أدوات التداول | Sirius</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="alternate icon" href="assets/logo_new_png.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/main.css">
   <style>
-    .chart-page { padding-top: 20px; }
-    .chart-page .section-header { margin-bottom: 32px; }
-    @media (max-width: 768px) {
-      .chart-page .chart-controls { gap: 8px; }
-      .chart-page .sym-btn,
-      .chart-page .iv-btn { font-size: 11px; padding: 5px 10px; }
-    }
+    .page-hero { text-align: center; padding: 60px 0 40px; }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; background: linear-gradient(135deg, var(--text) 0%, var(--sky) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+    .page-hero p { color: var(--text-muted); max-width: 560px; margin: 0 auto; font-size: 15px; }
   </style>
 </head>
 <body>
-
   <div class="star-field-layer"></div>
   <div class="floating-orbs-container"></div>
 
@@ -44,10 +31,11 @@
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" data-i18n="nav.home"><span data-icon="home"></span> الرئيسية</a></li>
-        <li><a href="ai-hub.html" data-i18n="nav.ai"><span data-icon="ai"></span> مركز AI</a></li>
-        <li><a href="alerts.html" data-i18n="nav.alerts"><span data-icon="alerts"></span> التنبيهات</a></li>
-        <li><a href="chart.html" class="active" data-i18n="nav.chart"><span data-icon="chart"></span> الشارت</a></li>
+        <li><a href="index.html"><span data-icon="home"></span> الرئيسية</a></li>
+        <li><a href="ai-hub.html"><span data-icon="ai"></span> مركز AI</a></li>
+        <li><a href="alerts.html"><span data-icon="alerts"></span> التنبيهات</a></li>
+        <li><a href="tools.html" class="active"><span data-icon="tools"></span> الأدوات</a></li>
+        <li><a href="chart.html"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
         <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
@@ -57,42 +45,22 @@
     </div>
   </nav>
 
-  <!-- ===== TRADINGVIEW CHART ===== -->
-  <main class="chart-page">
-    <section id="chart" class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag" data-i18n="chart.tag">LIVE CHART</span>
-          <h2 class="section-title" data-i18n="chart.title">الرسم البياني المباشر</h2>
-        </div>
-        <div class="chart-controls">
-          <div class="chart-symbol-row">
-            <button class="sym-btn active" data-sym="FX:EURUSD">EUR/USD</button>
-            <button class="sym-btn" data-sym="FX:GBPUSD">GBP/USD</button>
-            <button class="sym-btn" data-sym="FX:USDJPY">USD/JPY</button>
-            <button class="sym-btn" data-sym="OANDA:XAUUSD">XAU/USD</button>
-            <button class="sym-btn" data-sym="BINANCE:BTCUSDT">BTC/USD</button>
-            <button class="sym-btn" data-sym="FX:USDCAD">USD/CAD</button>
-            <button class="sym-btn" data-sym="FX:AUDUSD">AUD/USD</button>
-            <button class="sym-btn" data-sym="US30USD">US30</button>
-          </div>
-          <div class="chart-interval-row">
-            <button class="iv-btn active" data-iv="1">M1</button>
-            <button class="iv-btn" data-iv="5">M5</button>
-            <button class="iv-btn" data-iv="15">M15</button>
-            <button class="iv-btn active-default" data-iv="60">H1</button>
-            <button class="iv-btn" data-iv="240">H4</button>
-            <button class="iv-btn" data-iv="D">D1</button>
-            <button class="iv-btn" data-iv="W">W1</button>
-          </div>
-        </div>
-        <div class="chart-wrapper" id="chartWrapper">
-          <div id="tradingview-widget-container" class="tv-container">
-            <div id="tradingview_chart"></div>
-          </div>
-        </div>
-        <div class="tv-mini-strip" id="tvMiniStrip"></div>
+  <!-- ===== TRADING TOOLS ===== -->
+  <main class="container">
+    <div class="page-hero">
+      <h1><span data-icon="tools"></span> أدوات التداول</h1>
+      <p>حاسبات احترافية للمتداول — حجم الصفقة، قيمة النقطة، فيبوناتشي، والمزيد</p>
+    </div>
+
+    <section id="tools" class="section" style="padding-top:0">
+      <div class="tools-tabs">
+        <button class="tab active" data-tab="position" data-i18n="tools.position">Position</button>
+        <button class="tab" data-tab="pip" data-i18n="tools.pip">Pip</button>
+        <button class="tab" data-tab="rr" data-i18n="tools.rr">R:R</button>
+        <button class="tab" data-tab="fib" data-i18n="tools.fib">Fib</button>
+        <button class="tab" data-tab="margin" data-i18n="tools.margin">Margin</button>
       </div>
+      <div id="toolPanels"></div>
     </section>
   </main>
 
@@ -152,7 +120,7 @@
   <script src="js/config.js"></script>
   <script src="js/icon.js"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/chart.js"></script>
+  <script src="js/trading-tools.js"></script>
   <script src="js/effects.js"></script>
 
   <!-- Nav toggle -->
@@ -168,6 +136,5 @@
     }
   })();
   </script>
-
 </body>
 </html>

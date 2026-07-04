@@ -23,12 +23,20 @@
     .analyzer-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--sky); text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 20px; transition: all var(--transition); }
     .back-link:hover { color: var(--sky-dim); }
+    .tool-result, .ai-result { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; font-family: 'Inter', monospace; font-size: 14px; line-height: 1.8; min-height: 60px; }
+    .tool-result:empty, .ai-result:empty { display: none; }
+    .tool-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .tool-form label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-muted); }
+    .tool-form input, .tool-form select, .tool-form textarea { padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: inherit; font-size: 14px; transition: border-color var(--transition), box-shadow var(--transition); }
+    .tool-form input:focus, .tool-form select:focus, .tool-form textarea:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-glow); }
   </style>
 </head>
 <body>
   <div class="star-field-layer"></div>
   <div class="floating-orbs-container"></div>
-  <nav class="navbar">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="logo">
         <span class="logo-text">Sirius</span>
@@ -36,9 +44,9 @@
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="ai-hub.html" class="active">مركز AI</a></li>
+        <li><a href="ai-hub.html">مركز AI</a></li>
         <li><a href="alerts.html">التنبيهات</a></li>
-        <li><a href="index.html#tools">الأدوات</a></li>
+        <li><a href="tools.html">الأدوات</a></li>
         <li><a href="chart.html">الشارت</a></li>
       </ul>
       <div class="nav-controls">
@@ -48,6 +56,7 @@
     </div>
   </nav>
 
+  <!-- ===== MAIN CONTENT ===== -->
   <main class="container">
     <div class="page-hero">
       <a href="ai-hub.html" class="back-link">← العودة لمركز AI</a>
@@ -57,8 +66,21 @@
       </p>
     </div>
 
+    <!-- AI Market Summary -->
+    <div class="analyzer-card featured" style="margin-bottom:24px">
+      <h3>ملخص السوق الذكي</h3>
+      <p>تحليل ذكي للأسواق بناءً على الأسعار الحالية — مدعوم بالذكاء الاصطناعي</p>
+      <div class="summary-rates" id="summary-rates">
+        <small>الأسعار الحالية:</small>
+        <div class="summary-rates-list" id="summary-rates-list"><span class="text-muted">جاري تحميل الأسعار...</span></div>
+      </div>
+      <button type="button" id="btn-summary" class="btn btn-primary btn-lg"><span data-icon="lightning"></span> توليد تحليل السوق</button>
+      <div class="ai-result" id="result-summary"></div>
+    </div>
+
     <div class="ai-analyzer-grid">
-      <div class="analyzer-card featured">
+      <!-- Setup Analyzer -->
+      <div class="analyzer-card">
         <h3>محلل الصفقة الذكي</h3>
         <p>يقيم جودة إعداد صفقتك بناءً على الاتجاه، المخاطرة، ونسبة العائد</p>
         <form class="tool-form" id="form-setup">
@@ -71,6 +93,7 @@
         <div class="tool-result" id="result-setup"></div>
       </div>
 
+      <!-- Journal Analytics -->
       <div class="analyzer-card">
         <h3>تحليل اليوميات</h3>
         <p>أدخل نتائج صفقاتك (ربح) لكل سطر</p>
@@ -78,24 +101,189 @@
         <button type="button" id="btn-journal" class="btn btn-primary">تحليل</button>
         <div class="tool-result" id="result-journal"></div>
       </div>
+
+      <!-- Behavioral Flags -->
+      <div class="analyzer-card">
+        <h3>كاشف الأنماط السلوكية <span style="font-size:14px;color:var(--text-muted)"><span data-icon="flag"></span></span></h3>
+        <p>يسجل صفقاتك ويكشف لك الأنماط السلوكية الخطيرة: الانتقام، الثقة الزائدة، الانحراف عن الخطّة</p>
+        <div class="bf-header">
+          <div class="bf-score-wrap">
+            <div class="bf-score-num" id="bf-discipline">—</div>
+            <div class="bf-score-label">Discipline</div>
+          </div>
+          <div class="bf-header-mid">
+            <div class="bf-score-num bf-flags-count" id="bf-flag-count">0</div>
+            <div class="bf-score-label">Active Flags</div>
+          </div>
+          <div class="bf-header-right">
+            <div class="bf-score-num" id="bf-clean">0</div>
+            <div class="bf-score-label">Clean Trades</div>
+          </div>
+        </div>
+        <div class="bf-flags" id="bf-flags-list">
+          <div class="bf-empty"><span data-icon="flag"></span> No flags yet — add trades to start tracking</div>
+        </div>
+        <div class="bf-actions">
+          <button type="button" id="bf-btn-add" class="btn btn-primary btn-sm"><span data-icon="plus"></span> Add Trade</button>
+          <button type="button" id="bf-btn-history" class="btn btn-outline btn-sm"><span data-icon="clipboard"></span> History</button>
+          <button type="button" id="bf-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="refresh"></span> Reset</button>
+        </div>
+        <div class="bf-inputs" id="bf-inputs" style="display:none">
+          <div class="bf-form-row">
+            <input type="text" id="bf-pair" placeholder="EUR/USD" style="width:100px">
+            <select id="bf-direction"><option value="Buy">Buy</option><option value="Sell">Sell</option></select>
+            <select id="bf-session">
+              <option value="asia">Asia</option><option value="london" selected>London</option><option value="ny">New York</option>
+            </select>
+          </div>
+          <div class="bf-form-row">
+            <input type="number" id="bf-profit" placeholder="P/L $" step="1" style="width:100px">
+            <input type="number" id="bf-size" placeholder="Lot" step="0.01" value="0.1" style="width:80px">
+          </div>
+          <div class="bf-form-row">
+            <button type="button" id="bf-btn-save" class="btn btn-primary btn-sm"><span data-icon="check"></span> Save</button>
+            <button type="button" id="bf-btn-cancel" class="btn btn-outline btn-sm"><span data-icon="cross"></span> Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- News Sentiment -->
+      <div class="analyzer-card">
+        <h3>تحليل معنويات الأخبار</h3>
+        <p>الصق خبراً أو نصاً تحليلياً واحصل على تحليل المشاعر وتأثيرها</p>
+        <textarea id="sentiment-input" rows="4" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);resize:vertical" placeholder="EUR/USD rose sharply today as the Fed signaled..."></textarea>
+        <button type="button" id="btn-sentiment" class="btn btn-primary"><span data-icon="trending-up"></span> Analyze Sentiment</button>
+        <div class="ai-result" id="result-sentiment"></div>
+      </div>
+    </div>
+
+    <!-- Risk Planner -->
+    <div class="analyzer-card featured" style="margin-top:24px" id="risk-planner">
+      <h3>مخطط المخاطرة <span style="font-size:13px;color:var(--text-muted)"><span data-icon="clipboard"></span></span></h3>
+      <p>خطط لأيام التداول و تحكم بالمخاطرة والاتساق — مخصص لحسابات الممولة والحقيقية</p>
+
+      <div class="rp-plan-bar">
+        <select id="rp-plan-select" style="flex:1;max-width:200px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);font-size:13px"></select>
+        <button type="button" id="rp-btn-new" class="btn btn-outline btn-sm"><span data-icon="plus"></span> New</button>
+        <button type="button" id="rp-btn-rename" class="btn btn-outline btn-sm"><span data-icon="edit"></span></button>
+        <button type="button" id="rp-btn-del" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="delete"></span></button>
+      </div>
+
+      <div class="rp-inputs">
+        <div class="rp-row">
+          <div class="rp-field"><label>Balance $</label><input type="number" id="rp-balance" value="10000"></div>
+          <div class="rp-field"><label>Daily Risk %</label><input type="number" id="rp-daily-risk" value="2" step="0.1"></div>
+          <div class="rp-field"><label>Max DD %</label><input type="number" id="rp-max-dd" value="6" step="0.1"></div>
+          <div class="rp-field rp-field--wide"><label>Target $</label><input type="number" id="rp-target" value="500"></div>
+          <div class="rp-field"><label>Days</label>
+            <select id="rp-period">
+              <option value="10">10</option><option value="20">20</option><option value="30" selected>30</option>
+              <option value="60">60</option><option value="90">90</option>
+            </select>
+          </div>
+        </div>
+        <div class="rp-cons">
+          <input type="checkbox" id="rp-cons-enable"> <label for="rp-cons-enable">Enable Consistency Rule</label>
+          <label>Max % per day:</label>
+          <input type="number" id="rp-cons-pct" value="30" step="1" style="width:60px">
+        </div>
+        <div class="rp-actions">
+          <button type="button" id="rp-btn-config" class="btn btn-primary btn-sm"><span data-icon="gear"></span> Generate Plan</button>
+          <button type="button" id="rp-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="refresh"></span> Reset</button>
+          <button type="button" id="rp-btn-csv" class="btn btn-outline btn-sm"><span data-icon="download"></span> Export CSV</button>
+        </div>
+      </div>
+
+      <div id="rp-stats"></div>
+      <canvas id="rp-chart" style="width:100%;height:180px;margin-bottom:12px;border-radius:8px;background:var(--bg)"></canvas>
+      <div id="rp-table-wrap"><div class="rp-empty"><span data-icon="gear"></span> Configure your plan above to begin</div></div>
+
+      <div class="rp-day-form" style="display:none" id="rp-day-form">
+        <input type="hidden" id="rp-day-idx" value="-1">
+        <input type="number" name="pnl" id="rp-day-pnl" placeholder="P&L $" step="1">
+        <input type="text" name="notes" id="rp-day-notes" placeholder="Notes">
+        <button type="button" id="rp-btn-save" class="btn btn-primary btn-sm"><span data-icon="check"></span> Save Day</button>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="ai-hub.html" class="btn btn-outline btn-lg"><span data-icon="ai"></span> اكتشف جميع أدوات الذكاء الاصطناعي</a>
     </div>
   </main>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2026 Sirius. جميع الحقوق محفوظة.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-text" dir="ltr">Sirius</span>
+          </a>
+          <p>منصتك المتكاملة للتداول في الأسواق المالية — إشارات احترافية، أدوات تحليل بالذكاء الاصطناعي، وتعليم مستمر.</p>
+        </div>
+        <div class="footer-col">
+          <h4>الروابط</h4>
+          <ul>
+            <li><a href="index.html"><span data-icon="home"></span> الرئيسية</a></li>
+            <li><a href="ai-hub.html"><span data-icon="ai"></span> مركز AI</a></li>
+            <li><a href="alerts.html"><span data-icon="alerts"></span> التنبيهات</a></li>
+            <li><a href="signals.html"><span data-icon="signals"></span> الإشارات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>الخدمات</h4>
+          <ul>
+            <li><a href="chart.html"><span data-icon="chart"></span> الشارت المباشر</a></li>
+            <li><a href="tools.html"><span data-icon="tools"></span> أدوات التداول</a></li>
+            <li><a href="calendar.html"><span data-icon="calendar"></span> التقويم الاقتصادي</a></li>
+            <li><a href="index.html#courses"><span data-icon="courses"></span> الكورسات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>تواصل</h4>
+          <ul>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="telegram"></span> تيليجرام</a></li>
+            <li><a href="mailto:siriusfx@example.com"><span data-icon="chat"></span> البريد الإلكتروني</a></li>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="chat"></span> الدعم الفني</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Sirius. جميع الحقوق محفوظة.</span>
+        <div class="footer-social">
+          <a href="https://t.me/srfx0" target="_blank" rel="noopener" aria-label="Telegram"><span data-icon="telegram"></span></a>
+          <a href="#" aria-label="Twitter/X"><span data-icon="home"></span></a>
+        </div>
+      </div>
     </div>
   </footer>
 
+  <!-- ===== RISK BAR ===== -->
   <div class="risk-bar">
     <span class="risk-icon"><span data-icon="warning"></span></span>
-    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية.</span>
+    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
   </div>
 
   <script src="js/config.js"></script>
-  <script src="js/ai-tools.js"></script>
   <script src="js/icon.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/ai-tools.js"></script>
+  <script src="js/behavioral-flags.js"></script>
+  <script src="js/risk-planner.js"></script>
   <script src="js/effects.js"></script>
+
+  <!-- Nav toggle -->
+  <script>
+  (function() {
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', function() { links.classList.toggle('open'); });
+      links.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() { links.classList.remove('open'); });
+      });
+    }
+  })();
+  </script>
 </body>
 </html>

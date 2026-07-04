@@ -240,7 +240,18 @@ const translations = {
     'ai.hub.portfolio.desc': 'أدخل صفقاتك السابقة واحصل على تحليل متكامل للمخاطر مع إحصائيات دقيقة',
     'ai.hub.chat': 'مساعد الأسواق الذكي',
     'ai.hub.chat.desc': 'اسأل عن الأسعار، الجلسات، المخاطر، والإشارات',
-    'ai.hub.chat.online': 'متصل الآن'
+    'ai.hub.chat.online': 'متصل الآن',
+    'trust.tag': 'لماذا Sirius',
+    'trust.title': 'منصة تداول متكاملة',
+    'trust.signals.title': 'إشارات دقيقة',
+    'trust.signals.desc': 'نقدم إشارات تداول دقيقة مع نقاط دخول وخروج واضحة، مدعومة بتحليل فني متقدم وذكاء اصطناعي لزيادة فرص النجاح.',
+    'trust.signals.link': 'انضم للقناة ←',
+    'trust.ai.title': 'أدوات AI متقدمة',
+    'trust.ai.desc': 'مجموعة متكاملة من أدوات الذكاء الاصطناعي لتحليل الصفقات، كشف الأنماط السلوكية، وإدارة المخاطر — كلها تعمل في متصفحك.',
+    'trust.ai.link': 'اكتشف الأدوات ←',
+    'trust.edu.title': 'تعليم وتطوير',
+    'trust.edu.desc': 'كورسات تعليمية من المبتدئ إلى المحترف تغطي التحليل الفني، إدارة المخاطر، واستراتيجيات التداول المتقدمة.',
+    'trust.edu.link': 'تصفح الكورسات ←'
   },
   en: {
     'nav.home': 'Home',
@@ -483,7 +494,18 @@ const translations = {
     'ai.hub.portfolio.desc': 'Enter your past trades and get comprehensive risk analysis with statistics and smart recommendations',
     'ai.hub.chat': 'AI Market Chat',
     'ai.hub.chat.desc': 'Ask about prices, sessions, risk, and signals',
-    'ai.hub.chat.online': 'Online now'
+    'ai.hub.chat.online': 'Online now',
+    'trust.tag': 'Why Sirius',
+    'trust.title': 'Complete Trading Platform',
+    'trust.signals.title': 'Accurate Signals',
+    'trust.signals.desc': 'Get precise trading signals with clear entry and exit points, powered by advanced technical analysis and artificial intelligence.',
+    'trust.signals.link': 'Join Channel ←',
+    'trust.ai.title': 'Advanced AI Tools',
+    'trust.ai.desc': 'A complete suite of AI tools for trade analysis, behavioral pattern detection, and risk management — all running in your browser.',
+    'trust.ai.link': 'Explore Tools ←',
+    'trust.edu.title': 'Education & Growth',
+    'trust.edu.desc': 'Educational courses from beginner to pro covering technical analysis, risk management, and advanced trading strategies.',
+    'trust.edu.link': 'Browse Courses ←'
   }
 };
 

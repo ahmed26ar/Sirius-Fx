@@ -52,7 +52,7 @@
         <li><a href="index.html" class="active" data-i18n="nav.home"><span data-icon="home"></span> الرئيسية</a></li>
         <li><a href="ai-hub.html" data-i18n="nav.ai"><span data-icon="ai"></span> مركز AI</a></li>
         <li><a href="alerts.html" data-i18n="nav.alerts"><span data-icon="alerts"></span> التنبيهات</a></li>
-        <li><a href="#tools" data-i18n="nav.tools"><span data-icon="tools"></span> الأدوات</a></li>
+        <li><a href="tools.html" data-i18n="nav.tools"><span data-icon="tools"></span> الأدوات</a></li>
         <li><a href="chart.html" data-i18n="nav.chart"><span data-icon="chart"></span> الشارت</a></li>
       </ul>
       <div class="nav-controls">
@@ -91,6 +91,36 @@
     </div>
   </section>
 
+  <!-- ===== WHY SIRIUS ===== -->
+  <section id="why" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag" data-i18n="trust.tag">لماذا Sirius</span>
+        <h2 class="section-title" data-i18n="trust.title">منصة <span style="color:var(--sky)">تداول</span> متكاملة</h2>
+      </div>
+      <div class="cards-grid">
+        <div class="card reveal" style="transition-delay:0.05s">
+          <div class="card-icon"><span data-icon="signals"></span></div>
+          <h3 data-i18n="trust.signals.title">إشارات دقيقة</h3>
+          <p data-i18n="trust.signals.desc">نقدم إشارات تداول دقيقة مع نقاط دخول وخروج واضحة، مدعومة بتحليل فني متقدم وذكاء اصطناعي لزيادة فرص النجاح.</p>
+          <a href="https://t.me/srfx0" target="_blank" class="card-link" data-i18n="trust.signals.link">انضم للقناة ←</a>
+        </div>
+        <div class="card reveal" style="transition-delay:0.15s">
+          <div class="card-icon"><span data-icon="ai"></span></div>
+          <h3 data-i18n="trust.ai.title">أدوات AI متقدمة</h3>
+          <p data-i18n="trust.ai.desc">مجموعة متكاملة من أدوات الذكاء الاصطناعي لتحليل الصفقات، كشف الأنماط السلوكية، وإدارة المخاطر — كلها تعمل في متصفحك.</p>
+          <a href="ai-hub.html" class="card-link" data-i18n="trust.ai.link">اكتشف الأدوات ←</a>
+        </div>
+        <div class="card reveal" style="transition-delay:0.25s">
+          <div class="card-icon"><span data-icon="courses"></span></div>
+          <h3 data-i18n="trust.edu.title">تعليم وتطوير</h3>
+          <p data-i18n="trust.edu.desc">كورسات تعليمية من المبتدئ إلى المحترف تغطي التحليل الفني، إدارة المخاطر، واستراتيجيات التداول المتقدمة.</p>
+          <a href="#courses" class="card-link" data-i18n="trust.edu.link">تصفح الكورسات ←</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== SERVICES ===== -->
   <section id="services" class="section">
     <div class="container">
@@ -121,318 +151,72 @@
           <div class="card-icon"><span data-icon="tools"></span></div>
           <h3 data-i18n="services.tools.title">Tools</h3>
           <p data-i18n="services.tools.desc">Desc</p>
-          <a href="#tools" class="card-link" data-i18n="services.tools.link">Link</a>
+          <a href="tools.html" class="card-link" data-i18n="services.tools.link">Link</a>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- ===== ECONOMIC CALENDAR ===== -->
-  <section id="calendar" class="section section-alt">
+  <!-- ===== TRADING PLATFORM FEATURES ===== -->
+  <section class="section section-alt">
     <div class="container">
-      <div class="section-header">
-        <span class="section-tag"><span data-icon="calendar" data-icon-class="section-tag-icon"></span> ECONOMIC CALENDAR</span>
-        <h2 class="section-title">التقويم <span style="color:var(--sky)">الاقتصادي</span></h2>
-        <p class="section-desc">الأحداث الاقتصادية المؤثرة على الأسواق</p>
+      <div class="section-header reveal">
+        <span class="section-tag">PLATFORM</span>
+        <h2 class="section-title">كل ما تحتاجه <span style="color:var(--sky)">للتداول</span></h2>
+        <p class="section-desc">منصة متكاملة تجمع بين التحليل الفني، الذكاء الاصطناعي، والأدوات الاحترافية في مكان واحد</p>
       </div>
-      
-      <!-- فلاتر -->
-      <div class="cal-filters">
-        
-        <!-- فلتر التأثير -->
-        <div class="cal-filter-group">
-          <span class="cal-filter-label">التأثير</span>
-          <div class="cal-filter-btns" id="impactFilter">
-            <button class="cal-fbtn active" data-impact="all">الكل</button>
-            <button class="cal-fbtn high"   data-impact="high">🔴 عالي</button>
-            <button class="cal-fbtn medium" data-impact="medium">🟡 متوسط</button>
-            <button class="cal-fbtn low"    data-impact="low">🟢 منخفض</button>
-          </div>
+      <div class="cards-grid">
+        <div class="card reveal" style="transition-delay:0.05s">
+          <div class="card-icon"><span data-icon="chart"></span></div>
+          <h3>شارت مباشر</h3>
+          <p>رسوم بيانية تفاعلية من TradingView مع دعم جميع الأطر الزمنية والمؤشرات الفنية — تابع الأسواق لحظياً.</p>
+          <a href="chart.html" class="card-link">افتح الشارت ←</a>
         </div>
-        
-        <!-- فلتر العملة -->
-        <div class="cal-filter-group">
-          <span class="cal-filter-label">العملة</span>
-          <div class="cal-filter-btns" id="currencyFilter">
-            <button class="cal-fbtn active" data-cur="all">الكل</button>
-            <button class="cal-fbtn" data-cur="USD">USD</button>
-            <button class="cal-fbtn" data-cur="EUR">EUR</button>
-            <button class="cal-fbtn" data-cur="GBP">GBP</button>
-            <button class="cal-fbtn" data-cur="JPY">JPY</button>
-            <button class="cal-fbtn" data-cur="XAU">XAU</button>
-            <button class="cal-fbtn" data-cur="CAD">CAD</button>
-            <button class="cal-fbtn" data-cur="AUD">AUD</button>
-          </div>
+        <div class="card reveal" style="transition-delay:0.15s">
+          <div class="card-icon"><span data-icon="tools"></span></div>
+          <h3>أدوات احترافية</h3>
+          <p>حاسبات متقدمة لحجم الصفقة، قيمة النقطة، فيبوناتشي، وإدارة المخاطرة — صممت للمتداول المحترف.</p>
+          <a href="tools.html" class="card-link">استخدم الأدوات ←</a>
         </div>
-        
-        <!-- فلتر اليوم -->
-        <div class="cal-filter-group">
-          <span class="cal-filter-label">الفترة</span>
-          <div class="cal-filter-btns" id="dayFilter">
-            <button class="cal-fbtn active" data-day="today">اليوم</button>
-            <button class="cal-fbtn" data-day="tomorrow">غداً</button>
-            <button class="cal-fbtn" data-day="week">الأسبوع</button>
-          </div>
+        <div class="card reveal" style="transition-delay:0.25s">
+          <div class="card-icon"><span data-icon="calendar"></span></div>
+          <h3>تقويم اقتصادي</h3>
+          <p>تابع الأحداث الاقتصادية المؤثرة على الأسواق مع فلاتر ذكية حسب التأثير والعملة والفترة الزمنية.</p>
+          <a href="calendar.html" class="card-link">تصفح التقويم ←</a>
         </div>
-        
-      </div>
-      
-      <!-- إحصائيات سريعة -->
-      <div class="cal-stats" id="calStats">
-        <div class="cal-stat"><span class="cs-dot high"></span><span id="csHigh">0</span> عالي التأثير</div>
-        <div class="cal-stat"><span class="cs-dot medium"></span><span id="csMed">0</span> متوسط</div>
-        <div class="cal-stat"><span class="cs-dot low"></span><span id="csLow">0</span> منخفض</div>
-        <div class="cal-stat" style="margin-inline-start:auto">
-          <span style="color:var(--muted);font-size:11px" id="calLastUpdate"></span>
-        </div>
-      </div>
-      
-      <!-- جدول الأحداث -->
-      <div class="cal-table-wrap">
-        <table class="cal-table" id="calTable">
-          <thead>
-            <tr>
-              <th>الوقت</th>
-              <th>العملة</th>
-              <th>الحدث</th>
-              <th>التأثير</th>
-              <th>السابق</th>
-              <th>المتوقع</th>
-              <th>الفعلي</th>
-            </tr>
-          </thead>
-          <tbody id="calBody">
-            <tr><td colspan="7" class="cal-loading">⏳ جاري تحميل الأحداث...</td></tr>
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="cal-footer">
-        <span>المصدر: Forex Factory API</span>
-        <button class="cal-refresh-btn" id="calRefresh"> تحديث </button>
-      </div>
-      
-    </div>
-  </section>
-
-  <!-- ===== TRADING TOOLS ===== -->
-  <section id="tools" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag" data-i18n="tools.tag">Tools</span>
-        <h2 class="section-title" data-i18n="tools.title">Pro Tools</h2>
-      </div>
-      <div class="tools-tabs">
-        <button class="tab active" data-tab="position" data-i18n="tools.position">Position</button>
-        <button class="tab" data-tab="pip" data-i18n="tools.pip">Pip</button>
-        <button class="tab" data-tab="rr" data-i18n="tools.rr">R:R</button>
-        <button class="tab" data-tab="fib" data-i18n="tools.fib">Fib</button>
-        <button class="tab" data-tab="margin" data-i18n="tools.margin">Margin</button>
-      </div>
-      <div id="toolPanels"></div>
-    </div>
-  </section>
-
-  <!-- ===== AI TOOLS ===== -->
-  <section id="ai" class="section section-alt">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag" data-i18n="ai.tag">AI</span>
-        <h2 class="section-title" data-i18n="ai.title">AI Tools</h2>
-      </div>
-      <!-- AI Market Summary Card (featured) -->
-      <div class="ai-card ai-card-summary">
-        <h3 data-i18n="ai.summary.title">AI Market Summary</h3>
-        <p data-i18n="ai.summary.desc">AI-powered market analysis</p>
-        <div class="summary-rates" id="summary-rates">
-          <small data-i18n="ai.summary.rates">Current Rates:</small>
-          <div class="summary-rates-list" id="summary-rates-list"><span class="text-muted">Loading rates...</span></div>
-        </div>
-        <button type="button" id="btn-summary" class="btn btn-primary btn-lg" data-i18n="ai.summary.btn"><span data-icon="lightning"></span> Generate Analysis</button>
-        <div class="ai-result" id="result-summary"></div>
-      </div>
-
-      <div class="ai-grid">
-        <div class="ai-card">
-          <h3 data-i18n="ai.setup.title">Setup Analyzer</h3>
-          <p data-i18n="ai.setup.desc">Score setups</p>
-          <form id="form-setup" class="tool-form">
-            <label><span data-i18n="ai.trend">Trend</span><select id="setup-trend"><option value="with">With trend</option><option value="against">Against</option><option value="range">Range</option></select></label>
-            <label><span data-i18n="ai.rr">R:R</span><input type="number" id="setup-rr" value="2" step="0.1"></label>
-            <label><span data-i18n="ai.risk">Risk %</span><input type="number" id="setup-risk" value="1" step="0.1"></label>
-            <label><span data-i18n="ai.session">Session</span><select id="setup-session"><option value="london">London</option><option value="ny">New York</option><option value="asia">Asia</option><option value="overlap">Overlap</option></select></label>
-            <button type="submit" class="btn btn-primary" data-i18n="tools.calc">Analyze</button>
-          </form>
-          <div class="ai-result" id="result-setup"></div>
-        </div>
-        <div class="ai-card">
-          <h3 data-i18n="ai.journal.title">Journal Analytics</h3>
-          <p data-i18n="ai.journal.desc">Trade analysis</p>
-          <textarea id="journal-input" rows="4" placeholder="50,30&#10;-20,15&#10;35,-10"></textarea>
-          <button type="button" id="btn-journal" class="btn btn-primary" data-i18n="tools.calc">Analyze</button>
-          <div class="ai-result" id="result-journal"></div>
-        </div>
-        <div class="ai-card">
-          <h3>Behavioral Flag <span style="font-size:14px;color:var(--text-muted)"><span data-icon="flag"></span></span></h3>
-          <p>يسجل صفقاتك ويكشف لك الأنماط السلوكية الخطيرة: الانتقام، الثقة الزائدة، الانحراف عن الخطّة</p>
-          <div class="bf-header">
-            <div class="bf-score-wrap">
-              <div class="bf-score-num" id="bf-discipline">—</div>
-              <div class="bf-score-label">Discipline</div>
-            </div>
-            <div class="bf-header-mid">
-              <div class="bf-score-num bf-flags-count" id="bf-flag-count">0</div>
-              <div class="bf-score-label">Active Flags</div>
-            </div>
-            <div class="bf-header-right">
-              <div class="bf-score-num" id="bf-clean">0</div>
-              <div class="bf-score-label">Clean Trades</div>
-            </div>
-          </div>
-          <div class="bf-flags" id="bf-flags-list">
-            <div class="bf-empty"><span data-icon="flag"></span> No flags yet — add trades to start tracking</div>
-          </div>
-          <div class="bf-actions">
-            <button type="button" id="bf-btn-add" class="btn btn-primary btn-sm"><span data-icon="plus"></span> Add Trade</button>
-            <button type="button" id="bf-btn-history" class="btn btn-outline btn-sm"><span data-icon="clipboard"></span> History</button>
-            <button type="button" id="bf-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="refresh"></span> Reset</button>
-          </div>
-          <div class="bf-inputs" id="bf-inputs" style="display:none">
-            <div class="bf-form-row">
-              <input type="text" id="bf-pair" placeholder="EUR/USD" style="width:100px">
-              <select id="bf-direction"><option value="Buy">Buy</option><option value="Sell">Sell</option></select>
-              <select id="bf-session">
-                <option value="asia">Asia</option><option value="london" selected>London</option><option value="ny">New York</option>
-              </select>
-            </div>
-            <div class="bf-form-row">
-              <input type="number" id="bf-profit" placeholder="P/L $" step="1" style="width:100px">
-              <input type="number" id="bf-size" placeholder="Lot" step="0.01" value="0.1" style="width:80px">
-            </div>
-            <div class="bf-form-row">
-              <button type="button" id="bf-btn-save" class="btn btn-primary btn-sm"><span data-icon="check"></span> Save</button>
-              <button type="button" id="bf-btn-cancel" class="btn btn-outline btn-sm"><span data-icon="cross"></span> Cancel</button>
-            </div>
-          </div>
-        </div>
-        <div class="ai-card">
-          <h3 data-i18n="ai.sentiment.title">AI News Sentiment</h3>
-          <p data-i18n="ai.sentiment.desc">Paste news for sentiment analysis</p>
-          <textarea id="sentiment-input" rows="4" style="width:100%;margin-bottom:12px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font-en);resize:vertical" placeholder="EUR/USD rose sharply today as the Fed signaled..." data-i18n-placeholder="ai.sentiment.placeholder"></textarea>
-          <button type="button" id="btn-sentiment" class="btn btn-primary" data-i18n="ai.sentiment.btn"><span data-icon="trending-up"></span> Analyze Sentiment</button>
-          <div class="ai-result" id="result-sentiment"></div>
-        </div>
-        <div class="ai-card" id="risk-planner">
-          <h3>Risk Planner <span style="font-size:13px;color:var(--text-muted)"><span data-icon="clipboard"></span></span></h3>
-          <p>خطط لأيام التداول و تحكم بالمخاطرة والاتساق — مخصص لحسابات الممولة والحقيقية</p>
-
-          <div class="rp-plan-bar">
-            <select id="rp-plan-select" style="flex:1;max-width:200px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card-bg);color:var(--text);font-size:13px"></select>
-            <button type="button" id="rp-btn-new" class="btn btn-outline btn-sm"><span data-icon="plus"></span> New</button>
-            <button type="button" id="rp-btn-rename" class="btn btn-outline btn-sm"><span data-icon="edit"></span></button>
-            <button type="button" id="rp-btn-del" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="delete"></span></button>
-          </div>
-
-          <div class="rp-inputs">
-            <div class="rp-row">
-              <div class="rp-field"><label>Balance $</label><input type="number" id="rp-balance" value="10000"></div>
-              <div class="rp-field"><label>Daily Risk %</label><input type="number" id="rp-daily-risk" value="2" step="0.1"></div>
-              <div class="rp-field"><label>Max DD %</label><input type="number" id="rp-max-dd" value="6" step="0.1"></div>
-              <div class="rp-field rp-field--wide"><label>Target $</label><input type="number" id="rp-target" value="500"></div>
-              <div class="rp-field"><label>Days</label>
-                <select id="rp-period">
-                  <option value="10">10</option><option value="20">20</option><option value="30" selected>30</option>
-                  <option value="60">60</option><option value="90">90</option>
-                </select>
-              </div>
-            </div>
-            <div class="rp-cons">
-              <input type="checkbox" id="rp-cons-enable"> <label for="rp-cons-enable">Enable Consistency Rule</label>
-              <label>Max % per day:</label>
-              <input type="number" id="rp-cons-pct" value="30" step="1" style="width:60px">
-            </div>
-            <div class="rp-actions">
-              <button type="button" id="rp-btn-config" class="btn btn-primary btn-sm"><span data-icon="gear"></span> Generate Plan</button>
-              <button type="button" id="rp-btn-reset" class="btn btn-outline btn-sm" style="color:var(--error);border-color:rgba(239,68,68,0.3);"><span data-icon="refresh"></span> Reset</button>
-              <button type="button" id="rp-btn-csv" class="btn btn-outline btn-sm"><span data-icon="download"></span> Export CSV</button>
-            </div>
-          </div>
-
-          <div id="rp-stats"></div>
-
-          <canvas id="rp-chart" style="width:100%;height:180px;margin-bottom:12px;border-radius:8px;background:var(--bg)"></canvas>
-
-          <div id="rp-table-wrap"><div class="rp-empty"><span data-icon="gear"></span> Configure your plan above to begin</div></div>
-
-          <div class="rp-day-form" style="display:none" id="rp-day-form">
-            <input type="hidden" id="rp-day-idx" value="-1">
-            <input type="number" name="pnl" id="rp-day-pnl" placeholder="P&L $" step="1">
-            <input type="text" name="notes" id="rp-day-notes" placeholder="Notes">
-            <button type="button" id="rp-btn-save" class="btn btn-primary btn-sm"><span data-icon="check"></span> Save Day</button>
-          </div>
-        </div>
-      </div>
-      <div style="text-align: center; margin-top: 32px;">
-        <a href="ai-hub.html" class="btn btn-outline btn-lg"><span data-icon="ai"></span> اكتشف جميع أدوات الذكاء الاصطناعي</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== AI CHAT ===== -->
-  <section id="chat" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag" data-i18n="chat.tag">AI Assistant</span>
-        <h2 class="section-title" data-i18n="chat.title">Market Chat</h2>
-        <p class="section-desc" data-i18n="chat.desc">Ask about prices, sessions, risk, and signals</p>
-      </div>
-      <div class="chat-layout">
-        <div class="chat-window">
-          <div class="chat-header">
-            <img src="assets/logo_new_png.png" alt="" width="40" height="40" class="chat-header-logo" onerror="this.src='assets/logo_new_png.png'">
-            <div><strong data-i18n="chat.assistant">Sirius AI</strong><span data-i18n="chat.online">Online</span></div>
-          </div>
-          <div class="chat-messages" id="chatMessages"></div>
-          <div class="chat-quick-row">
-            <button type="button" class="chat-quick" data-q="سعر EUR/USD" data-i18n="chat.q1">EUR/USD</button>
-            <button type="button" class="chat-quick" data-q="إدارة المخاطر" data-i18n="chat.q2">Risk</button>
-            <button type="button" class="chat-quick" data-q="إشارات التداول" data-i18n="chat.q3">Signals</button>
-            <button type="button" class="chat-quick" data-q="أفضل جلسة تداول" data-i18n="chat.q4">Sessions</button>
-          </div>
-          <form class="chat-form" id="chatForm">
-            <input type="text" id="chatInput" autocomplete="off" data-i18n-placeholder="chat.placeholder" placeholder="">
-            <button type="submit" class="btn btn-primary" data-i18n="chat.send">Send</button>
-          </form>
-          <p class="chat-disclaimer" data-i18n="chat.disclaimer">Educational only</p>
-          <p class="chat-api-badge" data-i18n="chat.api">Sirius API</p>
+        <div class="card reveal" style="transition-delay:0.35s">
+          <div class="card-icon"><span data-icon="alerts"></span></div>
+          <h3>تنبيهات ذكية</h3>
+          <p>نظام مراقبة لحظي للأسعار مع إشعارات فورية عند الوصول إلى المستويات المستهدفة — لا يفوتك أي فرصة.</p>
+          <a href="alerts.html" class="card-link">اضبط التنبيهات ←</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===== COURSES ===== -->
-  <section id="courses" class="section section-alt">
+  <section id="courses" class="section">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-tag" data-i18n="courses.tag">Courses</span>
         <h2 class="section-title" data-i18n="courses.title">Learn</h2>
       </div>
       <div class="courses-grid">
-        <div class="course-card">
+        <div class="course-card reveal" style="transition-delay:0.05s">
           <span class="course-level" data-i18n="courses.basic.level">Basic</span>
           <h3 data-i18n="courses.basic.title">Forex Basics</h3>
           <p data-i18n="courses.basic.desc">Foundation</p>
           <ul><li data-i18n="courses.basic.i1">Markets</li><li data-i18n="courses.basic.i2">Pips</li><li data-i18n="courses.basic.i3">Orders</li></ul>
           <a href="https://t.me/srfx0" target="_blank" class="btn btn-outline" data-i18n="courses.enroll">Enroll</a>
         </div>
-        <div class="course-card featured">
+        <div class="course-card featured reveal" style="transition-delay:0.15s">
           <span class="course-level" data-i18n="courses.pro.level">Pro</span>
           <h3 data-i18n="courses.pro.title">Technical Analysis</h3>
           <p data-i18n="courses.pro.desc">Advanced</p>
           <ul><li data-i18n="courses.pro.i1">Patterns</li><li data-i18n="courses.pro.i2">Indicators</li><li data-i18n="courses.pro.i3">Strategy</li></ul>
           <a href="https://t.me/srfx0" target="_blank" class="btn btn-primary" data-i18n="courses.enroll">Enroll</a>
         </div>
-        <div class="course-card">
+        <div class="course-card reveal" style="transition-delay:0.25s">
           <span class="course-level" data-i18n="courses.ai.level">AI</span>
           <h3 data-i18n="courses.ai.title">AI Trading</h3>
           <p data-i18n="courses.ai.desc">Smart trading</p>
@@ -444,9 +228,9 @@
   </section>
 
   <!-- ===== CONTACT ===== -->
-  <section id="contact" class="section">
+  <section id="contact" class="section section-alt">
     <div class="container">
-      <div class="contact-box">
+      <div class="contact-box reveal">
         <h2 data-i18n="contact.title">Contact</h2>
         <p data-i18n="contact.desc">Join Telegram</p>
         <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-lg telegram-btn">@srfx0</a>
@@ -454,8 +238,9 @@
     </div>
   </section>
 
-  <button type="button" class="chat-fab" id="chatFab" aria-label="Chat"><span data-icon="chat"></span></button>
+  <a href="ai-hub.html" class="chat-fab" id="chatFab" aria-label="Chat"><span data-icon="chat"></span></a>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -478,8 +263,8 @@
           <h4>الخدمات</h4>
           <ul>
             <li><a href="chart.html"><span data-icon="chart"></span> الشارت المباشر</a></li>
-            <li><a href="#tools"><span data-icon="tools"></span> أدوات التداول</a></li>
-            <li><a href="#calendar"><span data-icon="calendar"></span> التقويم الاقتصادي</a></li>
+            <li><a href="tools.html"><span data-icon="tools"></span> أدوات التداول</a></li>
+            <li><a href="calendar.html"><span data-icon="calendar"></span> التقويم الاقتصادي</a></li>
             <li><a href="#courses"><span data-icon="courses"></span> الكورسات</a></li>
           </ul>
         </div>
@@ -511,26 +296,27 @@
   <script src="js/config.js"></script>
   <script src="js/icon.js"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/trading-tools.js"></script>
-  <script src="js/ai-tools.js"></script>
-  <script src="js/market-chat.js"></script>
-  <script src="js/news.js"></script>
-  <script src="js/behavioral-flags.js"></script>
-  <script src="js/risk-planner.js"></script>
   <script src="js/effects.js"></script>
 
-  <!-- PWA Init -->
+  <!-- Nav toggle + PWA -->
   <script>
   (function() {
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', function() { links.classList.toggle('open'); });
+      links.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() { links.classList.remove('open'); });
+      });
+    }
+
     var deferredPrompt = null;
     var installBtn = document.getElementById('pwaInstall');
-
     window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
       deferredPrompt = e;
       if (installBtn) installBtn.style.display = 'inline-flex';
     });
-
     if (installBtn) {
       installBtn.addEventListener('click', function() {
         if (deferredPrompt) {
@@ -539,198 +325,12 @@
         }
       });
     }
-
     window.addEventListener('appinstalled', function() {
       if (installBtn) installBtn.style.display = 'none';
     });
-
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(function() {});
     }
-  })();
-  </script>
-
-  <!-- ===== ECONOMIC CALENDAR ===== -->
-  <script>
-  (function(){
-
-    // ── بيانات تجريبية واقعية (تُستبدل بـ API حقيقي) ──
-    function getMockEvents(){
-      const now   = new Date();
-      const today = new Date(now); today.setHours(0,0,0,0);
-      const tom   = new Date(today); tom.setDate(tom.getDate()+1);
-
-      function ev(day, h, m, cur, name, impact, prev, forecast, actual){
-        const d = day===0 ? new Date(today) : new Date(tom);
-        d.setHours(h, m, 0, 0);
-        return { time: d, currency: cur, name, impact, prev, forecast, actual };
-      }
-
-      return [
-        ev(0,  9,  0, 'EUR', 'مؤشر أسعار المستهلك (CPI) — الاتحاد الأوروبي',   'high',   '2.4%',  '2.3%',  ''),
-        ev(0, 10, 30, 'USD', 'مطالبات إعانة البطالة الأسبوعية',                  'high',   '215K',  '210K',  '208K'),
-        ev(0, 12,  0, 'USD', 'مبيعات التجزئة الأمريكية',                          'high',   '0.4%',  '0.3%',  ''),
-        ev(0,  8,  0, 'GBP', 'قرار الفائدة — بنك إنجلترا',                        'high',   '5.25%', '5.25%', ''),
-        ev(0, 14,  0, 'USD', 'مؤشر مديري المشتريات (PMI) التصنيعي',              'medium', '49.3',  '49.8',  '50.1'),
-        ev(0,  7, 30, 'EUR', 'معدل البطالة الألمانية',                             'medium', '5.9%',  '5.9%',  ''),
-        ev(0, 15,  0, 'USD', 'مخزونات النفط الخام الأمريكية',                     'medium', '-1.2M', '-0.8M', ''),
-        ev(0,  6,  0, 'JPY', 'مؤشر ثقة المستهلك الياباني',                        'low',    '36.2',  '36.5',  '36.8'),
-        ev(0, 11,  0, 'CAD', 'تغير الوظائف الكندية',                              'high',   '22K',   '18K',   ''),
-        ev(0, 16,  0, 'XAU', 'خطاب رئيس الاحتياطي الفيدرالي',                    'high',   '—',     '—',     ''),
-        ev(0,  9, 30, 'GBP', 'مؤشر أسعار المنازل البريطانية',                     'low',    '1.2%',  '1.0%',  '0.9%'),
-        ev(0, 13,  0, 'EUR', 'مؤشر ثقة المستثمرين في منطقة اليورو',              'medium', '11.4',  '12.0',  ''),
-        ev(1,  8, 30, 'USD', 'أرقام الوظائف خارج الزراعة (NFP)',                  'high',   '187K',  '200K',  ''),
-        ev(1,  8, 30, 'USD', 'معدل البطالة الأمريكية',                             'high',   '3.9%',  '3.9%',  ''),
-        ev(1, 10,  0, 'USD', 'مؤشر أسعار المنتجين (PPI)',                          'medium', '0.2%',  '0.2%',  ''),
-        ev(1,  9,  0, 'EUR', 'الناتج المحلي الإجمالي لمنطقة اليورو (أولي)',        'high',   '0.3%',  '0.4%',  ''),
-        ev(1,  7,  0, 'GBP', 'مؤشر أسعار المستهلك البريطاني',                     'high',   '3.4%',  '3.2%',  ''),
-        ev(1, 12, 30, 'CAD', 'قرار الفائدة — البنك المركزي الكندي',               'high',   '5.0%',  '5.0%',  ''),
-        ev(1,  2,  0, 'JPY', 'قرار السياسة النقدية — البنك المركزي الياباني',     'high',   '-0.1%', '-0.1%', ''),
-        ev(1, 14, 30, 'USD', 'مؤشر ثقة المستهلك الأمريكي (Michigan)',             'medium', '77.9',  '78.5',  ''),
-      ];
-    }
-
-    let allEvents  = [];
-    let impactSel  = 'all';
-    let currencySel= 'all';
-    let daySel     = 'today';
-
-    function loadEvents(){
-      allEvents = getMockEvents();
-      renderCalendar();
-      updateStats();
-      document.getElementById('calLastUpdate').textContent =
-        'آخر تحديث: ' + new Date().toLocaleTimeString('ar');
-    }
-
-    function filterEvents(){
-      const now   = new Date();
-      const today = new Date(); today.setHours(0,0,0,0);
-      const tom   = new Date(today); tom.setDate(tom.getDate()+1);
-      const wkEnd = new Date(today); wkEnd.setDate(wkEnd.getDate()+7);
-
-      return allEvents.filter(ev => {
-        // فلتر اليوم
-        if(daySel === 'today'){
-          if(ev.time < today || ev.time >= tom) return false;
-        } else if(daySel === 'tomorrow'){
-          if(ev.time < tom || ev.time >= wkEnd) return false;
-        } else {
-          if(ev.time < today || ev.time >= wkEnd) return false;
-        }
-        // فلتر التأثير
-        if(impactSel !== 'all' && ev.impact !== impactSel) return false;
-        // فلتر العملة
-        if(currencySel !== 'all' && ev.currency !== currencySel) return false;
-        return true;
-      }).sort((a,b) => a.time - b.time);
-    }
-
-    function impactIcon(impact){
-      if(impact==='high')   return '<span class="imp-dot imp-high"  title="عالي" style="color:#ef4444">●</span>';
-      if(impact==='medium') return '<span class="imp-dot imp-med"   title="متوسط" style="color:#f59e0b">●</span>';
-      return                       '<span class="imp-dot imp-low"   title="منخفض" style="color:#22c55e">●</span>';
-    }
-
-    function actualClass(actual, forecast){
-      if(!actual || actual==='') return '';
-      const a = parseFloat(actual), f = parseFloat(forecast);
-      if(isNaN(a)||isNaN(f)) return '';
-      return a > f ? 'act-good' : a < f ? 'act-bad' : '';
-    }
-
-    function isPast(ev){ return ev.time < new Date(); }
-    function isNext(ev){ return !isPast(ev); }
-
-    function renderCalendar(){
-      const events = filterEvents();
-      const tbody  = document.getElementById('calBody');
-
-      if(!events.length){
-        tbody.innerHTML = '<tr><td colspan="7" class="cal-empty">لا توجد أحداث للفترة المحددة 📭</td></tr>';
-        return;
-      }
-
-      let lastDate = '';
-      tbody.innerHTML = events.map((ev, i) => {
-        const dateStr = ev.time.toLocaleDateString('ar', { weekday:'long', day:'numeric', month:'long' });
-        let dateRow = '';
-        if(dateStr !== lastDate){
-          lastDate = dateStr;
-          dateRow = `        <tr class="cal-date-row"><td colspan="7"><span data-icon="calendar"></span> ${dateStr}</td></tr>`;
-        }
-
-        const past     = isPast(ev);
-        const timeStr  = ev.time.toLocaleTimeString('ar', { hour:'2-digit', minute:'2-digit' });
-        const actCls   = actualClass(ev.actual, ev.forecast);
-        const rowCls   = past ? 'cal-row-past' : (i===events.findIndex(isNext) ? 'cal-row-next' : '');
-        const nextBadge= (!past && i===events.findIndex(isNext)) ? '<span class="next-badge">التالي <span data-icon="lightning"></span></span>' : '';
-
-        return `${dateRow}
-        <tr class="cal-row ${rowCls}" data-impact="${ev.impact}">
-          <td class="cal-time">${timeStr}${nextBadge}</td>
-          <td><span class="cal-cur cur-${ev.currency.toLowerCase()}">${ev.currency}</span></td>
-          <td class="cal-name">${ev.name}</td>
-          <td>${impactIcon(ev.impact)}</td>
-          <td class="cal-num">${ev.prev   || '—'}</td>
-          <td class="cal-num">${ev.forecast|| '—'}</td>
-          <td class="cal-num cal-actual ${actCls}">${ev.actual || '—'}</td>
-        </tr>`;
-      }).join('');
-    }
-
-    function updateStats(){
-      const today = new Date(); today.setHours(0,0,0,0);
-      const tom   = new Date(today); tom.setDate(tom.getDate()+1);
-      const todayEvs = allEvents.filter(e => e.time>=today && e.time<tom);
-      document.getElementById('csHigh').textContent = todayEvs.filter(e=>e.impact==='high').length;
-      document.getElementById('csMed').textContent  = todayEvs.filter(e=>e.impact==='medium').length;
-      document.getElementById('csLow').textContent  = todayEvs.filter(e=>e.impact==='low').length;
-    }
-
-    // ── فلاتر التأثير ──
-    document.getElementById('impactFilter').addEventListener('click', e => {
-      const btn = e.target.closest('[data-impact]');
-      if(!btn) return;
-      document.querySelectorAll('#impactFilter .cal-fbtn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      impactSel = btn.dataset.impact;
-      renderCalendar();
-    });
-
-    // ── فلاتر العملة ──
-    document.getElementById('currencyFilter').addEventListener('click', e => {
-      const btn = e.target.closest('[data-cur]');
-      if(!btn) return;
-      document.querySelectorAll('#currencyFilter .cal-fbtn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      currencySel = btn.dataset.cur;
-      renderCalendar();
-    });
-
-    // ── فلتر اليوم ──
-    document.getElementById('dayFilter').addEventListener('click', e => {
-      const btn = e.target.closest('[data-day]');
-      if(!btn) return;
-      document.querySelectorAll('#dayFilter .cal-fbtn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      daySel = btn.dataset.day;
-      renderCalendar();
-    });
-
-    // ── زر التحديث ──
-    document.getElementById('calRefresh').addEventListener('click', () => {
-      document.getElementById('calBody').innerHTML =
-        '<tr><td colspan="7" class="cal-loading"><span data-icon="refresh"></span> جاري التحديث...</td></tr>';
-      setTimeout(loadEvents, 600);
-    });
-
-    // تحميل أولي
-    loadEvents();
-
-    // تحديث تلقائي كل 5 دقائق
-    setInterval(loadEvents, 300000);
-
   })();
   </script>
 </body>

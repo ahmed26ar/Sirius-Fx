@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sirius - التقويم الاقتصادي المباشر: تابع الأحداث الاقتصادية المؤثرة على الأسواق المالية مع فلاتر التأثير والعملة والفترة">
+  <meta property="og:image" content="assets/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>التقويم الاقتصادي | Sirius</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="assets/logo_new_png.png" type="image/png">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .page-hero { text-align: center; padding: 60px 0 40px; }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; background: linear-gradient(135deg, var(--text) 0%, var(--sky) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+    .page-hero p { color: var(--text-muted); max-width: 560px; margin: 0 auto; font-size: 15px; }
+  </style>
+</head>
+<body>
+  <div class="star-field-layer"></div>
+  <div class="floating-orbs-container"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-text" dir="ltr">Sirius</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><span data-icon="home"></span> الرئيسية</a></li>
+        <li><a href="ai-hub.html"><span data-icon="ai"></span> مركز AI</a></li>
+        <li><a href="alerts.html"><span data-icon="alerts"></span> التنبيهات</a></li>
+        <li><a href="tools.html"><span data-icon="tools"></span> الأدوات</a></li>
+        <li><a href="chart.html"><span data-icon="chart"></span> الشارت</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="ctrl-btn" id="langToggle"><span data-icon="forex"></span> EN</button>
+        <a href="https://t.me/srfx0" target="_blank" rel="noopener" class="btn btn-primary btn-sm" data-i18n="nav.telegram">تيليجرام</a>
+      </div>
+      <div class="nav-progress" id="navProgress"></div>
+    </div>
+  </nav>
+
+  <!-- ===== ECONOMIC CALENDAR ===== -->
+  <main class="container">
+    <div class="page-hero">
+      <h1><span data-icon="calendar"></span> التقويم الاقتصادي</h1>
+      <p>الأحداث الاقتصادية المؤثرة على الأسواق</p>
+    </div>
+
+    <section id="calendar" class="section section-alt" style="padding-top:0;border-radius:var(--radius)">
+      <div class="container" style="padding:0">
+        <!-- فلاتر -->
+        <div class="cal-filters">
+          <div class="cal-filter-group">
+            <span class="cal-filter-label">التأثير</span>
+            <div class="cal-filter-btns" id="impactFilter">
+              <button class="cal-fbtn active" data-impact="all">الكل</button>
+              <button class="cal-fbtn high"   data-impact="high">🔴 عالي</button>
+              <button class="cal-fbtn medium" data-impact="medium">🟡 متوسط</button>
+              <button class="cal-fbtn low"    data-impact="low">🟢 منخفض</button>
+            </div>
+          </div>
+          <div class="cal-filter-group">
+            <span class="cal-filter-label">العملة</span>
+            <div class="cal-filter-btns" id="currencyFilter">
+              <button class="cal-fbtn active" data-cur="all">الكل</button>
+              <button class="cal-fbtn" data-cur="USD">USD</button>
+              <button class="cal-fbtn" data-cur="EUR">EUR</button>
+              <button class="cal-fbtn" data-cur="GBP">GBP</button>
+              <button class="cal-fbtn" data-cur="JPY">JPY</button>
+              <button class="cal-fbtn" data-cur="XAU">XAU</button>
+              <button class="cal-fbtn" data-cur="CAD">CAD</button>
+              <button class="cal-fbtn" data-cur="AUD">AUD</button>
+            </div>
+          </div>
+          <div class="cal-filter-group">
+            <span class="cal-filter-label">الفترة</span>
+            <div class="cal-filter-btns" id="dayFilter">
+              <button class="cal-fbtn active" data-day="today">اليوم</button>
+              <button class="cal-fbtn" data-day="tomorrow">غداً</button>
+              <button class="cal-fbtn" data-day="week">الأسبوع</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- إحصائيات سريعة -->
+        <div class="cal-stats" id="calStats">
+          <div class="cal-stat"><span class="cs-dot high"></span><span id="csHigh">0</span> عالي التأثير</div>
+          <div class="cal-stat"><span class="cs-dot medium"></span><span id="csMed">0</span> متوسط</div>
+          <div class="cal-stat"><span class="cs-dot low"></span><span id="csLow">0</span> منخفض</div>
+          <div class="cal-stat" style="margin-inline-start:auto">
+            <span style="color:var(--muted);font-size:11px" id="calLastUpdate"></span>
+          </div>
+        </div>
+
+        <!-- جدول الأحداث -->
+        <div class="cal-table-wrap">
+          <table class="cal-table" id="calTable">
+            <thead>
+              <tr>
+                <th>الوقت</th>
+                <th>العملة</th>
+                <th>الحدث</th>
+                <th>التأثير</th>
+                <th>السابق</th>
+                <th>المتوقع</th>
+                <th>الفعلي</th>
+              </tr>
+            </thead>
+            <tbody id="calBody">
+              <tr><td colspan="7" class="cal-loading">⏳ جاري تحميل الأحداث...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="cal-footer">
+          <span>المصدر: Forex Factory API</span>
+          <button class="cal-refresh-btn" id="calRefresh"> تحديث </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-text" dir="ltr">Sirius</span>
+          </a>
+          <p>منصتك المتكاملة للتداول في الأسواق المالية — إشارات احترافية، أدوات تحليل بالذكاء الاصطناعي، وتعليم مستمر.</p>
+        </div>
+        <div class="footer-col">
+          <h4>الروابط</h4>
+          <ul>
+            <li><a href="index.html"><span data-icon="home"></span> الرئيسية</a></li>
+            <li><a href="ai-hub.html"><span data-icon="ai"></span> مركز AI</a></li>
+            <li><a href="alerts.html"><span data-icon="alerts"></span> التنبيهات</a></li>
+            <li><a href="signals.html"><span data-icon="signals"></span> الإشارات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>الخدمات</h4>
+          <ul>
+            <li><a href="chart.html"><span data-icon="chart"></span> الشارت المباشر</a></li>
+            <li><a href="tools.html"><span data-icon="tools"></span> أدوات التداول</a></li>
+            <li><a href="calendar.html"><span data-icon="calendar"></span> التقويم الاقتصادي</a></li>
+            <li><a href="index.html#courses"><span data-icon="courses"></span> الكورسات</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>تواصل</h4>
+          <ul>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="telegram"></span> تيليجرام</a></li>
+            <li><a href="mailto:siriusfx@example.com"><span data-icon="chat"></span> البريد الإلكتروني</a></li>
+            <li><a href="https://t.me/srfx0" target="_blank" rel="noopener"><span data-icon="chat"></span> الدعم الفني</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Sirius. جميع الحقوق محفوظة.</span>
+        <div class="footer-social">
+          <a href="https://t.me/srfx0" target="_blank" rel="noopener" aria-label="Telegram"><span data-icon="telegram"></span></a>
+          <a href="#" aria-label="Twitter/X"><span data-icon="home"></span></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== RISK BAR ===== -->
+  <div class="risk-bar">
+    <span class="risk-icon"><span data-icon="warning"></span></span>
+    <span><strong>تحذير المخاطر:</strong> التداول في الأسواق المالية ينطوي على مخاطر عالية. قد لا تكون هذه الخدمات مناسبة لجميع المستثمرين. المحتوى المقدم لأغراض تعليمية فقط وليس نصيحة استثمارية. قد تتعرض لخسارة رأس المال المستثمر.</span>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/icon.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/effects.js"></script>
+
+  <!-- Nav toggle -->
+  <script>
+  (function() {
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', function() { links.classList.toggle('open'); });
+      links.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() { links.classList.remove('open'); });
+      });
+    }
+  })();
+  </script>
+
+  <!-- ===== ECONOMIC CALENDAR ===== -->
+  <script>
+  (function(){
+
+    function getMockEvents(){
+      const now   = new Date();
+      const today = new Date(now); today.setHours(0,0,0,0);
+      const tom   = new Date(today); tom.setDate(tom.getDate()+1);
+
+      function ev(day, h, m, cur, name, impact, prev, forecast, actual){
+        const d = day===0 ? new Date(today) : new Date(tom);
+        d.setHours(h, m, 0, 0);
+        return { time: d, currency: cur, name, impact, prev, forecast, actual };
+      }
+
+      return [
+        ev(0,  9,  0, 'EUR', 'مؤشر أسعار المستهلك (CPI) — الاتحاد الأوروبي',   'high',   '2.4%',  '2.3%',  ''),
+        ev(0, 10, 30, 'USD', 'مطالبات إعانة البطالة الأسبوعية',                  'high',   '215K',  '210K',  '208K'),
+        ev(0, 12,  0, 'USD', 'مبيعات التجزئة الأمريكية',                          'high',   '0.4%',  '0.3%',  ''),
+        ev(0,  8,  0, 'GBP', 'قرار الفائدة — بنك إنجلترا',                        'high',   '5.25%', '5.25%', ''),
+        ev(0, 14,  0, 'USD', 'مؤشر مديري المشتريات (PMI) التصنيعي',              'medium', '49.3',  '49.8',  '50.1'),
+        ev(0,  7, 30, 'EUR', 'معدل البطالة الألمانية',                             'medium', '5.9%',  '5.9%',  ''),
+        ev(0, 15,  0, 'USD', 'مخزونات النفط الخام الأمريكية',                     'medium', '-1.2M', '-0.8M', ''),
+        ev(0,  6,  0, 'JPY', 'مؤشر ثقة المستهلك الياباني',                        'low',    '36.2',  '36.5',  '36.8'),
+        ev(0, 11,  0, 'CAD', 'تغير الوظائف الكندية',                              'high',   '22K',   '18K',   ''),
+        ev(0, 16,  0, 'XAU', 'خطاب رئيس الاحتياطي الفيدرالي',                    'high',   '—',     '—',     ''),
+        ev(0,  9, 30, 'GBP', 'مؤشر أسعار المنازل البريطانية',                     'low',    '1.2%',  '1.0%',  '0.9%'),
+        ev(0, 13,  0, 'EUR', 'مؤشر ثقة المستثمرين في منطقة اليورو',              'medium', '11.4',  '12.0',  ''),
+        ev(1,  8, 30, 'USD', 'أرقام الوظائف خارج الزراعة (NFP)',                  'high',   '187K',  '200K',  ''),
+        ev(1,  8, 30, 'USD', 'معدل البطالة الأمريكية',                             'high',   '3.9%',  '3.9%',  ''),
+        ev(1, 10,  0, 'USD', 'مؤشر أسعار المنتجين (PPI)',                          'medium', '0.2%',  '0.2%',  ''),
+        ev(1,  9,  0, 'EUR', 'الناتج المحلي الإجمالي لمنطقة اليورو (أولي)',        'high',   '0.3%',  '0.4%',  ''),
+        ev(1,  7,  0, 'GBP', 'مؤشر أسعار المستهلك البريطاني',                     'high',   '3.4%',  '3.2%',  ''),
+        ev(1, 12, 30, 'CAD', 'قرار الفائدة — البنك المركزي الكندي',               'high',   '5.0%',  '5.0%',  ''),
+        ev(1,  2,  0, 'JPY', 'قرار السياسة النقدية — البنك المركزي الياباني',     'high',   '-0.1%', '-0.1%', ''),
+        ev(1, 14, 30, 'USD', 'مؤشر ثقة المستهلك الأمريكي (Michigan)',             'medium', '77.9',  '78.5',  ''),
+      ];
+    }
+
+    let allEvents  = [];
+    let impactSel  = 'all';
+    let currencySel= 'all';
+    let daySel     = 'today';
+
+    function loadEvents(){
+      allEvents = getMockEvents();
+      renderCalendar();
+      updateStats();
+      document.getElementById('calLastUpdate').textContent =
+        'آخر تحديث: ' + new Date().toLocaleTimeString('ar');
+    }
+
+    function filterEvents(){
+      const now   = new Date();
+      const today = new Date(); today.setHours(0,0,0,0);
+      const tom   = new Date(today); tom.setDate(tom.getDate()+1);
+      const wkEnd = new Date(today); wkEnd.setDate(wkEnd.getDate()+7);
+
+      return allEvents.filter(ev => {
+        if(daySel === 'today'){
+          if(ev.time < today || ev.time >= tom) return false;
+        } else if(daySel === 'tomorrow'){
+          if(ev.time < tom || ev.time >= wkEnd) return false;
+        } else {
+          if(ev.time < today || ev.time >= wkEnd) return false;
+        }
+        if(impactSel !== 'all' && ev.impact !== impactSel) return false;
+        if(currencySel !== 'all' && ev.currency !== currencySel) return false;
+        return true;
+      }).sort((a,b) => a.time - b.time);
+    }
+
+    function impactIcon(impact){
+      if(impact==='high')   return '<span class="imp-dot imp-high"  title="عالي" style="color:#ef4444">●</span>';
+      if(impact==='medium') return '<span class="imp-dot imp-med"   title="متوسط" style="color:#f59e0b">●</span>';
+      return                       '<span class="imp-dot imp-low"   title="منخفض" style="color:#22c55e">●</span>';
+    }
+
+    function actualClass(actual, forecast){
+      if(!actual || actual==='') return '';
+      const a = parseFloat(actual), f = parseFloat(forecast);
+      if(isNaN(a)||isNaN(f)) return '';
+      return a > f ? 'act-good' : a < f ? 'act-bad' : '';
+    }
+
+    function isPast(ev){ return ev.time < new Date(); }
+    function isNext(ev){ return !isPast(ev); }
+
+    function renderCalendar(){
+      const events = filterEvents();
+      const tbody  = document.getElementById('calBody');
+
+      if(!events.length){
+        tbody.innerHTML = '<tr><td colspan="7" class="cal-empty">لا توجد أحداث للفترة المحددة 📭</td></tr>';
+        return;
+      }
+
+      let lastDate = '';
+      tbody.innerHTML = events.map((ev, i) => {
+        const dateStr = ev.time.toLocaleDateString('ar', { weekday:'long', day:'numeric', month:'long' });
+        let dateRow = '';
+        if(dateStr !== lastDate){
+          lastDate = dateStr;
+          dateRow = `        <tr class="cal-date-row"><td colspan="7"><span data-icon="calendar"></span> ${dateStr}</td></tr>`;
+        }
+
+        const past     = isPast(ev);
+        const timeStr  = ev.time.toLocaleTimeString('ar', { hour:'2-digit', minute:'2-digit' });
+        const actCls   = actualClass(ev.actual, ev.forecast);
+        const rowCls   = past ? 'cal-row-past' : (i===events.findIndex(isNext) ? 'cal-row-next' : '');
+        const nextBadge= (!past && i===events.findIndex(isNext)) ? '<span class="next-badge">التالي <span data-icon="lightning"></span></span>' : '';
+
+        return `${dateRow}
+        <tr class="cal-row ${rowCls}" data-impact="${ev.impact}">
+          <td class="cal-time">${timeStr}${nextBadge}</td>
+          <td><span class="cal-cur cur-${ev.currency.toLowerCase()}">${ev.currency}</span></td>
+          <td class="cal-name">${ev.name}</td>
+          <td>${impactIcon(ev.impact)}</td>
+          <td class="cal-num">${ev.prev   || '—'}</td>
+          <td class="cal-num">${ev.forecast|| '—'}</td>
+          <td class="cal-num cal-actual ${actCls}">${ev.actual || '—'}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function updateStats(){
+      const today = new Date(); today.setHours(0,0,0,0);
+      const tom   = new Date(today); tom.setDate(tom.getDate()+1);
+      const todayEvs = allEvents.filter(e => e.time>=today && e.time<tom);
+      document.getElementById('csHigh').textContent = todayEvs.filter(e=>e.impact==='high').length;
+      document.getElementById('csMed').textContent  = todayEvs.filter(e=>e.impact==='medium').length;
+      document.getElementById('csLow').textContent  = todayEvs.filter(e=>e.impact==='low').length;
+    }
+
+    document.getElementById('impactFilter').addEventListener('click', e => {
+      const btn = e.target.closest('[data-impact]');
+      if(!btn) return;
+      document.querySelectorAll('#impactFilter .cal-fbtn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      impactSel = btn.dataset.impact;
+      renderCalendar();
+    });
+
+    document.getElementById('currencyFilter').addEventListener('click', e => {
+      const btn = e.target.closest('[data-cur]');
+      if(!btn) return;
+      document.querySelectorAll('#currencyFilter .cal-fbtn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      currencySel = btn.dataset.cur;
+      renderCalendar();
+    });
+
+    document.getElementById('dayFilter').addEventListener('click', e => {
+      const btn = e.target.closest('[data-day]');
+      if(!btn) return;
+      document.querySelectorAll('#dayFilter .cal-fbtn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      daySel = btn.dataset.day;
+      renderCalendar();
+    });
+
+    document.getElementById('calRefresh').addEventListener('click', () => {
+      document.getElementById('calBody').innerHTML =
+        '<tr><td colspan="7" class="cal-loading"><span data-icon="refresh"></span> جاري التحديث...</td></tr>';
+      setTimeout(loadEvents, 600);
+    });
+
+    loadEvents();
+    setInterval(loadEvents, 300000);
+
+  })();
+  </script>
+</body>
+</html>
