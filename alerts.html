@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="assets/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <title>نظام التنبيهات | Sirius Fx</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -291,7 +293,7 @@
     }
 
     function sendBrowserNotification(title, body) {
-      if (notificationPermission) new Notification(title, { body, icon: 'assets/logo_new.png', tag: 'sirius-price-alert', vibrate: [200,100,200], requireInteraction: true });
+      if (notificationPermission) new Notification(title, { body, icon: 'assets/logo_new_png.png', tag: 'sirius-price-alert', vibrate: [200,100,200], requireInteraction: true });
     }
 
     function renderPairs() {

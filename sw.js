@@ -23,6 +23,7 @@ var urlsToCache = [
   '/js/trading-sessions.js',
   '/assets/logo_new_png.png',
   '/assets/logo.svg',
+  '/assets/og-image.jpg',
   '/assets/icons/sprite.svg',
   '/manifest.json'
 ];
