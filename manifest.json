@@ -1,6 +1,6 @@
 {
-  "name": "Sirius Fx - منصة تداول فوركس",
-  "short_name": "Sirius Fx",
+  "name": "Sirius - منصة تداول فوركس",
+  "short_name": "Sirius",
   "description": "منصة تداول فوركس متكاملة: إشارات تداول، أدوات ذكاء اصطناعي، تحليلات فورية، شارت مباشر، وتقويم اقتصادي",
   "start_url": "/index.html",
   "display": "standalone",

@@ -8,19 +8,19 @@ app.use(express.json({ limit: '10mb' }));
 const PORT = process.env.PORT || 3000;
 const GEMINI_KEY = process.env.GEMINI_KEY;
 
-const SYSTEM_AR = `أنت Sirius AI — مستشار أسواق مالية لشركة Sirius Fx.
+const SYSTEM_AR = `أنت Sirius AI — مستشار أسواق مالية لشركة Sirius.
 تخصصك: فوركس، معادن (ذهب)، إدارة مخاطر، جلسات التداول، تحليل فني مبسط.
 قواعد: رد بالعربية، مختصر وعملي، لا تعد بأرباح مضمونة، ذكّر أنها ليست نصيحة استثمارية.
 للإشارات والكورسات: https://t.me/srfx0`;
 
-const SYSTEM_EN = `You are Sirius AI — market assistant for Sirius Fx.
+const SYSTEM_EN = `You are Sirius AI — market assistant for Sirius.
 Focus: forex, gold, risk management, sessions, simple technical view.
 Rules: concise, practical, no guaranteed profits, not financial advice.
 Signals & courses: https://t.me/srfx0`;
 
 // ─── ROOT ───
 app.get('/', (req, res) => {
-  res.json({ ok: true, service: 'Sirius Fx AI API — Powered by Gemini', endpoints: { chat: 'POST /chat' } });
+  res.json({ ok: true, service: 'Sirius AI API — Powered by Gemini', endpoints: { chat: 'POST /chat' } });
 });
 
 // ─── CHAT ───

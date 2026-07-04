@@ -1,4 +1,4 @@
-/* ===== Sirius Fx — Behavioral Flag System ===== */
+/* ===== Sirius — Behavioral Flag System ===== */
 
 (function () {
   const STORAGE_KEY = 'sirius-behavior';

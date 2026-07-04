@@ -1,7 +1,7 @@
 {
   "name": "sirius-fx-api",
   "version": "1.0.0",
-  "description": "Sirius Fx AI API powered by Gemini",
+  "description": "Sirius AI API powered by Gemini",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -1,4 +1,4 @@
-/* ===== Sirius Fx AI Tools — Professional Edition ===== */
+/* ===== Sirius AI Tools — Professional Edition ===== */
 
 /* ---------- Setup Analyzer ---------- */
 

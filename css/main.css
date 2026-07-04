@@ -262,23 +262,7 @@ body::before {
   transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 #loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-logo {
-  width: 72px; height: 72px; border-radius: 50%;
-  animation: loaderPulse 1.5s ease-in-out infinite;
-  border: 2px solid var(--sky);
-  box-shadow: 0 0 60px var(--sky-glow), 0 0 120px rgba(0,212,255,0.1);
-  position: relative;
-}
-.loader-logo::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1.5px solid transparent;
-  border-top-color: var(--sky);
-  border-right-color: var(--purple);
-  animation: loaderSpin 1s linear infinite;
-}
+
 .loader-text {
   font-size: 14px;
   color: var(--text-muted);
@@ -395,21 +379,7 @@ body > * { position: relative; z-index: 1; }
   50% { transform: translateY(-8px) scale(1.02); }
 }
 
-.navbar .logo-img {
-  animation: logoPulseSmall 3s ease-in-out infinite;
-  transition: all 0.5s ease;
-}
 
-@keyframes logoPulseSmall {
-  0% { filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.3)) brightness(1); }
-  50% { filter: drop-shadow(0 0 18px rgba(0, 212, 255, 0.8)) brightness(1.1); }
-  100% { filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.3)) brightness(1); }
-}
-
-.logo-img:hover {
-  box-shadow: 0 0 30px rgba(0,212,255,0.6), 0 0 60px rgba(0,212,255,0.15);
-  transform: scale(1.1) rotate(-3deg);
-}
 
 /* ==================== SHOOTING STARS ==================== */
 .shooting-star {
@@ -478,14 +448,7 @@ body > * { position: relative; z-index: 1; }
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 .logo { display: flex !important; align-items: center !important; gap: 10px !important; text-decoration: none !important; color: var(--text); }
-.logo-img {
-  width: 44px !important; height: 44px !important;
-  object-fit: cover; border-radius: 50%; background: #000;
-  border: 1.5px solid rgba(0,212,255,0.35);
-  box-shadow: 0 0 14px rgba(0,212,255,0.45), 0 0 28px rgba(255,255,255,0.12);
-  transition: box-shadow 0.3s ease, transform 0.3s ease; flex-shrink: 0;
-}
-.logo-img:hover { box-shadow: 0 0 30px rgba(0,212,255,0.6), 0 0 60px rgba(0,212,255,0.15); transform: scale(1.1) rotate(-3deg); }
+
 .logo-text {
   font-size: 1.45rem !important;
   font-weight: 800 !important;
@@ -499,7 +462,7 @@ body > * { position: relative; z-index: 1; }
   font-family: 'Inter', sans-serif !important;
   font-style: italic;
 }
-.logo-text .accent { color: var(--sky); }
+
 .nav-links { display: flex; list-style: none; gap: 4px; }
 .nav-links a {
   color: var(--text-muted); text-decoration: none;

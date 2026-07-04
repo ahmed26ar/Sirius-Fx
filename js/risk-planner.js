@@ -1,4 +1,4 @@
-/* ===== Sirius Fx Risk Planner v2 ===== */
+/* ===== Sirius Risk Planner v2 ===== */
 (function() {
   'use strict';
 

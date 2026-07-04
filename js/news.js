@@ -76,7 +76,7 @@
         impact: impact,
         minsAgo: minsAgo,
         time: timeSince(minsAgo),
-        source: 'Sirius Fx'
+        source: 'Sirius'
       });
     }
     return news;
