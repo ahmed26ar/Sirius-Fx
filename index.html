@@ -64,24 +64,6 @@
     </div>
   </nav>
 
-  <!-- ===== MARKET STRIP ===== -->
-  <div class="market-strip" id="marketStrip">
-    <div class="container market-strip-inner">
-      <div class="market-strip-scroll" id="marketStripScroll"></div>
-      <div class="market-strip-info">
-        <span class="live-pulse"><span class="pulse-ring"></span><span class="pulse-dot">LIVE</span></span>
-        <button class="market-strip-toggle" id="marketStripToggle" title="Toggle Details"><span data-icon="chart"></span></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== MARKET DASHBOARD ===== -->
-  <section class="market-dashboard" id="marketDashboard" style="display:none">
-    <div class="container">
-      <div class="market-dashboard-grid" id="mdGrid"></div>
-    </div>
-  </section>
-
   <!-- ===== HERO ===== -->
   <section id="home" class="hero">
     <div class="hero-bg">
@@ -576,11 +558,9 @@
   <script src="js/news.js"></script>
   <script src="js/behavioral-flags.js"></script>
   <script src="js/risk-planner.js"></script>
-  <script src="js/market-dashboard.js"></script>
-  <script src="js/trading-sessions.js"></script>
   <script src="js/effects.js"></script>
 
-  <!-- PWA Install + Market Init -->
+  <!-- PWA Init -->
   <script>
   (function() {
     var deferredPrompt = null;
@@ -608,133 +588,6 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(function() {});
     }
-  })();
-  </script>
-
-  <!-- Market Dashboard Init -->
-  <script>
-  (function() {
-    var marketStrip = document.getElementById('marketStripScroll');
-    var mdGrid = document.getElementById('mdGrid');
-    var mdSection = document.getElementById('marketDashboard');
-    var toggleBtn = document.getElementById('marketStripToggle');
-
-    if (!marketStrip) return;
-
-    function renderStrip(rates, change, flash) {
-      var symbols = ['EUR/USD', 'GBP/USD', 'USD/JPY', 'XAU/USD', 'BTC/USD', 'USD/CAD', 'AUD/USD', 'USD/CHF'];
-      if (!rates || Object.keys(rates).length === 0) {
-        marketStrip.innerHTML = '<span class="market-strip-loading">جاري تحميل الأسعار...</span>';
-        return;
-      }
-      marketStrip.innerHTML = symbols.map(function(sym) {
-        var price = rates[sym];
-        var ch = change[sym];
-        if (price === undefined) return '';
-        var cls = ch > 0 ? 'up' : ch < 0 ? 'down' : '';
-        var arrow = ch > 0 ? '▲' : ch < 0 ? '▼' : '—';
-        var f = flash && flash[sym] ? ' strip-flash--' + flash[sym] : '';
-        return '<span class="strip-item strip-item--' + cls + f + '">' +
-          '<span class="strip-sym">' + sym + '</span>' +
-          '<span class="strip-price">' + price.toFixed(sym.indexOf('JPY') > -1 ? 3 : sym.indexOf('XAU') > -1 ? 2 : sym.indexOf('BTC') > -1 ? 0 : 5) + '</span>' +
-          '<span class="strip-change">' + arrow + ' ' + (ch !== undefined ? ch.toFixed(2) : '0.00') + '%</span>' +
-        '</span>';
-      }).filter(Boolean).join('');
-    }
-
-    function renderDashboard(rates, change) {
-      if (!mdSection || mdSection.style.display !== 'block') return;
-      var pairs = window.SiriusMarket.getPairs();
-      var strength = window.SiriusMarket.calculateStrength();
-
-      var html = '<div class="md-section"><div class="md-section-title"><span data-icon="chart"></span> Currency Strength</div><div class="md-strength">';
-      var currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CHF', 'CAD', 'AUD', 'NZD'];
-      currencies.forEach(function(c) {
-        var val = strength[c] || 0;
-        var cls = val > 5 ? 'strong' : val < -5 ? 'weak' : 'neutral';
-        var pct = Math.min(100, Math.max(0, (val + 100) / 2));
-        html += '<div class="md-strength-item md-strength--' + cls + '">' +
-          '<span class="md-currency">' + c + '</span>' +
-          '<div class="md-bar"><div class="md-bar-fill" style="width:' + pct + '%"></div></div>' +
-          '<span class="md-val">' + (val > 0 ? '+' : '') + val.toFixed(1) + '</span>' +
-        '</div>';
-      });
-      html += '</div></div>';
-
-      html += '<div class="md-section"><div class="md-section-title"><span data-icon="chart"></span> Market Overview</div><div class="md-grid">';
-      pairs.forEach(function(p) {
-        var price = rates[p.sym];
-        var ch = change[p.sym];
-        if (price === undefined) return;
-        var arrow = ch > 0 ? '▲' : ch < 0 ? '▼' : '—';
-        var cls = ch > 0 ? 'up' : ch < 0 ? 'down' : '';
-        html += '<div class="md-card md-card--' + cls + '">' +
-          '<div class="md-card-top"><span class="md-card-sym">' + p.sym + '</span><span class="md-card-change ' + cls + '">' + arrow + ' ' + (ch !== undefined ? Math.abs(ch).toFixed(2) : '0.00') + '%</span></div>' +
-          '<div class="md-card-price">$' + (typeof price === 'number' ? price.toFixed(p.digits) : price) + '</div>' +
-          '<div class="md-card-label">' + (p.category === 'major' ? 'Major' : p.category === 'commodity' ? 'Commodity' : 'Crypto') + '</div>' +
-        '</div>';
-      });
-      html += '</div></div>';
-
-      // Sessions info
-      var sessionInfo = window.SiriusSessions.getCurrentSession();
-      html += '<div class="md-section"><div class="md-section-title"><span data-icon="clock"></span> Trading Sessions</div><div class="md-sessions">';
-      sessionInfo.sessions.forEach(function(s) {
-        var openH = s.open;
-        var closeH = s.close;
-        var isOpen = false;
-        if (closeH > openH) { isOpen = sessionInfo.utcHour >= openH && sessionInfo.utcHour < closeH; }
-        else { isOpen = sessionInfo.utcHour >= openH || sessionInfo.utcHour < closeH; }
-        var closeDisplay = closeH > 24 ? (closeH - 24) + ':00' : closeH + ':00';
-        html += '<div class="md-session' + (isOpen ? ' md-session--open' : '') + '">' +
-          '<span class="md-session-name">' + s.emoji + ' ' + s.name + '</span>' +
-          '<span class="md-session-hours">' + openH + ':00 – ' + closeDisplay + ' UTC</span>' +
-          (isOpen ? '<span class="md-session-badge">● LIVE</span>' : '') +
-        '</div>';
-      });
-      html += '</div></div>';
-
-      mdGrid.innerHTML = html;
-    }
-
-    window.SiriusMarket.subscribe(function(rates, change, flash) {
-      renderStrip(rates, change, flash);
-      renderDashboard(rates, change);
-    });
-
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', function() {
-        if (!mdSection) return;
-        var isVisible = mdSection.style.display === 'block';
-        mdSection.style.display = isVisible ? 'none' : 'block';
-        if (!isVisible && window.SiriusMarket) {
-          renderDashboard(window.SiriusMarket.getRates(), window.SiriusMarket.getChange());
-        }
-      });
-    }
-
-    window.SiriusMarket.start(20000);
-  })();
-  </script>
-
-  <script>
-  // عرض الأسعار الحية في بطاقة AI Market Summary (من market-dashboard)
-  (function() {
-    function updateSummaryRates() {
-      var list = document.getElementById('summary-rates-list');
-      if (!list) return;
-      var mkt = window.SiriusMarket;
-      if (!mkt) return;
-      var rates = mkt.getRates();
-      var keys = ['EUR/USD','GBP/USD','USD/JPY','XAU/USD','BTC/USD','USD/CAD'];
-      var items = keys.filter(function(k) { return rates[k] !== undefined; }).map(function(k) {
-        var d = k.indexOf('JPY') > -1 ? 3 : k.indexOf('XAU') > -1 ? 2 : k.indexOf('BTC') > -1 ? 0 : 5;
-        return '<span class="summary-rate-item"><strong>' + k + '</strong> ' + rates[k].toFixed(d) + '</span>';
-      });
-      list.innerHTML = items.length ? items.join('') : '<span class="text-muted">جاري التحميل...</span>';
-    }
-    updateSummaryRates();
-    setInterval(updateSummaryRates, 3000);
   })();
   </script>
 

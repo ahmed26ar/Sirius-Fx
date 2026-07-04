@@ -179,19 +179,6 @@
     el.style.opacity = '1';
   }
 
-  /* ===== 11. LIVE TICKER ENHANCEMENT ===== */
-  function enhanceTicker() {
-    var ticker = document.querySelector('.market-update-row');
-    if (!ticker) return;
-    // Add a live pulse circle if not present
-    if (!ticker.querySelector('.live-pulse')) {
-      var pulse = document.createElement('span');
-      pulse.className = 'live-pulse';
-      pulse.innerHTML = '<span class="pulse-ring"></span><span class="pulse-dot"></span>';
-      ticker.insertBefore(pulse, ticker.firstChild);
-    }
-  }
-
   /* ===== 12. PARALLAX ON SCROLL ===== */
   function initParallax() {
     var hero = document.querySelector('.hero');
@@ -245,7 +232,6 @@
       initRipple();
       initLoader();
       initTextEffects();
-      enhanceTicker();
       initParallax();
       if (!mobile) createFloatingOrbs();
     }

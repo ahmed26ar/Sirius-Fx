@@ -1,7 +1,5 @@
 const translations = {
   ar: {
-    'ticker.live': '● مباشر',
-    'ticker.loading': 'جاري تحميل الأسعار...',
     'nav.home': 'الرئيسية',
     'nav.services': 'الخدمات',
     'nav.tools': 'أدوات التداول',
@@ -245,8 +243,6 @@ const translations = {
     'ai.hub.chat.online': 'متصل الآن'
   },
   en: {
-    'ticker.live': '● LIVE',
-    'ticker.loading': 'Loading prices...',
     'nav.home': 'Home',
     'nav.services': 'Services',
     'nav.tools': 'Trading Tools',
